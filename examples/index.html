@@ -1,0 +1,81 @@
+<html>
+  <head>
+    <title>Less styles editor</title>
+    <link type="text/css"
+          rel="stylesheet"
+          href="gh-pages.css" />
+
+    <link type="text/css"
+          rel="stylesheet"
+          href="styles-editor.css" />
+
+    <link rel="shortcut icon"
+          href="favicon.ico" />
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <header>
+        <h1>Styles editor</h1>
+      </header>
+
+      <section>
+        <header>
+          <h1>Aims and goals</h1>
+        </header>
+
+        <div class="content">
+          <p>
+            At <a href="//camunda.org">Camunda</a> we build user interfaces our client often adapt for their own use and very often we are asked how the color of an element or the whole interface can be changed.<br/>
+            The idea of this slack time project is to provide a small utility for our users to easily make those styling changes.
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <header>
+          <h1>Setup</h1>
+        </header>
+
+        <div class="content">
+          <p></p>
+        </div>
+      </section>
+
+      <footer>
+
+      </footer>
+    </div>
+
+    <!--
+    -->
+    <script type="text/javascript" src="dependencies.js"></script>
+    <script type="text/javascript" src="less.js"></script>
+    <script type="text/javascript" src="styles-editor.js"></script>
+
+    <script type="text/javascript">
+      'use strict';
+      /* global StylesEditor: false */
+
+      var editor = window.stylesEditor = new StylesEditor({
+        globals: {
+        },
+
+        variables: StylesEditor.objToStates({
+          'body-bg':        '#fff',
+          'brand-primary':  '#52b415'
+        })
+      });
+
+      document.body.appendChild(editor.el);
+      setTimeout(function () {
+        editor.open = true;
+
+        editor.inputEl.value = [
+          '@import "gh-pages";'
+        ].join('\n');
+
+        editor.update();
+      }, 500);
+    </script>
+  </body>
+</html>
