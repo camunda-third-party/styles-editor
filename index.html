@@ -27,6 +27,7 @@
       /* global StylesEditor: false */
 
       /*
+      */
       var editor = window.stylesEditor = new StylesEditor({
         globals: {
           'brand-success':  '#5cb85c',
@@ -101,19 +102,10 @@
         editor.open = true;
 
         editor.inputEl.value = [
-          '@import "dmn-variables";',
-          '@import "dmn-mixins";',
-          '@import "mixins/vendor-prefixes";',
-          '@import "dmn-font";',
-          '@import "dmn-table";',
-          '@import "dmn-choice";',
-          '@import "dmn-controls";',
-          '@import "dmn-contextmenu";'
         ].join('\n');
 
         editor.update();
       }, 500);
-      */
     </script>
   </body>
 </html>
