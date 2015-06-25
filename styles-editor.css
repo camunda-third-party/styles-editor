@@ -20,9 +20,6 @@
   transition: transform 0.436s ease;
   -webkit-box-shadow: 0 0 1px 1px rgba(51, 51, 51, 0.5);
   box-shadow: 0 0 1px 1px rgba(51, 51, 51, 0.5);
-  -webkit-transition: box-shadow 0.218s ease;
-  -o-transition: box-shadow 0.218s ease;
-  transition: box-shadow 0.218s ease;
 }
 .styles-editor * {
   -webkit-box-sizing: border-box;
@@ -95,12 +92,8 @@
   -ms-transform: translate(0, 0);
   -o-transform: translate(0, 0);
   transform: translate(0, 0);
-  -webkit-box-shadow: 0 0 3px 3px rgba(51, 122, 183, 0.5);
-  box-shadow: 0 0 3px 3px rgba(51, 122, 183, 0.5);
 }
 .styles-editor.open .toggle-open {
-  -webkit-box-shadow: 0 0 3px 3px rgba(51, 122, 183, 0.5);
-  box-shadow: 0 0 3px 3px rgba(51, 122, 183, 0.5);
   /*
       span:nth-child(1) {
         -webkit-transform: rotate(-45deg) translate(0, -3px);
@@ -152,6 +145,7 @@
   right: 0;
   content: '';
   background-color: rgba(85, 85, 85, 0.5);
+  z-index: 100;
 }
 .styles-editor.compiling:after {
   z-index: 100;
@@ -164,6 +158,7 @@
   line-height: 40px;
   font-size: 32px;
   margin: -20px 0 0 -20px;
+  z-index: 101;
 }
 .styles-editor .tabs-wrapper {
   position: relative;

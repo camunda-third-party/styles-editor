@@ -1,0 +1,26 @@
+@import "normalize";
+
+@body-bg: #fff;
+@brand-primary: #999;
+@text-color: contrast(@body-bg);
+
+body {
+  background-color: @body-bg;
+  color: @text-color;
+  line-height: 1.25;
+}
+
+.page-wrapper {
+  > header,
+  > section,
+  > footer {
+    padding: 0 30px;
+  }
+}
+
+a {
+  color: @brand-primary;
+  &:hover {
+    color: darken(@brand-primary, 30%);
+  }
+}

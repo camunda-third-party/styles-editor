@@ -3,7 +3,7 @@
     <title>Less styles editor</title>
     <link type="text/css"
           rel="stylesheet"
-          href="normalize.css" />
+          href="gh-pages.css" />
 
     <link type="text/css"
           rel="stylesheet"
@@ -24,19 +24,32 @@
         </header>
 
         <div class="content">
+          <p>
+            At <a href="//camunda.org">Camunda</a> we build user interfaces our client often adapt for their own use and very often we are asked how the color of an element or the whole interface can be changed.<br/>
+            The idea of this slack time project is to provide a small utility for our users to easily make those styling changes.
+          </p>
+        </div>
+      </section>
 
+      <section>
+        <header>
+          <h1>Setup</h1>
+        </header>
+
+        <div class="content">
+          <p></p>
         </div>
       </section>
 
       <footer>
-        Papi papo
+
       </footer>
     </div>
 
+    <!--
+    -->
     <script type="text/javascript" src="dependencies.js"></script>
-
     <script type="text/javascript" src="less.js"></script>
-
     <script type="text/javascript" src="styles-editor.js"></script>
 
     <script type="text/javascript">
@@ -45,50 +58,12 @@
 
       var editor = window.stylesEditor = new StylesEditor({
         globals: {
-          // 'brand-success':  '#5cb85c',
-          // 'brand-info':     '#5bc0de',
-          // 'brand-warning':  '#f0ad4e',
-          // 'brand-danger':   '#d9534f'
         },
 
         variables: StylesEditor.objToStates({
-          'se-width': '350px'
-        }),
-
-        // imports: [
-        //   {
-        //     directive: 'reference',
-        //     name: 'dmn-variables'
-        //   },
-        //   {
-        //     directive: 'reference',
-        //     name: 'dmn-mixins'
-        //   },
-        //   {
-        //     directive: 'reference',
-        //     name: 'mixins/vendor-prefixes'
-        //   },
-        //   {
-        //     directive: '',
-        //     name: 'dmn-font'
-        //   },
-        //   {
-        //     directive: '',
-        //     name: 'dmn-table'
-        //   },
-        //   {
-        //     directive: '',
-        //     name: 'dmn-choice'
-        //   },
-        //   {
-        //     directive: '',
-        //     name: 'dmn-controls'
-        //   },
-        //   {
-        //     directive: '',
-        //     name: 'dmn-contextmenu'
-        //   }
-        // ]
+          'body-bg':        '#fff',
+          'brand-primary':  '#52b415'
+        })
       });
 
       document.body.appendChild(editor.el);
@@ -96,7 +71,7 @@
         editor.open = true;
 
         editor.inputEl.value = [
-          '@import "styles-editor";'
+          '@import "gh-pages";'
         ].join('\n');
 
         editor.update();
