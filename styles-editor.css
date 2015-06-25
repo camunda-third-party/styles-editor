@@ -4,10 +4,12 @@
   box-sizing: border-box;
   position: fixed;
   background-color: #eeeeee;
+  left: 0;
   top: 0;
   width: 350px;
   bottom: 0;
   padding: 15px;
+  color: #333333;
   border-right: 1px solid #777777;
   -webkit-transform: translate(-350px, 0);
   -ms-transform: translate(-350px, 0);
@@ -212,4 +214,7 @@
 .styles-editor .actions a:hover {
   background-color: #5094ce;
   border: 1px solid #337ab7;
+}
+body.styles-editor-open {
+  padding-left: 350px;
 }
