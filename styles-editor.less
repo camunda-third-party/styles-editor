@@ -1,5 +1,5 @@
 @import (reference) "variables";
-@import (reference) "mixins";
+@import (reference) "mixins/vendor-prefixes";
 
 @se-width: 350px;
 
@@ -34,11 +34,10 @@
   border-right: 1px solid @gray-light;
 
   .translate(0 - @se-width, 0);
-  .transition(transform 0.218s ease);
+  .transition(transform 0.436s ease);
 
-  &.open {
-    .translate(0, 0);
-  }
+  .box-shadow(0 0 1px 1px fade(@gray-dark, 50%));
+  .transition(box-shadow 0.218s ease);
 
   .toggle-open {
     position: absolute;
@@ -52,17 +51,77 @@
     border-left: none;
     border-radius: 0 3px 3px 0;
     cursor: pointer;
+    .box-shadow(0 0 1px 1px fade(@gray-dark, 50%));
+
+    &:before {
+      position: absolute;
+      content: '';
+      height: 38px;
+      top: -5px;
+      left: -5px;
+      width: 5px;
+      background-color: @gray-lighter;
+      z-index: 99;
+    }
+
     a {
       display: block;
       margin: 4px;
       height: 18px;
       overflow: hidden;
+      // .transition(transform 0.218s ease);
     }
+
     span {
       display: block;
       height: 2px;
       margin: 3px 0;
       background-color: @gray-light;
+
+      .transition(transform 0.218s ease);
+    }
+    /*
+    span:nth-child(1) {
+      -webkit-transform: rotate(45deg) translate(0, -3px);
+          -ms-transform: rotate(45deg) translate(0, -3px); // IE9 only
+           -o-transform: rotate(45deg) translate(0, -3px);
+              transform: rotate(45deg) translate(0, -3px);
+    }
+
+    span:nth-child(3) {
+      -webkit-transform: rotate(-45deg) translate(0, 3px);
+          -ms-transform: rotate(-45deg) translate(0, 3px); // IE9 only
+           -o-transform: rotate(-45deg) translate(0, 3px);
+              transform: rotate(-45deg) translate(0, 3px);
+    }
+    */
+  }
+
+  &.open {
+    .translate(0, 0);
+    .box-shadow(0 0 3px 3px fade(@brand-primary, 50%));
+
+    .toggle-open {
+      .box-shadow(0 0 3px 3px fade(@brand-primary, 50%));
+      a {
+        // .rotate(90deg);
+      }
+
+      /*
+      span:nth-child(1) {
+        -webkit-transform: rotate(-45deg) translate(0, -3px);
+            -ms-transform: rotate(-45deg) translate(0, -3px); // IE9 only
+             -o-transform: rotate(-45deg) translate(0, -3px);
+                transform: rotate(-45deg) translate(0, -3px);
+      }
+
+      span:nth-child(3) {
+        -webkit-transform: rotate(45deg) translate(0, 3px);
+            -ms-transform: rotate(45deg) translate(0, 3px); // IE9 only
+             -o-transform: rotate(45deg) translate(0, 3px);
+                transform: rotate(45deg) translate(0, 3px);
+      }
+      */
     }
   }
 
