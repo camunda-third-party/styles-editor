@@ -25,8 +25,19 @@
 
         <div class="content">
           <p>
-            At <a href="//camunda.org">Camunda</a> we build user interfaces our client often adapt for their own use and very often we are asked how the color of an element or the whole interface can be changed.<br/>
+            At <a href="//camunda.org">Camunda</a> we build user interfaces and our client often adapt them for their own use and very often we are asked how the color of an element or the whole interface can be changed.<br/>
             The idea of this slack time project is to provide a small utility for our users to easily make those styling changes.
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <header>
+          <h1>Install</h1>
+        </header>
+        <div class="content">
+          <p>
+            Using npm: <code>npm i camunda-third-party/styles-editor</code> or by forking the code from <a href="//github.com/camunda-third-party/styles-editor">GitHub</a> and getting your hands dirty.
           </p>
         </div>
       </section>
@@ -37,7 +48,9 @@
         </header>
 
         <div class="content">
-          <p></p>
+          <p>
+            To get an idea of how this page and its assets are structured, you can have a look at the <a href="//github.com/camunda-third-party/styles-editor/tree/gh-pages">gh-pages branch</a>.
+          </p>
         </div>
       </section>
 
@@ -47,9 +60,9 @@
     </div>
 
     <!--
-    -->
     <script type="text/javascript" src="dependencies.js"></script>
     <script type="text/javascript" src="less.js"></script>
+    -->
     <script type="text/javascript" src="styles-editor.js"></script>
 
     <script type="text/javascript">
@@ -71,6 +84,7 @@
         editor.open = true;
 
         editor.inputEl.value = [
+          '// guess what will change ;)',
           '@import "gh-pages";'
         ].join('\n');
 

@@ -1,0 +1,1228 @@
+<html lang="en"><head><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide{display:none !important;}ng\:form{display:block;}.ng-animate-block-transitions{transition:0s all!important;-webkit-transition:0s all!important;}</style>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>camunda Tasklist</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="camunda Tasklist">
+  <meta name="author" content="camunda services GmbH">
+
+  <!--< base href="/" /> -->
+  <link rel="stylesheet" type="text/css" href="camunda/tasklist/styles/styles.css">
+
+  <!-- favicon -->
+  <link rel="shortcut icon" href="camunda/tasklist/images/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="camunda/tasklist/images/camunda.60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="camunda/tasklist/images/camunda.72.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="camunda/tasklist/images/camunda.114.png">
+
+</head>
+
+<body>
+  <div class="site-wrap ng-scope" ng-controller="camTasklistAppCtrl">
+
+    <!-- # page-navigation -->
+    <nav class="navbar navbar-default" role="navigation" cam-tasklist-navigation=""><div class="container-fluid">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+      <span class="sr-only ng-scope" translate="TOGGLE_NAVIGATION">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+
+    <a class="navbar-brand ng-binding" title="Camunda Tasklist" ng-href="camunda/tasklist/" href="camunda/tasklist/">
+       Camunda Tasklist
+    </a>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse" id="cam-tasklist-navigation">
+    <ul class="nav navbar-nav navbar-right">
+
+      <!-- ngRepeat: actionProvider in navbarActions --><li ng-repeat="actionProvider in navbarActions" ng-class="actionProvider.id" class="ng-scope create-task-action">
+        <!-- camIfLoggedIn:  --><view cam-if-logged-in="" provider="actionProvider" vars="navbarVars" class="ng-scope"><a href="" ng-click="open()" class="ng-scope ng-binding">
+  <span class="glyphicon glyphicon-plus-sign"></span>
+  Create task
+</a>
+</view>
+      </li><!-- end ngRepeat: actionProvider in navbarActions --><li ng-repeat="actionProvider in navbarActions" ng-class="actionProvider.id" class="ng-scope start-process-action">
+        <!-- camIfLoggedIn:  --><view cam-if-logged-in="" provider="actionProvider" vars="navbarVars" class="ng-scope"><a ng-click="open()" href="" class="ng-scope ng-binding">
+  <span class="glyphicon glyphicon-list-alt"></span>
+  Start process
+</a>
+</view>
+      </li><!-- end ngRepeat: actionProvider in navbarActions -->
+
+
+      <!-- camIfLoggedIn:  --><li class="divider-vertical ng-scope" cam-if-logged-in=""></li>
+
+
+      <li class="dropdown engine-select ng-hide" ng-show="engines.length > 1 &amp;&amp; currentEngine" engine-select="">
+<!-- # CE - camunda-commons-ui/lib/directives/engineSelect.html -->
+  <a href="" class="dropdown-toggle ng-binding" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span class="glyphicon glyphicon-info-sign glyphicon glyphicon-info-sign  ng-scope" tooltip="If you have multiple engines running you can select the process engine here. The data displayed in this application is based on the selected engine only." tooltip-placement="bottom"></span>
+    default
+  </a>
+  <ul class="dropdown-menu dropdown-menu-right">
+    <!-- ngRepeat: (id, engine) in engines --><li ng-repeat="(id, engine) in engines" class="ng-scope">
+      <a ng-href="camunda/tasklist/default/../default/" class="ng-binding" href="camunda/tasklist/default/../default/">
+        default
+      </a>
+    </li><!-- end ngRepeat: (id, engine) in engines -->
+  </ul>
+<!-- / CE - camunda-commons-ui/lib/directives/engineSelect.html -->
+</li>
+
+
+      <!-- camIfLoggedIn:  --><li class="user-account dropdown ng-scope" cam-if-logged-in="">
+        <a tooltip-placement="left" tooltip="Manage your account" href="" class="dropdown-toggle ng-scope ng-binding" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="glyphicon glyphicon-user"></span>
+          demo
+        </a>
+        <ul class="dropdown-menu">
+          <li class="user-profile">
+            <a ng-href="camunda/admin/default/#/users/demo?tab=profile" translate="MY_PROFILE" class="ng-scope" href="camunda/admin/default/#/users/demo?tab=profile">My profile</a>
+          </li>
+
+          <li class="divider"></li>
+
+          <li class="sign-out">
+            <a href="#/logout" translate="SIGN_OUT_ACTION" class="ng-scope">Sign out</a>
+          </li>
+        </ul>
+      </li>
+
+
+      <!-- camIfLoggedIn:  --><li class="divider-vertical ng-scope" cam-if-logged-in=""></li>
+
+
+      <li class="app-switch dropdown">
+        <a href="" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="glyphicon glyphicon-home"></span>
+          <span class="caret"></span>
+        </a>
+
+        <ul class="dropdown-menu">
+          <!-- ngIf: !authentication || authentication.canAccess('admin') --><li ng-if="!authentication || authentication.canAccess('admin')" class="ng-scope">
+            <a ng-href="../../admin/default/" translate="ADMIN_APP" class="ng-scope" href="../../admin/default/">Admin</a>
+          </li><!-- end ngIf: !authentication || authentication.canAccess('admin') -->
+
+          <!-- ngIf: !authentication || authentication.canAccess('cockpit') --><li ng-if="!authentication || authentication.canAccess('cockpit')" class="ng-scope">
+            <a ng-href="../../cockpit/default/" translate="COCKPIT_APP" class="ng-scope" href="../../cockpit/default/">Cockpit</a>
+          </li><!-- end ngIf: !authentication || authentication.canAccess('cockpit') -->
+        </ul>
+      </li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+</div><!-- /.container-fluid -->
+</nav>
+    <!-- / page-navigation -->
+
+
+
+    <!-- # page-content -->
+    <!-- ngView:  --><div class="page-wrap ng-scope" ng-view=""><div class="columns ng-scope" ng-controller="camLayoutCtrl">
+
+  <!-- # filters column -->
+  <section class="column task-filters ng-scope" ng-controller="camFiltersCtrl">
+    <header class="cell top" style="height: 54px;">
+      <button class="btn btn-link ng-binding" ng-show="userCanCreateFilter" ng-click="openModal($event)">
+        <span class="glyphicon glyphicon-plus-sign"></span>
+        Create a filter
+      </button>
+
+      <button ng-click="toggleRegion($event)" data-region="filters" class="region-toggle btn btn-link">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </header>
+
+    <div class="cell content" style="top: 54px;">
+      <div cam-tasklist-filters="" filters-data="filtersData" open-modal="openModal" class="ng-isolate-scope"><div ng-show="!state.$loaded &amp;&amp; !state.$error" class="loader ng-binding ng-hide">
+  <span class="animate-spin glyphicon glyphicon-refresh"></span>
+  Loading…
+</div>
+
+<div ng-show="state.$error" class="alert alert-danger ng-hide" role="alert">
+  <span class="glyphicon glyphicon-exclamation-sign"></span>
+  <strong class="status ng-binding">Failure:</strong>
+  <span class="message ng-binding">Loading the filters finished with failures. Try to refresh the page to try again.</span>
+</div>
+
+<div ng-show="state.$loaded &amp;&amp; !state.$error" class="">
+
+  <div ng-hide="totalItems" class="well ng-binding ng-hide">
+    <span class="glyphicon glyphicon-info-sign"></span>
+    No filter available.
+  </div>
+
+  <!-- ngRepeat: (delta, filter) in filters | orderBy:'properties.priority' --><div ng-show="totalItems" ng-repeat="(delta, filter) in filters | orderBy:'properties.priority'" class="task-filter-wrapper ng-scope active" ng-class="{active: isFocused(filter)}" ng-style="{'z-index': ((filters.length + 10) - delta) }" style="z-index: 17;">
+
+    <div class="task-filter" ng-style="filter.style" ng-click="focus(filter)">
+
+      <!-- ngIf: isFocused(filter) --><div ng-if="isFocused(filter)" class="counter ng-scope ng-binding">2</div><!-- end ngIf: isFocused(filter) -->
+
+      <a ng-click="openModal($event, filter)" class="edit-filter">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm hidden-xs hidden-md ng-scope" translate="FILTER_DETAILS">Filter details</span>
+      </a>
+
+      <h4 class="name ng-scope ng-binding" tooltip="Tasks assigned to me" tooltip-placement="top">My Tasks</h4>
+    </div>
+  </div><!-- end ngRepeat: (delta, filter) in filters | orderBy:'properties.priority' --><div ng-show="totalItems" ng-repeat="(delta, filter) in filters | orderBy:'properties.priority'" class="task-filter-wrapper ng-scope" ng-class="{active: isFocused(filter)}" ng-style="{'z-index': ((filters.length + 10) - delta) }" style="z-index: 16;">
+
+    <div class="task-filter" ng-style="filter.style" ng-click="focus(filter)">
+
+      <!-- ngIf: isFocused(filter) -->
+
+      <a ng-click="openModal($event, filter)" class="edit-filter">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm hidden-xs hidden-md ng-scope" translate="FILTER_DETAILS">Filter details</span>
+      </a>
+
+      <h4 class="name ng-scope ng-binding" tooltip="Tasks assigned to my Groups" tooltip-placement="top">My Group Tasks</h4>
+    </div>
+  </div><!-- end ngRepeat: (delta, filter) in filters | orderBy:'properties.priority' --><div ng-show="totalItems" ng-repeat="(delta, filter) in filters | orderBy:'properties.priority'" class="task-filter-wrapper ng-scope" ng-class="{active: isFocused(filter)}" ng-style="{'z-index': ((filters.length + 10) - delta) }" style="z-index: 15;">
+
+    <div class="task-filter" ng-style="filter.style" ng-click="focus(filter)">
+
+      <!-- ngIf: isFocused(filter) -->
+
+      <a ng-click="openModal($event, filter)" class="edit-filter">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm hidden-xs hidden-md ng-scope" translate="FILTER_DETAILS">Filter details</span>
+      </a>
+
+      <h4 class="name ng-scope ng-binding" tooltip="Tasks for Group Accounting" tooltip-placement="top">Accounting</h4>
+    </div>
+  </div><!-- end ngRepeat: (delta, filter) in filters | orderBy:'properties.priority' --><div ng-show="totalItems" ng-repeat="(delta, filter) in filters | orderBy:'properties.priority'" class="task-filter-wrapper ng-scope" ng-class="{active: isFocused(filter)}" ng-style="{'z-index': ((filters.length + 10) - delta) }" style="z-index: 14;">
+
+    <div class="task-filter" ng-style="filter.style" ng-click="focus(filter)">
+
+      <!-- ngIf: isFocused(filter) -->
+
+      <a ng-click="openModal($event, filter)" class="edit-filter">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm hidden-xs hidden-md ng-scope" translate="FILTER_DETAILS">Filter details</span>
+      </a>
+
+      <h4 class="name ng-scope ng-binding" tooltip="Tasks assigned to John" tooltip-placement="top">John's Tasks</h4>
+    </div>
+  </div><!-- end ngRepeat: (delta, filter) in filters | orderBy:'properties.priority' --><div ng-show="totalItems" ng-repeat="(delta, filter) in filters | orderBy:'properties.priority'" class="task-filter-wrapper ng-scope" ng-class="{active: isFocused(filter)}" ng-style="{'z-index': ((filters.length + 10) - delta) }" style="z-index: 13;">
+
+    <div class="task-filter" ng-style="filter.style" ng-click="focus(filter)">
+
+      <!-- ngIf: isFocused(filter) -->
+
+      <a ng-click="openModal($event, filter)" class="edit-filter">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm hidden-xs hidden-md ng-scope" translate="FILTER_DETAILS">Filter details</span>
+      </a>
+
+      <h4 class="name ng-scope ng-binding" tooltip="Tasks assigned to Mary" tooltip-placement="top">Mary's Tasks</h4>
+    </div>
+  </div><!-- end ngRepeat: (delta, filter) in filters | orderBy:'properties.priority' --><div ng-show="totalItems" ng-repeat="(delta, filter) in filters | orderBy:'properties.priority'" class="task-filter-wrapper ng-scope" ng-class="{active: isFocused(filter)}" ng-style="{'z-index': ((filters.length + 10) - delta) }" style="z-index: 12;">
+
+    <div class="task-filter" ng-style="filter.style" ng-click="focus(filter)">
+
+      <!-- ngIf: isFocused(filter) -->
+
+      <a ng-click="openModal($event, filter)" class="edit-filter">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm hidden-xs hidden-md ng-scope" translate="FILTER_DETAILS">Filter details</span>
+      </a>
+
+      <h4 class="name ng-scope ng-binding" tooltip="Tasks assigned to Peter" tooltip-placement="top">Peter's Tasks</h4>
+    </div>
+  </div><!-- end ngRepeat: (delta, filter) in filters | orderBy:'properties.priority' --><div ng-show="totalItems" ng-repeat="(delta, filter) in filters | orderBy:'properties.priority'" class="task-filter-wrapper ng-scope" ng-class="{active: isFocused(filter)}" ng-style="{'z-index': ((filters.length + 10) - delta) }" style="z-index: 11;">
+
+    <div class="task-filter" ng-style="filter.style" ng-click="focus(filter)">
+
+      <!-- ngIf: isFocused(filter) -->
+
+      <a ng-click="openModal($event, filter)" class="edit-filter">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm hidden-xs hidden-md ng-scope" translate="FILTER_DETAILS">Filter details</span>
+      </a>
+
+      <h4 class="name ng-scope ng-binding" tooltip="All Tasks - Not recommended to be used in production :)" tooltip-placement="top">All Tasks</h4>
+    </div>
+  </div><!-- end ngRepeat: (delta, filter) in filters | orderBy:'properties.priority' -->
+</div>
+</div>
+    </div>
+  </section>
+  <!-- / filters column -->
+
+
+
+
+
+  <!-- # list column -->
+  <section class="column tasks-list ng-scope" ng-controller="camListCtrl">
+    <header class="cell top" style="height: 54px;">
+      <div cam-sorting-choices="" tasklist-data="tasklistData" class="ng-isolate-scope" style="height: auto;"><span class="sorting-label hidden-xs hidden-sm hidden-md ng-scope" translate="SORT_BY">Sort by</span>
+
+<ol class="sorting-choice list-inline">
+  <!-- ngRepeat: (index, sorting) in sortings --><li ng-repeat="(index, sorting) in sortings" class="sorting-choice dropdown ng-scope" is-open="openDropdowns[index]" on-toggle="openDropdown(index, open)">
+    <!-- ngIf: sortings.length > 1 -->
+
+    <a href="" tabindex="-1" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+      <span class="sort-by ng-binding">created</span>
+    </a>
+
+    <a href="" tabindex="-1" tooltip="Descending" class="sort-direction glyphicon ng-scope glyphicon-chevron-down" ng-class="sorting.order === 'asc' ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'" ng-click="changeOrder(index)"></a>
+
+    <ul class="dropdown-menu ng-isolate-scope" cam-sorting-dropdown="" options="availableOptions" click-handler="changeSorting(index, id, type, value)" reset-function="resetFunctions[index]" change="true">
+  <!-- single time selectable -->
+  <!-- ngRepeat: (name, label) in options --><li ng-repeat="(name, label) in options" class="ng-scope">
+    <a tabindex="-1" translate="Assignee" ng-click="handleClick($event, name)" class="ng-scope">Assignee</a>
+  </li><!-- end ngRepeat: (name, label) in options --><li ng-repeat="(name, label) in options" class="ng-scope">
+    <a tabindex="-1" translate="Due date" ng-click="handleClick($event, name)" class="ng-scope">Due date</a>
+  </li><!-- end ngRepeat: (name, label) in options --><li ng-repeat="(name, label) in options" class="ng-scope">
+    <a tabindex="-1" translate="Follow-up date" ng-click="handleClick($event, name)" class="ng-scope">Follow-up date</a>
+  </li><!-- end ngRepeat: (name, label) in options --><li ng-repeat="(name, label) in options" class="ng-scope">
+    <a tabindex="-1" translate="Task name" ng-click="handleClick($event, name)" class="ng-scope">Task name</a>
+  </li><!-- end ngRepeat: (name, label) in options --><li ng-repeat="(name, label) in options" class="ng-scope">
+    <a tabindex="-1" translate="Priority" ng-click="handleClick($event, name)" class="ng-scope">Priority</a>
+  </li><!-- end ngRepeat: (name, label) in options -->
+
+  <!-- ngIf: hasOptions() --><li class="divider ng-scope" ng-if="hasOptions()"></li><!-- end ngIf: hasOptions() -->
+
+  <!-- multiple times selectable -->
+  <!-- ngRepeat: (name, label) in sortableVariables --><li ng-repeat="(name, label) in sortableVariables" ng-click="showInputs($event, name)" ng-class="{'active': name === focusedOn}" class="ng-scope">
+    <a translate="Case Execution Variable" tabindex="-1" class="ng-scope">Case Execution Variable</a>
+
+    <div class="variable-inputs ng-isolate-scope ng-hide" ng-show="name === focusedOn" cam-sorting-inputs="" change="change" apply-handler="handleClick($event, name)" variable="variable" reset-function="resetInputs[name]">
+  <div class="form-group">
+    <input type="text" placeholder="Variable name" class="form-control ng-pristine ng-valid" ng-model="variable.varName" autofocus="">
+  </div>
+
+  <div class="form-group">
+    <select class="form-control ng-pristine ng-valid" ng-model="variable.varType">
+      <!-- ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Boolean" class="ng-scope ng-binding">Boolean</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Date" class="ng-scope ng-binding">Date</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Double" class="ng-scope ng-binding">Double</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Integer" class="ng-scope ng-binding" selected="selected">Integer</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Long" class="ng-scope ng-binding">Long</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Short" class="ng-scope ng-binding">Short</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="String" class="ng-scope ng-binding">String</option><!-- end ngRepeat: (varType, varText) in variableTypes -->
+    </select>
+  </div>
+
+  <div class="form-group actions">
+    <button ng-click="applySorting($event)" ng-disabled="!variable" class="btn btn-primary btn-sm ng-binding">
+      Change
+    </button>
+  </div>
+</div>
+  </li><!-- end ngRepeat: (name, label) in sortableVariables --><li ng-repeat="(name, label) in sortableVariables" ng-click="showInputs($event, name)" ng-class="{'active': name === focusedOn}" class="ng-scope">
+    <a translate="Case Instance Variable" tabindex="-1" class="ng-scope">Case Instance Variable</a>
+
+    <div class="variable-inputs ng-isolate-scope ng-hide" ng-show="name === focusedOn" cam-sorting-inputs="" change="change" apply-handler="handleClick($event, name)" variable="variable" reset-function="resetInputs[name]">
+  <div class="form-group">
+    <input type="text" placeholder="Variable name" class="form-control ng-pristine ng-valid" ng-model="variable.varName" autofocus="">
+  </div>
+
+  <div class="form-group">
+    <select class="form-control ng-pristine ng-valid" ng-model="variable.varType">
+      <!-- ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Boolean" class="ng-scope ng-binding">Boolean</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Date" class="ng-scope ng-binding">Date</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Double" class="ng-scope ng-binding">Double</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Integer" class="ng-scope ng-binding" selected="selected">Integer</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Long" class="ng-scope ng-binding">Long</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Short" class="ng-scope ng-binding">Short</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="String" class="ng-scope ng-binding">String</option><!-- end ngRepeat: (varType, varText) in variableTypes -->
+    </select>
+  </div>
+
+  <div class="form-group actions">
+    <button ng-click="applySorting($event)" ng-disabled="!variable" class="btn btn-primary btn-sm ng-binding">
+      Change
+    </button>
+  </div>
+</div>
+  </li><!-- end ngRepeat: (name, label) in sortableVariables --><li ng-repeat="(name, label) in sortableVariables" ng-click="showInputs($event, name)" ng-class="{'active': name === focusedOn}" class="ng-scope">
+    <a translate="Execution Variable" tabindex="-1" class="ng-scope">Execution Variable</a>
+
+    <div class="variable-inputs ng-isolate-scope ng-hide" ng-show="name === focusedOn" cam-sorting-inputs="" change="change" apply-handler="handleClick($event, name)" variable="variable" reset-function="resetInputs[name]">
+  <div class="form-group">
+    <input type="text" placeholder="Variable name" class="form-control ng-pristine ng-valid" ng-model="variable.varName" autofocus="">
+  </div>
+
+  <div class="form-group">
+    <select class="form-control ng-pristine ng-valid" ng-model="variable.varType">
+      <!-- ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Boolean" class="ng-scope ng-binding">Boolean</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Date" class="ng-scope ng-binding">Date</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Double" class="ng-scope ng-binding">Double</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Integer" class="ng-scope ng-binding" selected="selected">Integer</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Long" class="ng-scope ng-binding">Long</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Short" class="ng-scope ng-binding">Short</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="String" class="ng-scope ng-binding">String</option><!-- end ngRepeat: (varType, varText) in variableTypes -->
+    </select>
+  </div>
+
+  <div class="form-group actions">
+    <button ng-click="applySorting($event)" ng-disabled="!variable" class="btn btn-primary btn-sm ng-binding">
+      Change
+    </button>
+  </div>
+</div>
+  </li><!-- end ngRepeat: (name, label) in sortableVariables --><li ng-repeat="(name, label) in sortableVariables" ng-click="showInputs($event, name)" ng-class="{'active': name === focusedOn}" class="ng-scope">
+    <a translate="Process Variable" tabindex="-1" class="ng-scope">Process Variable</a>
+
+    <div class="variable-inputs ng-isolate-scope ng-hide" ng-show="name === focusedOn" cam-sorting-inputs="" change="change" apply-handler="handleClick($event, name)" variable="variable" reset-function="resetInputs[name]">
+  <div class="form-group">
+    <input type="text" placeholder="Variable name" class="form-control ng-pristine ng-valid" ng-model="variable.varName" autofocus="">
+  </div>
+
+  <div class="form-group">
+    <select class="form-control ng-pristine ng-valid" ng-model="variable.varType">
+      <!-- ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Boolean" class="ng-scope ng-binding">Boolean</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Date" class="ng-scope ng-binding">Date</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Double" class="ng-scope ng-binding">Double</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Integer" class="ng-scope ng-binding" selected="selected">Integer</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Long" class="ng-scope ng-binding">Long</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Short" class="ng-scope ng-binding">Short</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="String" class="ng-scope ng-binding">String</option><!-- end ngRepeat: (varType, varText) in variableTypes -->
+    </select>
+  </div>
+
+  <div class="form-group actions">
+    <button ng-click="applySorting($event)" ng-disabled="!variable" class="btn btn-primary btn-sm ng-binding">
+      Change
+    </button>
+  </div>
+</div>
+  </li><!-- end ngRepeat: (name, label) in sortableVariables --><li ng-repeat="(name, label) in sortableVariables" ng-click="showInputs($event, name)" ng-class="{'active': name === focusedOn}" class="ng-scope">
+    <a translate="Task Variable" tabindex="-1" class="ng-scope">Task Variable</a>
+
+    <div class="variable-inputs ng-isolate-scope ng-hide" ng-show="name === focusedOn" cam-sorting-inputs="" change="change" apply-handler="handleClick($event, name)" variable="variable" reset-function="resetInputs[name]">
+  <div class="form-group">
+    <input type="text" placeholder="Variable name" class="form-control ng-pristine ng-valid" ng-model="variable.varName" autofocus="">
+  </div>
+
+  <div class="form-group">
+    <select class="form-control ng-pristine ng-valid" ng-model="variable.varType">
+      <!-- ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Boolean" class="ng-scope ng-binding">Boolean</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Date" class="ng-scope ng-binding">Date</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Double" class="ng-scope ng-binding">Double</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Integer" class="ng-scope ng-binding" selected="selected">Integer</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Long" class="ng-scope ng-binding">Long</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Short" class="ng-scope ng-binding">Short</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="String" class="ng-scope ng-binding">String</option><!-- end ngRepeat: (varType, varText) in variableTypes -->
+    </select>
+  </div>
+
+  <div class="form-group actions">
+    <button ng-click="applySorting($event)" ng-disabled="!variable" class="btn btn-primary btn-sm ng-binding">
+      Change
+    </button>
+  </div>
+</div>
+  </li><!-- end ngRepeat: (name, label) in sortableVariables -->
+
+</ul>
+  </li><!-- end ngRepeat: (index, sorting) in sortings -->
+
+  <li class="dropdown new-sort" is-open="openDropdownNew" on-toggle="openDropdown(-1, open)">
+    <a href="" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+      <span class="glyphicon glyphicon-plus-sign ng-scope" tooltip="Add sorting"></span>
+      <span class="hidden-xs hidden-sm hidden-md ng-scope" translate="ADD_SORT_BY">Add sorting</span>
+    </a>
+
+    <ul class="dropdown-menu ng-isolate-scope" cam-sorting-dropdown="" options="availableOptions" click-handler="addSorting(id, type, value)" reset-function="resetFunctions[-1]" style="left: auto;">
+  <!-- single time selectable -->
+  <!-- ngRepeat: (name, label) in options --><li ng-repeat="(name, label) in options" class="ng-scope">
+    <a tabindex="-1" translate="Assignee" ng-click="handleClick($event, name)" class="ng-scope">Assignee</a>
+  </li><!-- end ngRepeat: (name, label) in options --><li ng-repeat="(name, label) in options" class="ng-scope">
+    <a tabindex="-1" translate="Due date" ng-click="handleClick($event, name)" class="ng-scope">Due date</a>
+  </li><!-- end ngRepeat: (name, label) in options --><li ng-repeat="(name, label) in options" class="ng-scope">
+    <a tabindex="-1" translate="Follow-up date" ng-click="handleClick($event, name)" class="ng-scope">Follow-up date</a>
+  </li><!-- end ngRepeat: (name, label) in options --><li ng-repeat="(name, label) in options" class="ng-scope">
+    <a tabindex="-1" translate="Task name" ng-click="handleClick($event, name)" class="ng-scope">Task name</a>
+  </li><!-- end ngRepeat: (name, label) in options --><li ng-repeat="(name, label) in options" class="ng-scope">
+    <a tabindex="-1" translate="Priority" ng-click="handleClick($event, name)" class="ng-scope">Priority</a>
+  </li><!-- end ngRepeat: (name, label) in options -->
+
+  <!-- ngIf: hasOptions() --><li class="divider ng-scope" ng-if="hasOptions()"></li><!-- end ngIf: hasOptions() -->
+
+  <!-- multiple times selectable -->
+  <!-- ngRepeat: (name, label) in sortableVariables --><li ng-repeat="(name, label) in sortableVariables" ng-click="showInputs($event, name)" ng-class="{'active': name === focusedOn}" class="ng-scope">
+    <a translate="Case Execution Variable" tabindex="-1" class="ng-scope">Case Execution Variable</a>
+
+    <div class="variable-inputs ng-isolate-scope ng-hide" ng-show="name === focusedOn" cam-sorting-inputs="" change="change" apply-handler="handleClick($event, name)" variable="variable" reset-function="resetInputs[name]">
+  <div class="form-group">
+    <input type="text" placeholder="Variable name" class="form-control ng-pristine ng-valid" ng-model="variable.varName" autofocus="">
+  </div>
+
+  <div class="form-group">
+    <select class="form-control ng-pristine ng-valid" ng-model="variable.varType">
+      <!-- ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Boolean" class="ng-scope ng-binding">Boolean</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Date" class="ng-scope ng-binding">Date</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Double" class="ng-scope ng-binding">Double</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Integer" class="ng-scope ng-binding" selected="selected">Integer</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Long" class="ng-scope ng-binding">Long</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Short" class="ng-scope ng-binding">Short</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="String" class="ng-scope ng-binding">String</option><!-- end ngRepeat: (varType, varText) in variableTypes -->
+    </select>
+  </div>
+
+  <div class="form-group actions">
+    <button ng-click="applySorting($event)" ng-disabled="!variable" class="btn btn-primary btn-sm ng-binding">
+      Add
+    </button>
+  </div>
+</div>
+  </li><!-- end ngRepeat: (name, label) in sortableVariables --><li ng-repeat="(name, label) in sortableVariables" ng-click="showInputs($event, name)" ng-class="{'active': name === focusedOn}" class="ng-scope">
+    <a translate="Case Instance Variable" tabindex="-1" class="ng-scope">Case Instance Variable</a>
+
+    <div class="variable-inputs ng-isolate-scope ng-hide" ng-show="name === focusedOn" cam-sorting-inputs="" change="change" apply-handler="handleClick($event, name)" variable="variable" reset-function="resetInputs[name]">
+  <div class="form-group">
+    <input type="text" placeholder="Variable name" class="form-control ng-pristine ng-valid" ng-model="variable.varName" autofocus="">
+  </div>
+
+  <div class="form-group">
+    <select class="form-control ng-pristine ng-valid" ng-model="variable.varType">
+      <!-- ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Boolean" class="ng-scope ng-binding">Boolean</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Date" class="ng-scope ng-binding">Date</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Double" class="ng-scope ng-binding">Double</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Integer" class="ng-scope ng-binding" selected="selected">Integer</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Long" class="ng-scope ng-binding">Long</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Short" class="ng-scope ng-binding">Short</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="String" class="ng-scope ng-binding">String</option><!-- end ngRepeat: (varType, varText) in variableTypes -->
+    </select>
+  </div>
+
+  <div class="form-group actions">
+    <button ng-click="applySorting($event)" ng-disabled="!variable" class="btn btn-primary btn-sm ng-binding">
+      Add
+    </button>
+  </div>
+</div>
+  </li><!-- end ngRepeat: (name, label) in sortableVariables --><li ng-repeat="(name, label) in sortableVariables" ng-click="showInputs($event, name)" ng-class="{'active': name === focusedOn}" class="ng-scope">
+    <a translate="Execution Variable" tabindex="-1" class="ng-scope">Execution Variable</a>
+
+    <div class="variable-inputs ng-isolate-scope ng-hide" ng-show="name === focusedOn" cam-sorting-inputs="" change="change" apply-handler="handleClick($event, name)" variable="variable" reset-function="resetInputs[name]">
+  <div class="form-group">
+    <input type="text" placeholder="Variable name" class="form-control ng-pristine ng-valid" ng-model="variable.varName" autofocus="">
+  </div>
+
+  <div class="form-group">
+    <select class="form-control ng-pristine ng-valid" ng-model="variable.varType">
+      <!-- ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Boolean" class="ng-scope ng-binding">Boolean</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Date" class="ng-scope ng-binding">Date</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Double" class="ng-scope ng-binding">Double</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Integer" class="ng-scope ng-binding" selected="selected">Integer</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Long" class="ng-scope ng-binding">Long</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Short" class="ng-scope ng-binding">Short</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="String" class="ng-scope ng-binding">String</option><!-- end ngRepeat: (varType, varText) in variableTypes -->
+    </select>
+  </div>
+
+  <div class="form-group actions">
+    <button ng-click="applySorting($event)" ng-disabled="!variable" class="btn btn-primary btn-sm ng-binding">
+      Add
+    </button>
+  </div>
+</div>
+  </li><!-- end ngRepeat: (name, label) in sortableVariables --><li ng-repeat="(name, label) in sortableVariables" ng-click="showInputs($event, name)" ng-class="{'active': name === focusedOn}" class="ng-scope">
+    <a translate="Process Variable" tabindex="-1" class="ng-scope">Process Variable</a>
+
+    <div class="variable-inputs ng-isolate-scope ng-hide" ng-show="name === focusedOn" cam-sorting-inputs="" change="change" apply-handler="handleClick($event, name)" variable="variable" reset-function="resetInputs[name]">
+  <div class="form-group">
+    <input type="text" placeholder="Variable name" class="form-control ng-pristine ng-valid" ng-model="variable.varName" autofocus="">
+  </div>
+
+  <div class="form-group">
+    <select class="form-control ng-pristine ng-valid" ng-model="variable.varType">
+      <!-- ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Boolean" class="ng-scope ng-binding">Boolean</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Date" class="ng-scope ng-binding">Date</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Double" class="ng-scope ng-binding">Double</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Integer" class="ng-scope ng-binding" selected="selected">Integer</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Long" class="ng-scope ng-binding">Long</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Short" class="ng-scope ng-binding">Short</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="String" class="ng-scope ng-binding">String</option><!-- end ngRepeat: (varType, varText) in variableTypes -->
+    </select>
+  </div>
+
+  <div class="form-group actions">
+    <button ng-click="applySorting($event)" ng-disabled="!variable" class="btn btn-primary btn-sm ng-binding">
+      Add
+    </button>
+  </div>
+</div>
+  </li><!-- end ngRepeat: (name, label) in sortableVariables --><li ng-repeat="(name, label) in sortableVariables" ng-click="showInputs($event, name)" ng-class="{'active': name === focusedOn}" class="ng-scope">
+    <a translate="Task Variable" tabindex="-1" class="ng-scope">Task Variable</a>
+
+    <div class="variable-inputs ng-isolate-scope ng-hide" ng-show="name === focusedOn" cam-sorting-inputs="" change="change" apply-handler="handleClick($event, name)" variable="variable" reset-function="resetInputs[name]">
+  <div class="form-group">
+    <input type="text" placeholder="Variable name" class="form-control ng-pristine ng-valid" ng-model="variable.varName" autofocus="">
+  </div>
+
+  <div class="form-group">
+    <select class="form-control ng-pristine ng-valid" ng-model="variable.varType">
+      <!-- ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Boolean" class="ng-scope ng-binding">Boolean</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Date" class="ng-scope ng-binding">Date</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Double" class="ng-scope ng-binding">Double</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Integer" class="ng-scope ng-binding" selected="selected">Integer</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Long" class="ng-scope ng-binding">Long</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="Short" class="ng-scope ng-binding">Short</option><!-- end ngRepeat: (varType, varText) in variableTypes --><option ng-repeat="(varType, varText) in variableTypes" ng-selected="varType === variable.varType" value="String" class="ng-scope ng-binding">String</option><!-- end ngRepeat: (varType, varText) in variableTypes -->
+    </select>
+  </div>
+
+  <div class="form-group actions">
+    <button ng-click="applySorting($event)" ng-disabled="!variable" class="btn btn-primary btn-sm ng-binding">
+      Add
+    </button>
+  </div>
+</div>
+  </li><!-- end ngRepeat: (name, label) in sortableVariables -->
+
+</ul>
+  </li>
+</ol>
+</div>
+
+      <button ng-click="toggleRegion($event)" data-region="list" class="region-toggle btn btn-link">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </header>
+
+    <div class="cell content" style="top: 54px;">
+      <!-- ngRepeat: tasklistPlugin in tasklistPlugins --><view ng-repeat="tasklistPlugin in tasklistPlugins" provider="tasklistPlugin" vars="tasklistVars" class="ng-scope"><div cam-widget-search="" cam-widget-search-valid-searches="searches" cam-widget-search-translations="translations" cam-widget-search-types="types" cam-widget-search-operators="operators" class="ng-scope ng-isolate-scope"><form class="search-field ng-pristine ng-valid" ng-submit="createSearch()" ng-class="{'has-search': searches.length}">
+  <div class="form-container search-container">
+    <!-- ngRepeat: search in searches -->
+
+    <input class="form-control main-field ng-pristine ng-valid" type="text" placeholder="Search for Tasks" ng-model="inputQuery" ng-keydown="onKeydown($event)" typeahead="type as type.value for type in dropdownTypes | filter:$viewValue:instantTypeahead" typeahead-on-select="createSearch($item)" instant-typeahead="" aria-autocomplete="list" aria-expanded="false" aria-owns="typeahead-04R-1587"><ul class="dropdown-menu ng-isolate-scope ng-hide" ng-show="isOpen()" ng-style="{top: position.top+'px', left: position.left+'px'}" style="display: block;;display: block;" role="listbox" aria-hidden="true" typeahead-popup="" id="typeahead-04R-1587" matches="matches" active="activeIdx" select="select(activeIdx)" query="query" position="position">
+    <!-- ngRepeat: match in matches track by $index -->
+</ul>
+
+  </div>
+</form>
+</div>
+</view><!-- end ngRepeat: tasklistPlugin in tasklistPlugins -->
+
+      <div cam-tasks="" tasklist-data="tasklistData" class="ng-isolate-scope"><div ng-show="!state.$loaded &amp;&amp; !state.$error" class="loader ng-binding ng-hide">
+  <span class="animate-spin glyphicon glyphicon-refresh"></span>
+  Loading…
+</div>
+
+<div ng-show="state.$error" class="alert alert-danger ng-hide" role="alert">
+  <span class="glyphicon glyphicon-exclamation-sign"></span>
+  <strong class="status ng-binding">Failure:</strong>
+  <span class="message ng-binding">Loading the list of tasks finished with failures. Try to refresh the page to try again.</span>
+</div>
+
+<div ng-show="state.$loaded &amp;&amp; !state.$error" class="">
+
+  <div ng-hide="totalItems" class="well ng-binding ng-hide">
+    <span class="glyphicon glyphicon-info-sign"></span>
+    No task matching filters found.
+  </div>
+
+  <div ng-show="totalItems &amp;&amp; !tasks" class="well ng-binding ng-hide">
+    <span class="glyphicon glyphicon-info-sign"></span>
+    The current search parameters could not retrieve any tasks. Try to reset the search parameters.
+    <a ng-click="resetPage()" class="ng-binding">Reset page number</a>
+  </div>
+
+  <div ng-show="totalItems" tabindex="0" ng-keydown="handleKeydown($event)" class="">
+    <ol class="tasks-list list-unstyled">
+      <!-- ngRepeat: (delta, task) in tasks --><li class="task ng-scope active" ng-repeat="(delta, task) in tasks" ng-class="{active: currentTaskId === task.id}">
+
+        <div class="priority ng-scope ng-binding" tooltip-placement="right" tooltip="Priority">
+          50
+        </div>
+
+        <div class="clickable" ng-click="focus($event, task)">
+          <div class="names">
+            <h4 class="task">
+              <a ng-href="#/?task=141f897a-1b76-11e5-be07-a44e31a96f6c" ng-click="focus($event, task)" class="ng-binding" href="#/?task=141f897a-1b76-11e5-be07-a44e31a96f6c">
+                Assign Approver
+              </a>
+            </h4>
+
+            <!-- ngIf: task.processDefinitionId --><h6 class="process-definition ng-scope ng-binding" ng-if="task.processDefinitionId">
+              Invoice Receipt
+            </h6><!-- end ngIf: task.processDefinitionId -->
+
+            <!-- ngIf: task.caseDefinitionId -->
+          </div>
+
+
+          <div class="row" ng-click="focus($event, task)">
+            <ul class="col-sm-12 col-md-6 dates list-inline">
+              <li class="creation-date">
+                <span tooltip-placement="top" tooltip="Created" class="glyphicon glyphicon-bookmark ng-scope"></span>
+                <span tooltip-placement="top" tooltip="Thursday, 25 June 2015 22:09" am-time-ago="task.created" class="ng-scope ng-binding">2 minutes ago</span>
+              </li>
+
+              <!-- ngIf: !!task.followUp -->
+
+              <!-- ngIf: !!task.due --><li class="due-date ng-scope" ng-if="!!task.due" ng-class="{overdue: task.due &amp;&amp; (task.due < now) }">
+                <span tooltip-placement="top" tooltip="Due date" class="glyphicon glyphicon-bell ng-scope"></span>
+                <span tooltip-placement="top" tooltip="Sunday, 28 June 2015 22:09" am-time-ago="task.due" class="ng-scope ng-binding">in 3 days</span>
+              </li><!-- end ngIf: !!task.due -->
+            </ul>
+
+            <!-- ngIf: !!task.assignee --><ul class="col-sm-12 col-md-6 actors list-inline ng-scope" ng-if="!!task.assignee">
+              <li class="assignee">
+                <span tooltip-placement="top" tooltip="Assignee" class="glyphicon glyphicon-user ng-scope"></span>
+                <!-- ngIf: assignees[task.assignee] && ( assignees[task.assignee].firstName || assignees[task.assignee].lastName ) --><span ng-if="assignees[task.assignee] &amp;&amp; ( assignees[task.assignee].firstName || assignees[task.assignee].lastName )" class="ng-scope">
+                  <span tooltip-placement="top" tooltip="Demo Demo (demo)" class="ng-scope ng-binding">
+                    Demo Demo
+                  </span>
+                </span><!-- end ngIf: assignees[task.assignee] && ( assignees[task.assignee].firstName || assignees[task.assignee].lastName ) -->
+                <!-- ngIf: !(assignees[task.assignee] && ( assignees[task.assignee].firstName || assignees[task.assignee].lastName )) -->
+              </li>
+            </ul><!-- end ngIf: !!task.assignee -->
+          </div>
+
+          <div cam-tasklist-variables="" filter-properties="filterProperties" variables="task._embedded.variable" class="row variables ng-isolate-scope"><div class="variables-list" ng-class="{expanded: (expanded &amp;&amp; shownVariablesCount > 2)}">
+
+  <!-- <h6 class="col-xs-12"
+      translate="TASK_VARIABLES">Variables</h6> -->
+
+  <!-- ngRepeat: (delta, info) in variableDefinitions --><!-- ngIf: variablesByName[info.name] || filterProperties.showUndefinedVariable --><div ng-repeat="(delta, info) in variableDefinitions" ng-if="variablesByName[info.name] || filterProperties.showUndefinedVariable" class="ng-scope">
+    <div class="col-xs-12 col-lg-6">
+
+      <div class="row variable-item">
+        <!-- <span class="col-xs-4 col-lg-12"
+              ng-click="selectValue($event)"> -->
+        <span class="col-xs-4 col-lg-12">
+          <strong class="variable-label ng-scope ng-binding" ng-class="{'undefined' : !variablesByName[info.name] &amp;&amp; filterProperties.showUndefinedVariable}" tooltip-placement="top" tooltip="amount">
+            Invoice Amount:
+          </strong>
+        </span>
+
+
+        <!-- ngIf: !variablesByName[info.name] && filterProperties.showUndefinedVariable -->
+
+
+        <!-- ngIf: (variablesByName[info.name] && variablesByName[info.name].value !== null) || variablesByName[info.name].type === 'Bytes' --><span class="col-xs-8 col-lg-12 ng-scope" ng-if="(variablesByName[info.name] &amp;&amp; variablesByName[info.name].value !== null) || variablesByName[info.name].type === 'Bytes'" ng-switch="variablesByName[info.name].type">
+          <!-- ngSwitchWhen: Date -->
+
+          <!-- ngSwitchWhen: Null -->
+
+          <!-- ngSwitchWhen: Object -->
+
+          <!-- ngSwitchWhen: Bytes -->
+
+          <!-- ngSwitchDefault:  --><span class="variable-value ng-scope ng-binding" ng-switch-default="" tooltip-placement="top" tooltip="30€">
+            30€
+          </span>
+        </span><!-- end ngIf: (variablesByName[info.name] && variablesByName[info.name].value !== null) || variablesByName[info.name].type === 'Bytes' -->
+
+        <!-- ngIf: variablesByName[info.name].value === null && variablesByName[info.name].type !== 'Bytes' -->
+      </div>
+
+    </div>
+  </div><!-- end ngIf: variablesByName[info.name] || filterProperties.showUndefinedVariable --><!-- end ngRepeat: (delta, info) in variableDefinitions --><!-- ngIf: variablesByName[info.name] || filterProperties.showUndefinedVariable --><div ng-repeat="(delta, info) in variableDefinitions" ng-if="variablesByName[info.name] || filterProperties.showUndefinedVariable" class="ng-scope">
+    <div class="col-xs-12 col-lg-6">
+
+      <div class="row variable-item">
+        <!-- <span class="col-xs-4 col-lg-12"
+              ng-click="selectValue($event)"> -->
+        <span class="col-xs-4 col-lg-12">
+          <strong class="variable-label ng-scope ng-binding" ng-class="{'undefined' : !variablesByName[info.name] &amp;&amp; filterProperties.showUndefinedVariable}" tooltip-placement="top" tooltip="invoiceNumber">
+            Invoice Number:
+          </strong>
+        </span>
+
+
+        <!-- ngIf: !variablesByName[info.name] && filterProperties.showUndefinedVariable -->
+
+
+        <!-- ngIf: (variablesByName[info.name] && variablesByName[info.name].value !== null) || variablesByName[info.name].type === 'Bytes' --><span class="col-xs-8 col-lg-12 ng-scope" ng-if="(variablesByName[info.name] &amp;&amp; variablesByName[info.name].value !== null) || variablesByName[info.name].type === 'Bytes'" ng-switch="variablesByName[info.name].type">
+          <!-- ngSwitchWhen: Date -->
+
+          <!-- ngSwitchWhen: Null -->
+
+          <!-- ngSwitchWhen: Object -->
+
+          <!-- ngSwitchWhen: Bytes -->
+
+          <!-- ngSwitchDefault:  --><span class="variable-value ng-scope ng-binding" ng-switch-default="" tooltip-placement="top" tooltip="GPFE-23232323">
+            GPFE-23232323
+          </span>
+        </span><!-- end ngIf: (variablesByName[info.name] && variablesByName[info.name].value !== null) || variablesByName[info.name].type === 'Bytes' -->
+
+        <!-- ngIf: variablesByName[info.name].value === null && variablesByName[info.name].type !== 'Bytes' -->
+      </div>
+
+    </div>
+  </div><!-- end ngIf: variablesByName[info.name] || filterProperties.showUndefinedVariable --><!-- end ngRepeat: (delta, info) in variableDefinitions --><!-- ngIf: variablesByName[info.name] || filterProperties.showUndefinedVariable --><div ng-repeat="(delta, info) in variableDefinitions" ng-if="variablesByName[info.name] || filterProperties.showUndefinedVariable" class="ng-scope">
+    <div class="col-xs-12 col-lg-6">
+
+      <div class="row variable-item">
+        <!-- <span class="col-xs-4 col-lg-12"
+              ng-click="selectValue($event)"> -->
+        <span class="col-xs-4 col-lg-12">
+          <strong class="variable-label ng-scope ng-binding" ng-class="{'undefined' : !variablesByName[info.name] &amp;&amp; filterProperties.showUndefinedVariable}" tooltip-placement="top" tooltip="creditor">
+            Creditor:
+          </strong>
+        </span>
+
+
+        <!-- ngIf: !variablesByName[info.name] && filterProperties.showUndefinedVariable -->
+
+
+        <!-- ngIf: (variablesByName[info.name] && variablesByName[info.name].value !== null) || variablesByName[info.name].type === 'Bytes' --><span class="col-xs-8 col-lg-12 ng-scope" ng-if="(variablesByName[info.name] &amp;&amp; variablesByName[info.name].value !== null) || variablesByName[info.name].type === 'Bytes'" ng-switch="variablesByName[info.name].type">
+          <!-- ngSwitchWhen: Date -->
+
+          <!-- ngSwitchWhen: Null -->
+
+          <!-- ngSwitchWhen: Object -->
+
+          <!-- ngSwitchWhen: Bytes -->
+
+          <!-- ngSwitchDefault:  --><span class="variable-value ng-scope ng-binding" ng-switch-default="" tooltip-placement="top" tooltip="Great Pizza for Everyone Inc.">
+            Great Pizza for Everyone Inc.
+          </span>
+        </span><!-- end ngIf: (variablesByName[info.name] && variablesByName[info.name].value !== null) || variablesByName[info.name].type === 'Bytes' -->
+
+        <!-- ngIf: variablesByName[info.name].value === null && variablesByName[info.name].type !== 'Bytes' -->
+      </div>
+
+    </div>
+  </div><!-- end ngIf: variablesByName[info.name] || filterProperties.showUndefinedVariable --><!-- end ngRepeat: (delta, info) in variableDefinitions --><!-- ngIf: variablesByName[info.name] || filterProperties.showUndefinedVariable --><!-- end ngRepeat: (delta, info) in variableDefinitions -->
+
+
+  <!-- ngIf: shownVariablesCount > 2 --><div class="shutter ng-scope" ng-if="shownVariablesCount > 2" ng-click="toggle($event)" tooltip-placement="bottom" tooltip="Show more variables">
+    <a class="glyphicon glyphicon-chevron-down" ng-class="{'glyphicon-chevron-up': expanded, 'glyphicon-chevron-down': !expanded}">
+    </a>
+  </div><!-- end ngIf: shownVariablesCount > 2 -->
+</div>
+
+</div>
+       </div>
+      </li><!-- end ngRepeat: (delta, task) in tasks --><li class="task ng-scope" ng-repeat="(delta, task) in tasks" ng-class="{active: currentTaskId === task.id}">
+
+        <div class="priority ng-scope ng-binding" tooltip-placement="right" tooltip="Priority">
+          50
+        </div>
+
+        <div class="clickable" ng-click="focus($event, task)">
+          <div class="names">
+            <h4 class="task">
+              <a ng-href="#/?task=145a96d5-1b76-11e5-be07-a44e31a96f6c" ng-click="focus($event, task)" class="ng-binding" href="#/?task=145a96d5-1b76-11e5-be07-a44e31a96f6c">
+                Review Invoice
+              </a>
+            </h4>
+
+            <!-- ngIf: task.processDefinitionId --><h6 class="process-definition ng-scope ng-binding" ng-if="task.processDefinitionId">
+              Invoice Receipt
+            </h6><!-- end ngIf: task.processDefinitionId -->
+
+            <!-- ngIf: task.caseDefinitionId -->
+          </div>
+
+
+          <div class="row" ng-click="focus($event, task)">
+            <ul class="col-sm-12 col-md-6 dates list-inline">
+              <li class="creation-date">
+                <span tooltip-placement="top" tooltip="Created" class="glyphicon glyphicon-bookmark ng-scope"></span>
+                <span tooltip-placement="top" tooltip="Saturday, 20 June 2015 22:09" am-time-ago="task.created" class="ng-scope ng-binding">5 days ago</span>
+              </li>
+
+              <!-- ngIf: !!task.followUp -->
+
+              <!-- ngIf: !!task.due --><li class="due-date ng-scope overdue" ng-if="!!task.due" ng-class="{overdue: task.due &amp;&amp; (task.due < now) }">
+                <span tooltip-placement="top" tooltip="Due date" class="glyphicon glyphicon-bell ng-scope"></span>
+                <span tooltip-placement="top" tooltip="Monday, 22 June 2015 22:09" am-time-ago="task.due" class="ng-scope ng-binding">3 days ago</span>
+              </li><!-- end ngIf: !!task.due -->
+            </ul>
+
+            <!-- ngIf: !!task.assignee --><ul class="col-sm-12 col-md-6 actors list-inline ng-scope" ng-if="!!task.assignee">
+              <li class="assignee">
+                <span tooltip-placement="top" tooltip="Assignee" class="glyphicon glyphicon-user ng-scope"></span>
+                <!-- ngIf: assignees[task.assignee] && ( assignees[task.assignee].firstName || assignees[task.assignee].lastName ) --><span ng-if="assignees[task.assignee] &amp;&amp; ( assignees[task.assignee].firstName || assignees[task.assignee].lastName )" class="ng-scope">
+                  <span tooltip-placement="top" tooltip="Demo Demo (demo)" class="ng-scope ng-binding">
+                    Demo Demo
+                  </span>
+                </span><!-- end ngIf: assignees[task.assignee] && ( assignees[task.assignee].firstName || assignees[task.assignee].lastName ) -->
+                <!-- ngIf: !(assignees[task.assignee] && ( assignees[task.assignee].firstName || assignees[task.assignee].lastName )) -->
+              </li>
+            </ul><!-- end ngIf: !!task.assignee -->
+          </div>
+
+          <div cam-tasklist-variables="" filter-properties="filterProperties" variables="task._embedded.variable" class="row variables ng-isolate-scope"><div class="variables-list" ng-class="{expanded: (expanded &amp;&amp; shownVariablesCount > 2)}">
+
+  <!-- <h6 class="col-xs-12"
+      translate="TASK_VARIABLES">Variables</h6> -->
+
+  <!-- ngRepeat: (delta, info) in variableDefinitions --><!-- ngIf: variablesByName[info.name] || filterProperties.showUndefinedVariable --><!-- end ngRepeat: (delta, info) in variableDefinitions --><!-- ngIf: variablesByName[info.name] || filterProperties.showUndefinedVariable --><div ng-repeat="(delta, info) in variableDefinitions" ng-if="variablesByName[info.name] || filterProperties.showUndefinedVariable" class="ng-scope">
+    <div class="col-xs-12 col-lg-6">
+
+      <div class="row variable-item">
+        <!-- <span class="col-xs-4 col-lg-12"
+              ng-click="selectValue($event)"> -->
+        <span class="col-xs-4 col-lg-12">
+          <strong class="variable-label ng-scope ng-binding" ng-class="{'undefined' : !variablesByName[info.name] &amp;&amp; filterProperties.showUndefinedVariable}" tooltip-placement="top" tooltip="invoiceNumber">
+            Invoice Number:
+          </strong>
+        </span>
+
+
+        <!-- ngIf: !variablesByName[info.name] && filterProperties.showUndefinedVariable -->
+
+
+        <!-- ngIf: (variablesByName[info.name] && variablesByName[info.name].value !== null) || variablesByName[info.name].type === 'Bytes' --><span class="col-xs-8 col-lg-12 ng-scope" ng-if="(variablesByName[info.name] &amp;&amp; variablesByName[info.name].value !== null) || variablesByName[info.name].type === 'Bytes'" ng-switch="variablesByName[info.name].type">
+          <!-- ngSwitchWhen: Date -->
+
+          <!-- ngSwitchWhen: Null -->
+
+          <!-- ngSwitchWhen: Object -->
+
+          <!-- ngSwitchWhen: Bytes -->
+
+          <!-- ngSwitchDefault:  --><span class="variable-value ng-scope ng-binding" ng-switch-default="" tooltip-placement="top" tooltip="PSACE-5342">
+            PSACE-5342
+          </span>
+        </span><!-- end ngIf: (variablesByName[info.name] && variablesByName[info.name].value !== null) || variablesByName[info.name].type === 'Bytes' -->
+
+        <!-- ngIf: variablesByName[info.name].value === null && variablesByName[info.name].type !== 'Bytes' -->
+      </div>
+
+    </div>
+  </div><!-- end ngIf: variablesByName[info.name] || filterProperties.showUndefinedVariable --><!-- end ngRepeat: (delta, info) in variableDefinitions --><!-- ngIf: variablesByName[info.name] || filterProperties.showUndefinedVariable --><div ng-repeat="(delta, info) in variableDefinitions" ng-if="variablesByName[info.name] || filterProperties.showUndefinedVariable" class="ng-scope">
+    <div class="col-xs-12 col-lg-6">
+
+      <div class="row variable-item">
+        <!-- <span class="col-xs-4 col-lg-12"
+              ng-click="selectValue($event)"> -->
+        <span class="col-xs-4 col-lg-12">
+          <strong class="variable-label ng-scope ng-binding" ng-class="{'undefined' : !variablesByName[info.name] &amp;&amp; filterProperties.showUndefinedVariable}" tooltip-placement="top" tooltip="creditor">
+            Creditor:
+          </strong>
+        </span>
+
+
+        <!-- ngIf: !variablesByName[info.name] && filterProperties.showUndefinedVariable -->
+
+
+        <!-- ngIf: (variablesByName[info.name] && variablesByName[info.name].value !== null) || variablesByName[info.name].type === 'Bytes' --><span class="col-xs-8 col-lg-12 ng-scope" ng-if="(variablesByName[info.name] &amp;&amp; variablesByName[info.name].value !== null) || variablesByName[info.name].type === 'Bytes'" ng-switch="variablesByName[info.name].type">
+          <!-- ngSwitchWhen: Date -->
+
+          <!-- ngSwitchWhen: Null -->
+
+          <!-- ngSwitchWhen: Object -->
+
+          <!-- ngSwitchWhen: Bytes -->
+
+          <!-- ngSwitchDefault:  --><span class="variable-value ng-scope ng-binding" ng-switch-default="" tooltip-placement="top" tooltip="Papa Steve's all you can eat">
+            Papa Steve's all you can eat
+          </span>
+        </span><!-- end ngIf: (variablesByName[info.name] && variablesByName[info.name].value !== null) || variablesByName[info.name].type === 'Bytes' -->
+
+        <!-- ngIf: variablesByName[info.name].value === null && variablesByName[info.name].type !== 'Bytes' -->
+      </div>
+
+    </div>
+  </div><!-- end ngIf: variablesByName[info.name] || filterProperties.showUndefinedVariable --><!-- end ngRepeat: (delta, info) in variableDefinitions --><!-- ngIf: variablesByName[info.name] || filterProperties.showUndefinedVariable --><div ng-repeat="(delta, info) in variableDefinitions" ng-if="variablesByName[info.name] || filterProperties.showUndefinedVariable" class="ng-scope">
+    <div class="col-xs-12 col-lg-6">
+
+      <div class="row variable-item">
+        <!-- <span class="col-xs-4 col-lg-12"
+              ng-click="selectValue($event)"> -->
+        <span class="col-xs-4 col-lg-12">
+          <strong class="variable-label ng-scope ng-binding" ng-class="{'undefined' : !variablesByName[info.name] &amp;&amp; filterProperties.showUndefinedVariable}" tooltip-placement="top" tooltip="approver">
+            Approver:
+          </strong>
+        </span>
+
+
+        <!-- ngIf: !variablesByName[info.name] && filterProperties.showUndefinedVariable -->
+
+
+        <!-- ngIf: (variablesByName[info.name] && variablesByName[info.name].value !== null) || variablesByName[info.name].type === 'Bytes' --><span class="col-xs-8 col-lg-12 ng-scope" ng-if="(variablesByName[info.name] &amp;&amp; variablesByName[info.name].value !== null) || variablesByName[info.name].type === 'Bytes'" ng-switch="variablesByName[info.name].type">
+          <!-- ngSwitchWhen: Date -->
+
+          <!-- ngSwitchWhen: Null -->
+
+          <!-- ngSwitchWhen: Object -->
+
+          <!-- ngSwitchWhen: Bytes -->
+
+          <!-- ngSwitchDefault:  --><span class="variable-value ng-scope ng-binding" ng-switch-default="" tooltip-placement="top" tooltip="mary">
+            mary
+          </span>
+        </span><!-- end ngIf: (variablesByName[info.name] && variablesByName[info.name].value !== null) || variablesByName[info.name].type === 'Bytes' -->
+
+        <!-- ngIf: variablesByName[info.name].value === null && variablesByName[info.name].type !== 'Bytes' -->
+      </div>
+
+    </div>
+  </div><!-- end ngIf: variablesByName[info.name] || filterProperties.showUndefinedVariable --><!-- end ngRepeat: (delta, info) in variableDefinitions -->
+
+
+  <!-- ngIf: shownVariablesCount > 2 --><div class="shutter ng-scope" ng-if="shownVariablesCount > 2" ng-click="toggle($event)" tooltip-placement="bottom" tooltip="Show more variables">
+    <a class="glyphicon glyphicon-chevron-down" ng-class="{'glyphicon-chevron-up': expanded, 'glyphicon-chevron-down': !expanded}">
+    </a>
+  </div><!-- end ngIf: shownVariablesCount > 2 -->
+</div>
+
+</div>
+       </div>
+      </li><!-- end ngRepeat: (delta, task) in tasks -->
+    </ol>
+  </div>
+</div>
+
+<ul class="pagination-sm pagination ng-isolate-scope ng-pristine ng-valid ng-hide" ng-show="state.$loaded &amp;&amp; totalItems > pageSize" total-items="totalItems" items-per-page="pageSize" max-size="5" boundary-links="true" ng-model="pageNum" ng-change="pageChange()" next-text="›" last-text="»" previous-text="‹" first-text="«">
+  <!-- ngIf: boundaryLinks --><li ng-if="boundaryLinks" ng-class="{disabled: noPrevious()}" class="ng-scope disabled"><a href="" ng-click="selectPage(1)" class="ng-binding">«</a></li><!-- end ngIf: boundaryLinks -->
+  <!-- ngIf: directionLinks --><li ng-if="directionLinks" ng-class="{disabled: noPrevious()}" class="ng-scope disabled"><a href="" ng-click="selectPage(page - 1)" class="ng-binding">‹</a></li><!-- end ngIf: directionLinks -->
+  <!-- ngRepeat: page in pages track by $index --><li ng-repeat="page in pages track by $index" ng-class="{active: page.active}" class="ng-scope active"><a href="" ng-click="selectPage(page.number)" class="ng-binding">1</a></li><!-- end ngRepeat: page in pages track by $index -->
+  <!-- ngIf: directionLinks --><li ng-if="directionLinks" ng-class="{disabled: noNext()}" class="ng-scope disabled"><a href="" ng-click="selectPage(page + 1)" class="ng-binding">›</a></li><!-- end ngIf: directionLinks -->
+  <!-- ngIf: boundaryLinks --><li ng-if="boundaryLinks" ng-class="{disabled: noNext()}" class="ng-scope disabled"><a href="" ng-click="selectPage(totalPages)" class="ng-binding">»</a></li><!-- end ngIf: boundaryLinks -->
+</ul>
+</div>
+    </div>
+  </section>
+  <!-- / list column -->
+
+
+
+
+
+  <!-- # task column -->
+  <section class="column task-details ng-scope" ng-controller="camTaskActionCtrl">
+    <header class="cell top" style="height: 54px;">
+      <button ng-click="toggleRegion($event)" data-region="task" class="region-toggle btn btn-link">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+      <button ng-click="maximizeRegion($event)" data-region="task" class="btn btn-link maximize">
+        <span class="glyphicon glyphicon-resize-full"></span>
+      </button>
+
+      <button ng-click="resetRegions($event)" class="btn btn-link reset-regions">
+        <span class="glyphicon glyphicon-resize-small"></span>
+      </button>
+
+      <!-- ngRepeat: taskAction in taskActions --><div class="task-actions ng-scope" ng-show="task" ng-repeat="taskAction in taskActions">
+        <view provider="taskAction" vars="taskVars"><a href="" ng-click="createComment()" class="ng-scope ng-binding">
+  Add Comment
+  <span class="glyphicon glyphicon-plus-sign"></span>
+</a></view></div><!-- end ngRepeat: taskAction in taskActions -->
+    </header>
+
+    <div class="cell content" style="top: 54px;">
+      <div cam-tasklist-task="" tasklist-data="tasklistData" class="ng-isolate-scope"><div ng-show="!taskState.$loaded" class="loader ng-binding ng-hide">
+  <span class="animate-spin glyphicon glyphicon-refresh"></span>
+  Loading…
+</div>
+
+<div ng-show="taskState.$loaded" class="">
+  <div ng-hide="task" class="ng-hide">
+    <div class="no-task well ng-binding">
+      <span class="glyphicon glyphicon-info-sign"></span>
+      Select a task in the list.
+    </div>
+  </div>
+
+  <!-- ngIf: task --><section ng-if="task" class="task-card ng-scope">
+    <header class="row">
+      <div class="col-xs-12">
+        <div class="names">
+          <h2 class="task ng-binding">Assign Approver</h2>
+          <!-- ngIf: task.processDefinitionId --><h4 class="process-definition ng-scope ng-binding" ng-if="task.processDefinitionId">
+            Invoice Receipt
+          </h4><!-- end ngIf: task.processDefinitionId -->
+          <!-- ngIf: task.caseDefinitionId -->
+        </div>
+
+        <div cam-tasklist-task-meta="" task-data="taskData" error-handler="errorHandler" class="ng-isolate-scope"><ul class="meta list-inline dates times">
+
+  <li>
+
+    <span cam-widget-inline-field="" class="followup-date ng-isolate-scope" ng-class="{overdue: task.followUp &amp;&amp; (task.followUp < now) }" type="datetime" change="saveFollowUpDate(this)" on-start-editing="startEditingFollowUpDate(this)" on-cancel-editing="cancelEditingFollowUpDate(this)" value="task.followUp"><span ng-show="!editing" ng-click="startEditing()" ng-transclude="" class="view-value">
+      <span tooltip-placement="top" tooltip="Follow-up date" class="glyphicon glyphicon-calendar ng-scope"></span>
+
+      <!-- ngIf: task.followUp -->
+      <!-- ngIf: !task.followUp --><a href="" ng-if="!task.followUp" translate="SET_FOLLOW_UP_DATE" class="ng-scope">Set follow-up date</a><!-- end ngIf: !task.followUp -->
+    </span>
+
+<!-- ngIf: editing && (varType === 'datetime' || varType === 'date' || varType === 'time') -->
+
+<!-- ngIf: editing -->
+</span>
+
+    <!-- ngIf: task.followUp && !editingState.followUp -->
+
+  </li>
+
+  <li>
+
+    <span cam-widget-inline-field="" class="due-date ng-isolate-scope" ng-class="{overdue: task.due &amp;&amp; (task.due < now) }" type="datetime" change="saveDueDate(this)" on-start-editing="startEditingDueDate(this)" on-cancel-editing="cancelEditingDueDate(this)" value="task.due"><span ng-show="!editing" ng-click="startEditing()" ng-transclude="" class="view-value">
+
+      <span tooltip-placement="top" tooltip="Due date" class="glyphicon glyphicon-bell ng-scope"></span>
+
+      <!-- ngIf: task.due --><span ng-if="task.due" tooltip-placement="top" tooltip="Sunday, 28 June 2015 22:09" am-time-ago="task.due" class="ng-scope ng-binding">in 3 days</span><!-- end ngIf: task.due -->
+
+      <!-- ngIf: !task.due -->
+    </span>
+
+<!-- ngIf: editing && (varType === 'datetime' || varType === 'date' || varType === 'time') -->
+
+<!-- ngIf: editing -->
+</span>
+
+    <!-- ngIf: task.due && !editingState.due --><a href="" ng-if="task.due &amp;&amp; !editingState.due" tooltip-placement="top" tooltip="Reset due date" ng-click="resetDueDate()" class="reset-due-date glyphicon glyphicon-remove ng-scope">
+    </a><!-- end ngIf: task.due && !editingState.due -->
+  </li>
+</ul>
+
+
+<ul class="meta list-inline actors">
+  <li class="groups">
+    <span ng-click="editGroups()">
+      <span tooltip-placement="top" tooltip="Groups" class="glyphicon glyphicon-th ng-scope"></span>
+
+      <!-- ngIf: groupNames.length > 0 -->
+
+      <!-- ngIf: groupNames.length === 0 --><a href="" ng-if="groupNames.length === 0" translate="ADD_GROUPS" class="ng-scope">Add groups</a><!-- end ngIf: groupNames.length === 0 -->
+    </span>
+  </li>
+
+  <!-- ngIf: !task.assignee -->
+
+  <!-- ngIf: task.assignee --><li class="assignee ng-scope" ng-if="task.assignee">
+    <span cam-widget-inline-field="" class="set-value ng-isolate-scope" type="text" validate="validateUser(this)" change="assign(this)" on-start-editing="startEditingAssignee(this)" on-cancel-editing="cancelEditingAssignee(this)" value="assignee.id"><span ng-show="!editing" ng-click="startEditing()" ng-transclude="" class="view-value">
+
+      <span tooltip-placement="top" tooltip="Assignee" class="glyphicon glyphicon-user ng-scope"></span>
+      <!-- ngIf: assignee.firstName || assignee.lastName --><span ng-if="assignee.firstName || assignee.lastName" class="ng-scope ng-binding">Demo Demo</span><!-- end ngIf: assignee.firstName || assignee.lastName -->
+      <!-- ngIf: !(assignee.firstName || assignee.lastName) -->
+    </span>
+
+<!-- ngIf: editing && (varType === 'datetime' || varType === 'date' || varType === 'time') -->
+
+<!-- ngIf: editing -->
+</span>
+
+    <!-- ngIf: isAssignee && !editingState.assignee --><a href="" ng-if="isAssignee &amp;&amp; !editingState.assignee" tooltip-placement="top" tooltip="Unclaim" ng-click="unclaim()" class="unclaim glyphicon glyphicon-remove ng-scope">
+    </a><!-- end ngIf: isAssignee && !editingState.assignee -->
+
+    <!-- ngIf: !isAssignee && !editingState.assignee -->
+
+  </li><!-- end ngIf: task.assignee -->
+
+</ul>
+</div>
+      </div>
+    </header>
+
+    <div class="row tabbed-content">
+
+      <div ng-show="taskDetailTabs.length" class="col-xs-12">
+        <ul class="nav nav-tabs">
+          <!-- ngRepeat: taskDetailTab in taskDetailTabs --><li ng-class="{ active: selectedTaskDetailTab == taskDetailTab }" ng-repeat="taskDetailTab in taskDetailTabs" class="ng-scope active">
+            <a href="" ng-click="selectTaskDetailTab(taskDetailTab)" class="ng-binding">Form</a>
+          </li><!-- end ngRepeat: taskDetailTab in taskDetailTabs --><li ng-class="{ active: selectedTaskDetailTab == taskDetailTab }" ng-repeat="taskDetailTab in taskDetailTabs" class="ng-scope">
+            <a href="" ng-click="selectTaskDetailTab(taskDetailTab)" class="ng-binding">History</a>
+          </li><!-- end ngRepeat: taskDetailTab in taskDetailTabs --><li ng-class="{ active: selectedTaskDetailTab == taskDetailTab }" ng-repeat="taskDetailTab in taskDetailTabs" class="ng-scope">
+            <a href="" ng-click="selectTaskDetailTab(taskDetailTab)" class="ng-binding">Diagram</a>
+          </li><!-- end ngRepeat: taskDetailTab in taskDetailTabs --><li ng-class="{ active: selectedTaskDetailTab == taskDetailTab }" ng-repeat="taskDetailTab in taskDetailTabs" class="ng-scope">
+            <a href="" ng-click="selectTaskDetailTab(taskDetailTab)" class="ng-binding">Description</a>
+          </li><!-- end ngRepeat: taskDetailTab in taskDetailTabs -->
+        </ul>
+
+        <div class="tab-content">
+          <view provider="selectedTaskDetailTab" vars="taskVars"><div class="form-pane ng-scope">
+
+  <!-- ngIf: taskFormState.$error -->
+
+  <!-- ngIf: taskFormState.$loaded && !taskFormState.$error --><div ng-if="taskFormState.$loaded &amp;&amp; !taskFormState.$error" cam-tasklist-form="" tasklist-form="taskForm" on-form-completion-callback="completionCallback" options="options" params="params" class="ng-scope ng-isolate-scope"><div ng-show="tasklistForm &amp;&amp; !$loaded" class="loader ng-binding ng-hide">
+  <span class="animate-spin glyphicon glyphicon-refresh"></span>
+  Loading…
+</div>
+
+<!-- ngIf: tasklistForm.type --><div ng-if="tasklistForm.type" ng-show="tasklistForm &amp;&amp; $loaded" ng-class="{ 'disabled-form' : options.disableForm}" class="ng-scope">
+
+  <div ng-show="tasklistForm.$error" class="alert alert-danger ng-hide" role="alert">
+    <span class="glyphicon glyphicon-exclamation-sign"></span>
+    <strong class="status ng-binding">Form failure:</strong>
+    <span class="message ng-binding"></span>
+  </div>
+
+  <div ng-switch="tasklistForm.type" ng-show="!tasklistForm.$error" class="">
+
+    <!-- ngSwitchWhen: embedded --><div ng-switch-when="embedded" class="ng-scope">
+      <div cam-tasklist-form-embedded="" class="ng-scope"><div class="form-container"><div class="injected-form-wrapper"><form class="form-horizontal ng-scope ng-invalid ng-invalid-required ng-pristine" role="form" name="$$camForm">
+
+  <div class="panel panel-info">Who should approve this invoice?</div>
+
+  <div class="control-group">
+    <label class="control-label">Creditor</label>
+    <div class="controls">
+      <input cam-variable-name="creditor" type="text" name="creditor" readonly="true" class="form-control ng-valid ng-pristine" ng-model="creditor">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">Amount</label>
+    <div class="controls">
+      <input cam-variable-name="amount" type="text" name="amount" readonly="true" class="form-control ng-valid ng-pristine" ng-model="amount">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">Invoice Number</label>
+    <div class="controls">
+      <input cam-variable-name="invoiceNumber" type="text" name="invoiceNumber" readonly="true" class="form-control ng-valid ng-pristine" ng-model="invoiceNumber">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">Approver: </label>
+    <div class="controls">
+      <select cam-variable-name="approver" cam-variable-type="String" type="text" name="approver" class="form-control ng-invalid ng-invalid-required ng-valid-cam-variable-type ng-pristine" required="" ng-model="approver">
+        <option value=""></option>
+        <option value="demo">Demo</option>
+        <option value="john">John</option>
+        <option value="peter">Peter</option>
+        <option value="mary">Mary</option>
+      </select>
+      <p>Who should approve this invoice?</p>
+    </div>
+  </div>
+</form>
+</div></div></div>
+    </div>
+
+    <!-- ngSwitchWhen: external -->
+
+    <!-- ngSwitchDefault:  -->
+
+  </div>
+
+  <div class="form-actions" ng-show="showCompleteButton()">
+    <button class="btn btn-primary ng-scope ng-binding" type="submit" ng-click="save($event)" ng-hide="tasklistForm.type === 'generic'" tooltip-placement="top" tooltip="Save the current state of the form to complete it later" ng-disabled="!$dirty" disabled="disabled">
+      Save
+    </button>
+    <button class="btn btn-primary ng-binding" type="submit" ng-click="complete()" ng-disabled="disableCompleteButton()" disabled="disabled">
+      Complete
+    </button>
+  </div>
+
+</div><!-- end ngIf: tasklistForm.type -->
+</div><!-- end ngIf: taskFormState.$loaded && !taskFormState.$error -->
+
+</div></view>
+        </div>
+
+      </div>
+    </div>
+
+  </section><!-- end ngIf: task -->
+
+</div>
+
+
+</div>
+    </div>
+  </section>
+  <!-- # task column -->
+
+</div>
+</div>
+    <!-- / page-content -->
+
+  </div>
+
+
+
+  <div notifications-panel="" class="page-notifications ng-isolate-scope"><div class="notifications">  <!-- ngRepeat: notification in notifications --></div></div>
+
+
+
+  <!-- # page-footer -->
+  <footer cam-widget-footer="" version="v7.3.0" class="ng-isolate-scope"><div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+      Powered by <a href="http://camunda.org">camunda BPM</a> /
+      <span class="version ng-binding">v7.3.0</span>
+    </div>
+  </div>
+</div>
+</footer>
+
+
+  <script type="text/javascript">
+    // override the following line to include configuration
+    var tasklistConf = {
+  "apiUri": "/camunda/api/engine",
+  "mock": false,
+  "resources": {}
+};
+  </script>
+
+  <script type="text/javascript">
+    window.PLUGIN_DEPENDENCIES = [{ ngModuleName: 'tasklist.plugin.standaloneTask', requirePackageName: 'tasklist-plugin-standaloneTask' }] || [];
+    window.PLUGIN_PACKAGES = [{ name: 'tasklist-plugin-standaloneTask', location: '/camunda/api/tasklist/plugin/standaloneTask/static/app', main: 'plugin.js' }] || [];
+  </script>
+
+  <script type="text/javascript" src="camunda/tasklist/scripts/config.js"></script>
+  <script type="text/javascript" src="camunda/tasklist/scripts/deps.js" data-main="camunda/tasklist/scripts/camunda-tasklist-ui"></script>
+
+  <!--[if lte IE 9]>
+  <script type="text/javascript"
+          src="camunda/tasklist/scripts/placeholders.utils.js"></script>
+  <script type="text/javascript"
+          src="camunda/tasklist/scripts/placeholders.main.js"></script>
+  <script type="text/javascript"
+          src="camunda/tasklist/scripts/placeholders.jquery.js"></script>
+  <![endif]-->
+
+
+
+
+</body></html>
