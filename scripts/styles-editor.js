@@ -1,13 +1,14 @@
 'use strict';
 /* global deps: false, require: false, module: false, less: false */
 
-var State = deps('ampersand-state');
-var Collection = deps('ampersand-collection');
-var View = deps('ampersand-view');
+// var State = deps('ampersand-state');
+// var Collection = deps('ampersand-collection');
+// var View = deps('ampersand-view');
 
-// var State = require('ampersand-state');
-// var Collection = require('ampersand-collection');
-// var View = require('ampersand-view');
+require('./classList');
+var State = require('ampersand-state');
+var Collection = require('ampersand-collection');
+var View = require('ampersand-view');
 
 /*
 var ImportState = State.extend({

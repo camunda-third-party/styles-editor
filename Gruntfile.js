@@ -8,7 +8,8 @@ module.exports = function(grunt) {
     less: {
       options: {
         paths: [
-          'node_modules/bootstrap/less'
+          // 'node_modules/bootstrap/less'
+          'node_modules'
         ]
       },
 
@@ -21,27 +22,27 @@ module.exports = function(grunt) {
     },
 
     browserify: {
-      dependencies: {
-        options: {
-          browserifyOptions: {
-            standalone: 'deps',
-            list: true,
-            debug: true
-          }
-        },
-        files: {
-          'dist/dependencies.js': 'scripts/dependencies.js'
-        }
-      },
+      // dependencies: {
+      //   options: {
+      //     browserifyOptions: {
+      //       standalone: 'deps',
+      //       list: true,
+      //       debug: true
+      //     }
+      //   },
+      //   files: {
+      //     'dist/dependencies.js': 'scripts/dependencies.js'
+      //   }
+      // },
 
       scripts: {
         options: {
-          ignore: [
-            './dependencies'
-          ],
-          exclude: [
-            './dependencies'
-          ],
+          // ignore: [
+          //   './dependencies'
+          // ],
+          // exclude: [
+          //   './dependencies'
+          // ],
           browserifyOptions: {
             standalone: 'StylesEditor',
             list: true,
@@ -49,7 +50,20 @@ module.exports = function(grunt) {
           }
         },
         files: {
-          'dist/styles-editor.js': 'scripts/styles-editor.js'
+          // 'dist/styles-editor.js': 'scripts/styles-editor.js'
+          '.tmp/styles-editor.js': 'scripts/styles-editor.js'
+        }
+      }
+    },
+
+
+    concat: {
+      scripts: {
+        files: {
+          'dist/styles-editor.js': [
+            'node_modules/grunt-contrib-less/node_modules/less/dist/less.js',
+            '.tmp/styles-editor.js'
+          ]
         }
       }
     },
@@ -65,16 +79,16 @@ module.exports = function(grunt) {
           }
         ]
       },
-      less: {
-        files: [
-          {
-            expand: true,
-            cwd: 'node_modules/grunt-contrib-less/node_modules/less/dist/',
-            src: 'less.js',
-            dest: 'dist/'
-          }
-        ]
-      },
+      // less: {
+      //   files: [
+      //     {
+      //       expand: true,
+      //       cwd: 'node_modules/grunt-contrib-less/node_modules/less/dist/',
+      //       src: 'less.js',
+      //       dest: 'dist/'
+      //     }
+      //   ]
+      // },
       styles: {
         files: [
           {
@@ -89,8 +103,8 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            cwd: 'node_modules/bootstrap/less/',
-            src: '**/*.less',
+            cwd: 'node_modules/',
+            src: 'bootstrap/less/**/*.less',
             dest: 'dist/'
           }
         ]
@@ -105,7 +119,7 @@ module.exports = function(grunt) {
           base: [
             'dist',
             'styles',
-            'node_modules/grunt-contrib-less/node_modules/less/dist',
+            // 'node_modules/grunt-contrib-less/node_modules/less/dist',
             'node_modules/bootstrap/less'
           ]
         }
@@ -126,21 +140,30 @@ module.exports = function(grunt) {
       scripts: {
         files: [
           'scripts/**/*.js',
-          '!scripts/dependencies.js'
+          // '!scripts/dependencies.js'
         ],
         tasks: [
           'browserify:scripts'
         ]
       },
 
-      dependencies: {
+      tmp: {
         files: [
-          'scripts/dependencies.js'
+          '.tmp/*.js'
         ],
         tasks: [
-          'browserify:dependencies'
+          'concat'
         ]
       },
+
+      // dependencies: {
+      //   files: [
+      //     'scripts/dependencies.js'
+      //   ],
+      //   tasks: [
+      //     'browserify:dependencies'
+      //   ]
+      // },
 
       examples: {
         files: [
