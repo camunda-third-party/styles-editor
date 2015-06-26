@@ -1,150 +1,128 @@
-<html lang="en"><head><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide{display:none !important;}ng\:form{display:block;}.ng-animate-block-transitions{transition:0s all!important;-webkit-transition:0s all!important;}</style>
+<html lang="en"><head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
   <title>camunda Tasklist</title>
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <meta name="description" content="camunda Tasklist">
   <meta name="author" content="camunda services GmbH">
+  <link rel="stylesheet" type="text/css" href="camunda/tasklist/styles.css">
 
-  <link rel="stylesheet" type="text/css" href="camunda/tasklist/styles/styles.css">
+  <link type="text/css"
+        rel="stylesheet"
+        href="styles-editor.css" />
 
-  <!-- favicon -->
-  <link rel="shortcut icon" href="camunda/tasklist/images/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <link rel="apple-touch-icon" href="camunda/tasklist/images/camunda.60.png">
   <link rel="apple-touch-icon" sizes="72x72" href="camunda/tasklist/images/camunda.72.png">
   <link rel="apple-touch-icon" sizes="114x114" href="camunda/tasklist/images/camunda.114.png">
-
 </head>
-
 <body>
-  <div class="site-wrap ng-scope" ng-controller="camTasklistAppCtrl">
-
-    <!-- # page-navigation -->
-    <nav class="navbar navbar-default" role="navigation" cam-tasklist-navigation=""><div class="container-fluid">
-  <!-- Brand and toggle get grouped for better mobile display -->
-  <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-      <span class="sr-only ng-scope" translate="TOGGLE_NAVIGATION">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-
-    <a class="navbar-brand ng-binding" title="Camunda Tasklist" ng-href="camunda/tasklist/" href="camunda/tasklist/">
-       Camunda Tasklist
-    </a>
-  </div>
-
-  <!-- Collect the nav links, forms, and other content for toggling -->
-  <div class="collapse navbar-collapse" id="cam-tasklist-navigation">
-    <ul class="nav navbar-nav navbar-right">
-
-      <!-- ngRepeat: actionProvider in navbarActions --><li ng-repeat="actionProvider in navbarActions" ng-class="actionProvider.id" class="ng-scope create-task-action">
-        <!-- camIfLoggedIn:  -->
-      </li><!-- end ngRepeat: actionProvider in navbarActions --><li ng-repeat="actionProvider in navbarActions" ng-class="actionProvider.id" class="ng-scope start-process-action">
-        <!-- camIfLoggedIn:  -->
-      </li><!-- end ngRepeat: actionProvider in navbarActions -->
-
-
-      <!-- camIfLoggedIn:  -->
-
-
-      <li class="dropdown engine-select ng-hide" ng-show="engines.length > 1 &amp;&amp; currentEngine" engine-select="">
-<!-- # CE - camunda-commons-ui/lib/directives/engineSelect.html -->
-  <a href="" class="dropdown-toggle ng-binding" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <span class="glyphicon glyphicon-info-sign glyphicon glyphicon-info-sign  ng-scope" tooltip="If you have multiple engines running you can select the process engine here. The data displayed in this application is based on the selected engine only." tooltip-placement="bottom"></span>
-    default
-  </a>
-  <ul class="dropdown-menu dropdown-menu-right">
-    <!-- ngRepeat: (id, engine) in engines --><li ng-repeat="(id, engine) in engines" class="ng-scope">
-      <a ng-href="camunda/tasklist/default/../default/" class="ng-binding" href="camunda/tasklist/default/../default/">
-        default
-      </a>
-    </li><!-- end ngRepeat: (id, engine) in engines -->
-  </ul>
-<!-- / CE - camunda-commons-ui/lib/directives/engineSelect.html -->
-</li>
-
-
-      <!-- camIfLoggedIn:  -->
-
-
-      <!-- camIfLoggedIn:  -->
-
-
-      <li class="app-switch dropdown">
-        <a href="" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span class="glyphicon glyphicon-home"></span>
-          <span class="caret"></span>
+  <div class="site-wrap ">
+    <nav class="navbar navbar-default" role="navigation" ><div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only " translate="TOGGLE_NAVIGATION">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand " title="Camunda Tasklist" href="camunda/tasklist/">
+          Camunda Tasklist
         </a>
-
-        <ul class="dropdown-menu">
-          <!-- ngIf: !authentication || authentication.canAccess('admin') --><li ng-if="!authentication || authentication.canAccess('admin')" class="ng-scope">
-            <a ng-href="../../admin/default/" translate="ADMIN_APP" class="ng-scope" href="../../admin/default/">Admin</a>
-          </li><!-- end ngIf: !authentication || authentication.canAccess('admin') -->
-
-          <!-- ngIf: !authentication || authentication.canAccess('cockpit') --><li ng-if="!authentication || authentication.canAccess('cockpit')" class="ng-scope">
-            <a ng-href="../../cockpit/default/" translate="COCKPIT_APP" class="ng-scope" href="../../cockpit/default/">Cockpit</a>
-          </li><!-- end ngIf: !authentication || authentication.canAccess('cockpit') -->
-        </ul>
-      </li>
-    </ul>
-  </div><!-- /.navbar-collapse -->
-</div><!-- /.container-fluid -->
-</nav>
-    <!-- / page-navigation -->
-
-
-
-    <!-- # page-content -->
-    <!-- ngView:  --><div class="page-wrap ng-scope" ng-view=""><div class="form-signin-container ng-scope">
-  <form role="form" name="signinForm" class="form-signin cam-auth-login  ng-invalid ng-invalid-required ng-dirty">
-
-    <div class="auth-fields">
-
-      <h2 translate="PLEASE_SIGN_IN" class="ng-scope">Please sign in</h2>
-
-      <div notifications-panel="" class="ng-isolate-scope"><div class="notifications">  <!-- ngRepeat: notification in notifications --></div></div>
-
-      <div class="form-group">
-        <input required="" autofocus="autofocus" tabindex="1" ng-model="username" name="username" type="text" class="form-control ng-invalid ng-invalid-required ng-pristine" id="signinFormInputUsername" placeholder="Username" auto-fill="">
       </div>
-
-      <div class="form-group">
-        <input required="" tabindex="2" ng-model="password" name="password" type="password" class="form-control ng-invalid ng-invalid-required ng-pristine" id="signinFormInputPassword" placeholder="Password" auto-fill="">
-      </div>
-
+      <div class="collapse navbar-collapse" id="cam-tasklist-navigation">
+        <ul class="nav navbar-nav navbar-right">
+          <li class=" create-task-action">
+          </li><li class=" start-process-action">
+        </li>
+        <li class="dropdown engine-select ng-hide" engine-select="">
+          <a href="" class="dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="glyphicon glyphicon-info-sign glyphicon glyphicon-info-sign  "  ></span>
+            default
+          </a>
+          <ul class="dropdown-menu dropdown-menu-right">
+            <li>
+              <a href="camunda/tasklist/default/../default/">
+                default
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="app-switch dropdown">
+          <a href="" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="glyphicon glyphicon-home"></span>
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a translate="ADMIN_APP" href="../../admin/default/">Admin</a>
+            </li>
+            <li>
+              <a translate="COCKPIT_APP" href="../../cockpit/default/">Cockpit</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
     </div>
-
+  </div>
+</nav>
+<div class="page-wrap " ng-view=""><div class="form-signin-container ">
+  <form role="form" name="signinForm" class="form-signin cam-auth-login  ng-invalid ng-invalid-required ng-dirty">
+    <div class="auth-fields">
+      <h2 translate="PLEASE_SIGN_IN">Please sign in</h2>
+      <div notifications-panel="" class="ng-isolate-scope"><div class="notifications">  </div></div>
+      <div class="form-group">
+        <input required="" autofocus="autofocus" tabindex="1" name="username" type="text" class="form-control ng-invalid ng-invalid-required ng-pristine" id="signinFormInputUsername" placeholder="Username" auto-fill="">
+      </div>
+      <div class="form-group">
+        <input required="" tabindex="2" name="password" type="password" class="form-control ng-invalid ng-invalid-required ng-pristine" id="signinFormInputPassword" placeholder="Password" auto-fill="">
+      </div>
+    </div>
     <div class="auth-actions">
-      <button class="btn btn-lg btn-primary ng-scope" tabindex="3" type="submit" ng-disabled="!username || !password" ng-click="login()" translate="SIGN_IN_ACTION" disabled="disabled">Sign in</button>
+      <button class="btn btn-lg btn-primary " tabindex="3" type="submit" translate="SIGN_IN_ACTION" disabled="disabled">Sign in</button>
     </div>
   </form>
 </div>
-</div>
-    <!-- / page-content -->
-
-  </div>
-
-
-
-  <div notifications-panel="" class="page-notifications ng-isolate-scope"><div class="notifications">  <!-- ngRepeat: notification in notifications --><div ng-repeat="notification in notifications" class="alert ng-scope alert-danger" ng-class="notificationClass(notification)">    <button type="button" class="close" ng-click="removeNotification(notification)">×</button>    <strong class="status ng-binding" ng-bind-html="trustHTML(notification.status)" compile-template=""><span class="ng-scope">Unauthorized</span></strong>     <!-- ngIf: notification.message --><strong ng-if="notification.message" class="ng-scope">:</strong><!-- end ngIf: notification.message -->    <span class="message ng-binding" ng-bind-html="trustHTML(notification.message)" compile-template=""><span class="ng-scope">Login is required to access the resource</span></span>  </div><!-- end ngRepeat: notification in notifications --></div></div>
-
-
-
-  <!-- # page-footer -->
-  <footer cam-widget-footer="" version="v7.3.0" class="ng-isolate-scope"><div class="container-fluid">
+<footer  version="v7.3.0" class="ng-isolate-scope"><div class="container-fluid">
   <div class="row">
     <div class="col-xs-12">
       Powered by <a href="http://camunda.org">camunda BPM</a> /
-      <span class="version ng-binding">v7.3.0</span>
+      <span class="version ">v7.3.0</span>
     </div>
   </div>
-</div>
 </footer>
 
 
+
+
+
+
+<script type="text/javascript" src="styles-editor.js"></script>
+
+<script type="text/javascript">
+  'use strict';
+  /* global StylesEditor: false */
+
+  var editor = window.stylesEditor = new StylesEditor({
+    globals: {
+    },
+
+    variables: StylesEditor.objToStates({
+      'body-bg':        '#fff',
+      'brand-primary':  '#52b415'
+    })
+  });
+
+  document.body.appendChild(editor.el);
+  setTimeout(function () {
+    editor.open = true;
+
+    editor.inputEl.value = [
+      '// guess what will change ;)',
+      '@import "gh-pages";'
+    ].join('\n');
+
+    editor.update();
+  }, 500);
+</script>
 </body></html>

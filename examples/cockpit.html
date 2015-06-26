@@ -1,813 +1,612 @@
-<html lang="en" ng-app="cam.cockpit" data-ng-app="cam.cockpit"><head style="color: white;"><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide{display:none !important;}ng\:form{display:block;}.ng-animate-block-transitions{transition:0s all!important;-webkit-transition:0s all!important;}</style>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<html lang="en"><head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>camunda Cockpit | Invoice Receipt | Definition View</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="camunda Cockpit">
+  <meta name="author" content="camunda services GmbH">
+  <link href="camunda/cockpit/styles.css" rel="stylesheet">
 
-    <title>camunda Cockpit | Invoice Receipt | Definition View</title>
+  <link type="text/css"
+        rel="stylesheet"
+        href="styles-editor.css" />
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta name="description" content="camunda Cockpit">
-    <meta name="author" content="camunda services GmbH">
-
-    <!-- settings the base path for relative links -->
-
-    <!-- styles -->
-    <link href="camunda/cockpit/styles/styles.css" rel="stylesheet">
-    <!-- favicon -->
-    <link rel="shortcut icon" href="camunda/cockpit/assets/images/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" href="camunda/cockpit/assets/images/camunda.60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="camunda/cockpit/assets/images/camunda.72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="camunda/cockpit/assets/images/camunda.114.png">
-  </head>
-  <body>
-    <!-- navigation -->
-    <div cam-widget-header="" authentication="authentication" current-app="cockpit" brand-name="Camunda Cockpit" class="ng-isolate-scope"><div class="navbar-header">
-  <button type="button" class="navbar-toggle collapsed">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="camunda/cockpit/assets/images/camunda.60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="camunda/cockpit/assets/images/camunda.72.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="camunda/cockpit/assets/images/camunda.114.png">
+</head>
+<body>
+  <div  authentication="authentication" current-app="cockpit" brand-name="Camunda Cockpit" class="ng-isolate-scope"><div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed">
     <span class="sr-only">Toggle navigation</span>
     <span class="icon-bar"></span>
     <span class="icon-bar"></span>
     <span class="icon-bar"></span>
-  </button>
-
-  <a class="navbar-brand ng-binding" href="#/" title="Camunda Cockpit">
-    Camunda Cockpit
-  </a>
-</div>
-
-<div ng-transclude="">
-    </div>
-
-<ul class="cam-nav nav navbar-nav">
-
-  <li class="dropdown engine-select ng-hide" ng-show="engines.length > 1 &amp;&amp; currentEngine" engine-select="">
-<!-- # CE - camunda-commons-ui/lib/directives/engineSelect.html -->
-  <a href="" class="dropdown-toggle ng-binding" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <span class="glyphicon glyphicon-info-sign glyphicon glyphicon-info-sign  ng-scope" tooltip="If you have multiple engines running you can select the process engine here. The data displayed in this application is based on the selected engine only." tooltip-placement="bottom"></span>
-    default
-  </a>
-  <ul class="dropdown-menu dropdown-menu-right">
-    <!-- ngRepeat: (id, engine) in engines --><li ng-repeat="(id, engine) in engines" class="ng-scope">
-      <a ng-href="camunda/cockpit/default/../default/" class="ng-binding" href="camunda/cockpit/default/../default/">
+    </button>
+    <a class="navbar-brand " href="#/" title="Camunda Cockpit">
+      Camunda Cockpit
+    </a>
+  </div>
+  <div ng-transclude="">
+  </div>
+  <ul class="cam-nav nav navbar-nav">
+    <li class="dropdown engine-select ng-hide" engine-select="">
+      <a href="" class="dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="glyphicon glyphicon-info-sign glyphicon glyphicon-info-sign  "  ></span>
         default
       </a>
-    </li><!-- end ngRepeat: (id, engine) in engines -->
-  </ul>
-<!-- / CE - camunda-commons-ui/lib/directives/engineSelect.html -->
-</li>
-
-  <!-- ngIf: authentication.name --><li class="account dropdown ng-scope" ng-if="authentication.name">
-    <a href="" class="dropdown-toggle ng-binding" aria-haspopup="true" aria-expanded="false">
-      <span class="glyphicon glyphicon-user "></span>
-      demo
-    </a>
-
-    <ul class="dropdown-menu dropdown-menu-right">
-      <li class="profile">
-        <a ng-href="../../admin/default/#/users/demo?tab=profile" href="../../admin/default/#/users/demo?tab=profile">
-          My Profile
-        </a>
-      </li>
-
-      <li class="divider"></li>
-
-      <li class="logout">
-        <a href="" ng-click="logout()">
-          Sign out
-        </a>
-      </li>
-    </ul>
-  </li><!-- end ngIf: authentication.name -->
-
-  <!-- ngIf: authentication.name --><li class="divider-vertical ng-scope" ng-if="authentication.name"></li><!-- end ngIf: authentication.name -->
-
-  <li class="app-switch dropdown">
-    <a href="" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-      <span class="glyphicon glyphicon-home"></span>
-      <span class="caret"></span>
-    </a>
-
-    <ul class="dropdown-menu dropdown-menu-right">
-      <!-- ngRepeat: (appName, app) in apps --><!-- ngIf: appName !== currentApp && (!authentication || authentication.canAccess(appName)) --><li ng-repeat="(appName, app) in apps" ng-if="appName !== currentApp &amp;&amp; (!authentication || authentication.canAccess(appName))" ng-class="appName" class="ng-scope admin">
-        <a ng-href="../../admin/default/" class="ng-binding" href="../../admin/default/">
-          Admin
-        </a>
-      </li><!-- end ngIf: appName !== currentApp && (!authentication || authentication.canAccess(appName)) --><!-- end ngRepeat: (appName, app) in apps --><!-- ngIf: appName !== currentApp && (!authentication || authentication.canAccess(appName)) --><li ng-repeat="(appName, app) in apps" ng-if="appName !== currentApp &amp;&amp; (!authentication || authentication.canAccess(appName))" ng-class="appName" class="ng-scope tasklist">
-        <a ng-href="../../tasklist/default/" class="ng-binding" href="../../tasklist/default/">
+      <ul class="dropdown-menu dropdown-menu-right">
+        <li>
+          <a href="camunda/cockpit/default/../default/">
+            default
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="account dropdown ">
+      <a href="" class="dropdown-toggle " aria-haspopup="true" aria-expanded="false">
+        <span class="glyphicon glyphicon-user "></span>
+        demo
+      </a>
+      <ul class="dropdown-menu dropdown-menu-right">
+        <li class="profile">
+          <a href="../../admin/default/#/users/demo?tab=profile">
+            My Profile
+          </a>
+        </li>
+        <li class="divider"></li>
+        <li class="logout">
+          <a href="">
+            Sign out
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="app-switch dropdown">
+      <a href="" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+        <span class="glyphicon glyphicon-home"></span>
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-right">
+        <li class=" admin">
+          <a href="../../admin/default/">
+            Admin
+          </a>
+        </li><li class=" tasklist">
+        <a href="../../tasklist/default/">
           Tasklist
         </a>
-      </li><!-- end ngIf: appName !== currentApp && (!authentication || authentication.canAccess(appName)) --><!-- end ngRepeat: (appName, app) in apps -->
+      </li>
     </ul>
   </li>
 </ul>
 </div>
-
-    <!-- content -->
-    <div class="ctn-main">
-      <div class="ctn-wrapper">
-        <!-- ngIf: showBreadcrumbs --><div ng-if="showBreadcrumbs" cam-breadcrumbs-panel="" divider="»" class="breadcrumbs-panel ng-scope ng-isolate-scope"><!-- # CE - camunda-cockpit-ui/client/scripts/directives/breadcrumbs.html -->
-<ul class="breadcrumb">
-  <li>
-    <a href="#">Home</a>
-  </li>
-
-  <!-- ngRepeat: (index, crumb) in breadcrumbs --><li ng-repeat="(index, crumb) in breadcrumbs" ng-class="{ active: !!$last }" data-index="0" class="ng-scope active">
-    <span class="divider ng-binding">»</span>
-
-    <!-- ngIf: !!crumb.href --><span ng-if="!!crumb.href" class="ng-scope">
-      <!-- ngIf: !$last -->
-
-      <!-- ngIf: !!$last --><span ng-if="!!$last" class="ng-scope ng-binding">Invoice Receipt</span><!-- end ngIf: !!$last -->
-    </span><!-- end ngIf: !!crumb.href -->
-
-    <!-- ngIf: !crumb.href -->
-  </li><!-- end ngRepeat: (index, crumb) in breadcrumbs -->
-</ul>
-<!-- / CE - camunda-cockpit-ui/client/scripts/directives/breadcrumbs.html -->
-</div><!-- end ngIf: showBreadcrumbs -->
-
-        <div notifications-panel="" class="page-notifications ng-isolate-scope"><div class="notifications">  <!-- ngRepeat: notification in notifications --></div></div>
-
-        <!-- view body provided by ngView -->
-        <!-- ngView:  --><div ng-view="" class="ng-scope"><!-- # CE - camunda-cockpit-ui/client/scripts/pages/process-definition.html -->
-<div class="ctn-fixed-view ng-scope">
-
+<div class="ctn-main">
+<div class="ctn-wrapper">
+  <ul class="breadcrumb">
+    <li>
+      <a href="#">Home</a>
+    </li>
+    <li data-index="0" class=" active">
+      <span class="divider ">»</span>
+      <span>
+      </span>
+    </li>
+  </ul>
+</div>
+<div notifications-panel="" class="page-notifications ng-isolate-scope"><div class="notifications">  </div></div>
+<div class="ctn-fixed-view ">
   <div class="ctn-header">
-    <h1 class="ng-binding">
-      <span class="process-name-prefix">
-        <span>Process</span>
-        <span>definition</span>
-      </span>
-
-      Invoice Receipt
-
-      <span class="badge badge-warning badge-suspended ng-scope ng-hide" ng-show="processDefinition.suspended" tooltip="Currently suspended" tooltip-placement="top">
-        <span class="glyphicon glyphicon-pause white"></span>
-      </span>
+    <h1>
+    <span class="process-name-prefix">
+      <span>Process</span>
+      <span>definition</span>
+    </span>
+    Invoice Receipt
+    <span class="badge badge-warning badge-suspended  ng-hide"  >
+      <span class="glyphicon glyphicon-pause white"></span>
+    </span>
     </h1>
-
-    <ul class="view-pills nav nav-pills ng-isolate-scope" id="cockpit.processDefinition.view">  <!-- ngRepeat: provider in providers --><li ng-repeat="provider in providers" ng-class="{ active: isActive(provider) }" class="runtime active">    <a ng-href="#/process-definition/invoice:1:1401ef22-1b76-11e5-be07-a44e31a96f6c/runtime" class="ng-binding" href="#/process-definition/invoice:1:1401ef22-1b76-11e5-be07-a44e31a96f6c/runtime">Runtime</a>  </li><!-- end ngRepeat: provider in providers --></ul>
+  <ul class="view-pills nav nav-pills ng-isolate-scope" id="cockpit.processDefinition.view">  </ul>
+</div>
+<div class="ctn-content-container" ctn-collapsable-parent="sidebar">
+  <div class="ctn-toolbar">
+    <span>
+      <view provider="actionProvider" vars="processDefinitionVars">
+      <a class="btn btn-default btn-toolbar btn-suspend-action " href=""  >
+        <span class="glyphicon glyphicon-pause"></span>
+      </a>
+      <a class="btn btn-default btn-toolbar  ng-hide" href=""  >
+        <span class="glyphicon glyphicon-play"></span>
+      </a>
+      </view>
+    </span>
   </div>
-
-  <div class="ctn-content-container" ctn-collapsable-parent="sidebar">
-
-    <!-- tool bar -->
-    <div class="ctn-toolbar">
-
-      <!-- Toolbar actions are provided by plugins -->
-      <!-- ngRepeat: actionProvider in processDefinitionActions --><span ng-repeat="actionProvider in processDefinitionActions" class="ng-scope">
-        <view provider="actionProvider" vars="processDefinitionVars"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/update-suspension-state-action.html -->
-<a class="btn btn-default btn-toolbar btn-suspend-action ng-scope" href="" ng-click="openDialog()" tooltip="Suspend Process Definition" tooltip-placement="left" ng-show="!processDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</a>
-
-<a class="btn btn-default btn-toolbar ng-scope ng-hide" href="" ng-click="openDialog()" tooltip="Activate Process Definition" tooltip-placement="left" ng-hide="!processDefinition.suspended">
-  <span class="glyphicon glyphicon-play"></span>
-</a>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/update-suspension-state-action.html -->
-</view>
-      </span><!-- end ngRepeat: actionProvider in processDefinitionActions -->
-    </div>
-
-    <!-- sidebar -->
-    <div class="ctn-column ctn-sidebar ctn-scroll" ctn-collapsable="left" style="width: 280px;">
-
-      <div class="filters ng-scope" ng-controller="ProcessDefinitionFilterController">
-        <div class="version-filter filter">
-          <span class="name">
-            Version
-          </span>
-          <!-- ngIf: !instanceStatistics.$loaded -->
-
-          <!-- ngIf: instanceStatistics.$loaded && filterData.allDefinitions.length > 1 -->
-
-          <!-- ngIf: instanceStatistics.$loaded && filterData.allDefinitions.length < 2 --><span ng-if="instanceStatistics.$loaded &amp;&amp; filterData.allDefinitions.length < 2" class="ng-scope ng-binding">
-            1
-          </span><!-- end ngIf: instanceStatistics.$loaded && filterData.allDefinitions.length < 2 -->
-        </div>
-
-
-        <div class="process-instances">
-          <label>Running Instances</label>
-          <!-- ngIf: instanceStatistics.$loaded --><ul ng-if="instanceStatistics.$loaded" class="ng-scope">
-            <li>
-              of the selected version:
-              <label class="ng-binding">3</label>
-            </li>
-
-            <li>
-              of all versions:
-              <label class="ng-binding">3</label>
-            </li>
-          </ul><!-- end ngIf: instanceStatistics.$loaded -->
-          <!-- ngIf: !instanceStatistics.$loaded -->
-        </div>
-
-
-        <h5>
-          Filter
-          <div class="btn-group btn-control dropdown">
-            <button class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span class="glyphicon glyphicon-plus-sign"></span>
-            </button>
-
-            <ul class="dropdown-menu">
-              <li>
-                <a href="" ng-click="addVariableFilter()">
-                  by variable
-                </a>
-              </li>
-              <li ng-hide="filterData.businessKey" class="">
-                <a href="" ng-click="addBusinessKeyFilter()">
-                  by business key
-                </a>
-              </li>
-              <li ng-hide="filterData.start.length" class="">
-                <a href="" ng-click="addStartDateFilter()">
-                  by start date
-                </a>
-              </li>
-            </ul>
-          </div>
-        </h5>
-
-
-        <form name="filterForm" novalidate="" ng-submit="filterChanged()" class="ng-pristine ng-valid">
-          <ul class="list-unstyled">
-            <!-- ngIf: filterData.parent -->
-
-            <!-- ngIf: filterData.businessKey -->
-
-            <!-- ngIf: filterData.start.length -->
-
-            <!-- ngIf: filterData.variables.length -->
-
-            <!-- ngIf: filterData.activities.length -->
-          </ul>
-        </form>
-
-        <div class="footer ng-hide" ng-show="filterChanged.$loading">
-          <span class="glyphicon glyphicon-refresh animate-spin"></span> refreshing…
-        </div>
+  <div class="ctn-column ctn-sidebar ctn-scroll" ctn-collapsable="left" style="width: 280px;">
+    <div class="filters ">
+      <div class="version-filter filter">
+        <span class="name">
+          Version
+        </span>
+        <span class=" ">
+          1
+        </span>
       </div>
-
-      <a class="hide-collapsable pull-right expand-collapse" title="Hide sidebar" style="display: block;"><i class="glyphicon glyphicon-chevron-left"></i></a>
-    </div>
-
-    <div class="ctn-column ctn-content" ctn-collapsable-parent="tabs" style="left: 280px;">
-
-      <!-- content top pane -->
-      <div class="ctn-row ctn-content-top" style="bottom: 350px;">
-        <div process-diagram="processDiagram" on-element-click="handleBpmnElementSelection(id, $event)" selection="filter" process-data="processData" provider-component="cockpit.processDefinition.diagram.overlay" class="ng-isolate-scope"><div cam-widget-bpmn-viewer="" diagram-data="diagramData" control="control" on-load="onLoad()" on-click="onClick(element, $event)" on-mouse-enter="onMouseEnter(element, $event)" on-mouse-leave="onMouseLeave(element, $event)" style="height: 100%" class="ng-isolate-scope"><!-- ngIf: error -->
-
-<div ng-show="!error" class="">
-
-  <!-- ngIf: !loaded -->
-
-  <div class="diagram-holder grab-cursor" ng-class="{&quot;diagram-holder&quot;: true, &quot;grab-cursor&quot;: !disableNavigation &amp;&amp; !grabbing, &quot;djs-cursor-move&quot;: !disableNavigation &amp;&amp; grabbing}"><div class="bjs-container" style="width: 100%; height: 100%; position: relative;"><a href="http://bpmn.io" target="_blank" class="bjs-powered-by" title="Powered by bpmn.io" style="position: absolute; bottom: 15px; right: 15px; z-index: 100"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAMAAADypuvZAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAADBQTFRFiMte9PrwldFwfcZPqtqN0+zEyOe1XLgjvuKncsJAZ70y6fXh3vDT////UrQV////G2zN+AAAABB0Uk5T////////////////////AOAjXRkAAAHDSURBVHjavJZJkoUgDEBJmAX8979tM8u3E6x20VlYJfFFMoL4vBDxATxZcakIOJTWSmxvKWVIkJ8jHvlRv1F2LFrVISCZI+tCtQx+XfewgVTfyY3plPiQEAzI3zWy+kR6NBhFBYeBuscJLOUuA2WVLpCjVIaFzrNQZArxAZKUQm6gsj37L9Cb7dnIBUKxENaaMJQqMpDXvSL+ktxdGRm2IsKgJGGPg7atwUG5CcFUEuSv+CwQqizTrvDTNXdMU2bMiDWZd8d7QIySWVRsb2vBBioxOFt4OinPBapL+neAb5KL5IJ8szOza2/DYoipUCx+CjO0Bpsv0V6mktNZ+k8rlABlWG0FrOpKYVo8DT3dBeLEjUBAj7moDogVii7nSS9QzZnFcOVBp1g2PyBQ3Vr5aIapN91VJy33HTJLC1iX2FY6F8gRdaAeIEfVONgtFCzZTmoLEdOjBDfsIOA6128gw3eu1shAajdZNAORxuQDJN5A5PbEG6gNIu24QJD5iNyRMZIr6bsHbCtCU/OaOaSvgkUyDMdDa1BXGf5HJ1To+/Ym6mCKT02Y+/Sa126ZKyd3jxhzpc1r8zVL6YM1Qy/kR4ABAFJ6iQUnivhAAAAAAElFTkSuQmCC"></a><div class="djs-container" style="position: relative; overflow: hidden; width: 100%; height: 100%;"><div class="djs-overlay-container" style="position: absolute; width: 0px; height: 0px; transform: matrix(0.443, 0, 0, 0.443, 291.915, 2.659);"><div class="djs-overlays djs-overlays-collaboration_3" style="position: absolute"><div id="ov-937355758-1" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope ng-hide" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding ng-hide" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-Process_Engine_1" style="position: absolute; left: 0px; top: 0px;"><div id="ov-937355758-2" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope" style="width: 1009px; height: 486px;"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope ng-hide" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding ng-hide" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-Approver" style="position: absolute; left: 30px; top: 182px;"><div id="ov-937355758-3" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope" style="width: 979px; height: 161px;"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope ng-hide" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding ng-hide" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-teamAssistant" style="position: absolute; left: 30px; top: 0px;"><div id="ov-937355758-4" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope" style="width: 979px; height: 183px;"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope ng-hide" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding ng-hide" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-Accountant" style="position: absolute; left: 30px; top: 342px;"><div id="ov-937355758-5" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope" style="width: 979px; height: 144px;"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope ng-hide" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding ng-hide" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-approveInvoice" style="position: absolute; left: 353px; top: 224px;"><div id="ov-937355758-6" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope" style="width: 100px; height: 80px;"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-    1
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-invoice_approved" style="position: absolute; left: 488px; top: 244px;"><div id="ov-937355758-7" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope" style="width: 40px; height: 40px;"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope ng-hide" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding ng-hide" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-reviewInvoice" style="position: absolute; left: 548px; top: 52px;"><div id="ov-937355758-8" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope" style="width: 100px; height: 80px;"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-    1
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-reviewSuccessful_gw" style="position: absolute; left: 693px; top: 72px;"><div id="ov-937355758-9" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope" style="width: 40px; height: 40px;"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope ng-hide" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding ng-hide" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-prepareBankTransfer" style="position: absolute; left: 638px; top: 383px;"><div id="ov-937355758-10" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope" style="width: 100px; height: 80px;"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope ng-hide" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding ng-hide" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-invoiceNotApproved" style="position: absolute; left: 508px; top: 92px;"><div id="ov-937355758-11" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope ng-hide" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding ng-hide" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-sequenceFlow_180" style="position: absolute; left: 453px; top: 264px;"><div id="ov-937355758-12" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope ng-hide" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding ng-hide" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-sequenceFlow_183" style="position: absolute; left: 648px; top: 92px;"><div id="ov-937355758-13" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope ng-hide" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding ng-hide" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-invoiceApproved" style="position: absolute; left: 528px; top: 264px;"><div id="ov-937355758-14" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope ng-hide" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding ng-hide" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-reviewNotSuccessful" style="position: absolute; left: 733px; top: 92px;"><div id="ov-937355758-15" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope ng-hide" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding ng-hide" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-reviewSuccessful" style="position: absolute; left: 403px; top: 35px;"><div id="ov-937355758-16" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope ng-hide" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding ng-hide" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-DataStoreReference_1" style="position: absolute; left: 574px; top: 516px;"><div id="ov-937355758-17" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope" style="width: 63px; height: 61px;"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope ng-hide" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding ng-hide" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-assignApprover" style="position: absolute; left: 180px; top: 52px;"><div id="ov-937355758-18" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope" style="width: 100px; height: 80px;"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-    1
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-sequenceFlow_178" style="position: absolute; left: 280px; top: 92px;"><div id="ov-937355758-19" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope ng-hide" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding ng-hide" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-SequenceFlow_2" style="position: absolute; left: 738px; top: 423px;"><div id="ov-937355758-20" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope ng-hide" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding ng-hide" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-StartEvent_1" style="position: absolute; left: 96px; top: 78px;"><div id="ov-937355758-21" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope" style="width: 28px; height: 28px;"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope ng-hide" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding ng-hide" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-SequenceFlow_1" style="position: absolute; left: 124px; top: 92px;"><div id="ov-937355758-22" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope ng-hide" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding ng-hide" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-invoiceNotProcessed" style="position: absolute; left: 912px; top: 78px;"><div id="ov-937355758-23" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope" style="width: 28px; height: 28px;"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope ng-hide" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding ng-hide" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-invoiceProcessed" style="position: absolute; left: 929px; top: 409px;"><div id="ov-937355758-24" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope" style="width: 28px; height: 28px;"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope ng-hide" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding ng-hide" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-ServiceTask_1 selectable" style="position: absolute; left: 780px; top: 383px;"><div id="ov-937355758-25" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope" style="width: 100px; height: 80px;"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope ng-hide" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding ng-hide" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-SequenceFlow_3" style="position: absolute; left: 880px; top: 423px;"><div id="ov-937355758-26" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope ng-hide" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding ng-hide" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div><div class="djs-overlays djs-overlays-Association_1" style="position: absolute; left: 625px; top: 463px;"><div id="ov-937355758-27" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ng-scope"><!-- ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-<span class="activity-bottom-left-position ng-scope ng-hide" ng-show="activityInstance" ng-click="selectRunningInstances($event)">
-  <span class="badge ng-scope ng-binding ng-hide" tooltip="Running Activity Instances" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.instances">
-
-  </span>
-
-  <span class="badge badge-important ng-scope ng-hide" tooltip="Open Incidents" tooltip-placement="top" tooltip-animation="false" ng-show="activityInstance.incidents">!</span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/activity-instance-statistics-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --><div view="" ng-repeat="overlayProvider in overlayProviders" provider="overlayProvider" vars="overlayVars" class="ng-scope"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-<span class="badge badge-warning activity-top-right-position ng-scope ng-hide" tooltip="Suspended Job Definition" tooltip-placement="top" ng-show="jobDefinition &amp;&amp; jobDefinition.suspended">
-  <span class="glyphicon glyphicon-pause"></span>
-</span>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/jobDefinition/app/views/processDefinition/job-definition-suspension-overlay.html -->
-</div><!-- end ngRepeat: overlayProvider in overlayProviders --></div></div></div></div><svg width="100%" height="100%" data-element-id="collaboration_3"><desc>Created with Snap</desc><defs><marker viewBox="0 0 20 20" markerWidth="10" markerHeight="10" orient="auto" refX="11" refY="10" id="markerSibcmmucua0"><path d="M 1 5 L 11 10 L 1 15 Z" fill="#000000" style="stroke-width: 1px; stroke-linecap: round; stroke-dasharray: 10000px, 1px;"></path></marker><marker viewBox="0 0 20 20" markerWidth="20" markerHeight="20" orient="auto" refX="6" refY="6" id="markerSibcmmucua2"><circle cx="6" cy="6" r="5" fill="#ffffff" stroke="#000000" style="stroke-width: 1px; stroke-linecap: round; stroke-dasharray: 10000px, 1px;"></circle></marker><marker viewBox="0 0 20 20" markerWidth="20" markerHeight="20" orient="auto" refX="11" refY="10" id="markerSibcmmucua4"><path d="M 1 5 L 11 10 L 1 15 Z" fill="#ffffff" stroke="#000000" style="stroke-width: 1px; stroke-linecap: round; stroke-dasharray: 10000px, 1px;"></path></marker><marker viewBox="0 0 20 20" markerWidth="10" markerHeight="10" orient="auto" refX="11" refY="10" id="markerSibcmmucua6"><path d="M 1 5 L 11 10 L 1 15" fill="#ffffff" stroke="#000000" style="stroke-width: 1px; stroke-linecap: round; stroke-dasharray: 10000px, 1px;"></path></marker><marker viewBox="0 0 20 20" markerWidth="10" markerHeight="10" orient="auto" refX="-1" refY="10" id="markerSibcmmucua8"><path d="M 0 10 L 8 6 L 16 10 L 8 14 Z" fill="#ffffff" stroke="#000000" style="stroke-width: 1px; stroke-linecap: round; stroke-dasharray: 10000px, 1px;"></path></marker><marker viewBox="0 0 20 20" markerWidth="10" markerHeight="10" orient="auto" refX="-5" refY="10" id="markerSibcmmucuaa"><path d="M 1 4 L 5 16" fill="#000000" stroke="#000000" style="stroke-width: 1px; stroke-linecap: round; stroke-dasharray: 10000px, 1px;"></path></marker></defs><g class="viewport" transform="matrix(0.4432,0,0,0.4432,291.9148,2.6591)"><g data-element-id="collaboration_3" class="layer-base"><g class="djs-group"><g data-element-id="Process_Engine_1" class="djs-element djs-shape" transform="matrix(1,0,0,1,0,0)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="1021" height="498"></rect><g class="djs-visual"><rect x="0" y="0" width="1009" height="486" rx="0" ry="0" stroke="#000000" fill="none" style="stroke-width: 2px;"></rect><polyline points="30,0 30,486 " fill="none" stroke="#000000" style="stroke-width: 2px;"></polyline><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 12px;" transform="matrix(0,-1,1,0,0,486)"><tspan x="201.9765625" y="18.5">Invoice Receipt</tspan></text></g><rect x="0" y="0" width="1009" height="486" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g><g class="djs-children"><g class="djs-group"><g data-element-id="Approver" class="djs-element djs-shape" transform="matrix(1,0,0,1,30,182)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="991" height="173"></rect><g class="djs-visual"><rect x="0" y="0" width="979" height="161" rx="0" ry="0" stroke="#000000" fill="none" style="stroke-width: 2px;"></rect><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 12px;" transform="matrix(0,-1,1,0,0,161)"><tspan x="56.1484375" y="18.5">Approver</tspan></text></g><rect x="0" y="0" width="979" height="161" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g><g class="djs-children"><g class="djs-group"><g data-element-id="approveInvoice" class="djs-element djs-shape" transform="matrix(1,0,0,1,353,224)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="112" height="92"></rect><g class="djs-visual"><rect x="0" y="0" width="100" height="80" rx="10" ry="10" stroke="#000000" fill="#ffffff" style="stroke-width: 2px;"></rect><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 12px;"><tspan x="6.96875" y="43.5">Approve Invoice</tspan></text><path d="m 15,12 c 0.909,-0.845 1.594,-2.049 1.594,-3.385 0,-2.554 -1.805,-4.62199999 -4.357,-4.62199999 -2.55199998,0 -4.28799998,2.06799999 -4.28799998,4.62199999 0,1.348 0.974,2.562 1.89599998,3.405 -0.52899998,0.187 -5.669,2.097 -5.794,4.7560005 v 6.718 h 17 v -6.718 c 0,-2.2980005 -5.5279996,-4.5950005 -6.0509996,-4.7760005 zm -8,6 l 0,5.5 m 11,0 l 0,-5" fill="none" stroke="#000000" style="stroke-width: 0.5px;"></path><path d="m 15,12 m 2.162,1.009 c 0,2.4470005 -2.158,4.4310005 -4.821,4.4310005 -2.66499998,0 -4.822,-1.981 -4.822,-4.4310005 " fill="none" stroke="#000000" style="stroke-width: 0.5px;"></path><path d="m 15,12 m -6.9,-3.80 c 0,0 2.25099998,-2.358 4.27399998,-1.177 2.024,1.181 4.221,1.537 4.124,0.965 -0.098,-0.57 -0.117,-3.79099999 -4.191,-4.13599999 -3.57499998,0.001 -4.20799998,3.36699999 -4.20699998,4.34799999 z" fill="#000000" stroke="#000000" style="stroke-width: 0.5px;"></path></g><rect x="0" y="0" width="100" height="80" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="invoice_approved" transform="matrix(1,0,0,1,488,244)" class="djs-element djs-shape" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="52" height="52"></rect><g class="djs-visual"><polygon points="20,0,40,20,20,40,0,20" stroke="#000000" fill="#ffffff" style="stroke-width: 2px;"></polygon><path d="m 12.8,12 5.942857142857143,7.771428571428571 -5.942857142857143,7.771428571428571 2.742857142857143,0 4.571428571428571,-5.971382857142857 4.571428571428571,5.971382857142857 2.742857142857143,0 -5.942857142857143,-7.771428571428571 5.942857142857143,-7.771428571428571 -2.742857142857143,0 -4.571428571428571,5.971382857142857 -4.571428571428571,-5.971382857142857 -2.742857142857143,0 z" fill="#000000" stroke="#000000" style="stroke-width: 1px;"></path></g><rect x="0" y="0" width="40" height="40" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="invoice_approved_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,455,289)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="119" height="34"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="36.0703125" y="12">Invoice</tspan><tspan x="27.5" y="24">approved?</tspan></text></g><rect x="0" y="0" width="107" height="22" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g></g></g><g class="djs-group"><g data-element-id="teamAssistant" class="djs-element djs-shape" transform="matrix(1,0,0,1,30,0)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="991" height="195"></rect><g class="djs-visual"><rect x="0" y="0" width="979" height="183" rx="0" ry="0" stroke="#000000" fill="none" style="stroke-width: 2px;"></rect><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 12px;" transform="matrix(0,-1,1,0,0,183)"><tspan x="50.1484375" y="18.5">Team Assistant</tspan></text></g><rect x="0" y="0" width="979" height="183" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g><g class="djs-children"><g class="djs-group"><g data-element-id="reviewInvoice" class="djs-element djs-shape" transform="matrix(1,0,0,1,548,52)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="112" height="92"></rect><g class="djs-visual"><rect x="0" y="0" width="100" height="80" rx="10" ry="10" stroke="#000000" fill="#ffffff" style="stroke-width: 2px;"></rect><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 12px;"><tspan x="9.6484375" y="43.5">Review Invoice</tspan></text><path d="m 15,12 c 0.909,-0.845 1.594,-2.049 1.594,-3.385 0,-2.554 -1.805,-4.62199999 -4.357,-4.62199999 -2.55199998,0 -4.28799998,2.06799999 -4.28799998,4.62199999 0,1.348 0.974,2.562 1.89599998,3.405 -0.52899998,0.187 -5.669,2.097 -5.794,4.7560005 v 6.718 h 17 v -6.718 c 0,-2.2980005 -5.5279996,-4.5950005 -6.0509996,-4.7760005 zm -8,6 l 0,5.5 m 11,0 l 0,-5" fill="none" stroke="#000000" style="stroke-width: 0.5px;"></path><path d="m 15,12 m 2.162,1.009 c 0,2.4470005 -2.158,4.4310005 -4.821,4.4310005 -2.66499998,0 -4.822,-1.981 -4.822,-4.4310005 " fill="none" stroke="#000000" style="stroke-width: 0.5px;"></path><path d="m 15,12 m -6.9,-3.80 c 0,0 2.25099998,-2.358 4.27399998,-1.177 2.024,1.181 4.221,1.537 4.124,0.965 -0.098,-0.57 -0.117,-3.79099999 -4.191,-4.13599999 -3.57499998,0.001 -4.20799998,3.36699999 -4.20699998,4.34799999 z" fill="#000000" stroke="#000000" style="stroke-width: 0.5px;"></path></g><rect x="0" y="0" width="100" height="80" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="reviewSuccessful_gw" transform="matrix(1,0,0,1,693,72)" class="djs-element djs-shape" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="52" height="52"></rect><g class="djs-visual"><polygon points="20,0,40,20,20,40,0,20" stroke="#000000" fill="#ffffff" style="stroke-width: 2px;"></polygon><path d="m 12.8,12 5.942857142857143,7.771428571428571 -5.942857142857143,7.771428571428571 2.742857142857143,0 4.571428571428571,-5.971382857142857 4.571428571428571,5.971382857142857 2.742857142857143,0 -5.942857142857143,-7.771428571428571 5.942857142857143,-7.771428571428571 -2.742857142857143,0 -4.571428571428571,5.971382857142857 -4.571428571428571,-5.971382857142857 -2.742857142857143,0 z" fill="#000000" stroke="#000000" style="stroke-width: 1px;"></path></g><rect x="0" y="0" width="40" height="40" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="reviewSuccessful_gw_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,656,117)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="126" height="34"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="38.9609375" y="12">Review</tspan><tspan x="28.2578125" y="24">successful?</tspan></text></g><rect x="0" y="0" width="114" height="22" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="assignApprover" class="djs-element djs-shape" transform="matrix(1,0,0,1,180,52)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="112" height="92"></rect><g class="djs-visual"><rect x="0" y="0" width="100" height="80" rx="10" ry="10" stroke="#000000" fill="#ffffff" style="stroke-width: 2px;"></rect><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 12px;"><tspan x="5.9765625" y="43.5">Assign Approver</tspan></text><path d="m 15,12 c 0.909,-0.845 1.594,-2.049 1.594,-3.385 0,-2.554 -1.805,-4.62199999 -4.357,-4.62199999 -2.55199998,0 -4.28799998,2.06799999 -4.28799998,4.62199999 0,1.348 0.974,2.562 1.89599998,3.405 -0.52899998,0.187 -5.669,2.097 -5.794,4.7560005 v 6.718 h 17 v -6.718 c 0,-2.2980005 -5.5279996,-4.5950005 -6.0509996,-4.7760005 zm -8,6 l 0,5.5 m 11,0 l 0,-5" fill="none" stroke="#000000" style="stroke-width: 0.5px;"></path><path d="m 15,12 m 2.162,1.009 c 0,2.4470005 -2.158,4.4310005 -4.821,4.4310005 -2.66499998,0 -4.822,-1.981 -4.822,-4.4310005 " fill="none" stroke="#000000" style="stroke-width: 0.5px;"></path><path d="m 15,12 m -6.9,-3.80 c 0,0 2.25099998,-2.358 4.27399998,-1.177 2.024,1.181 4.221,1.537 4.124,0.965 -0.098,-0.57 -0.117,-3.79099999 -4.191,-4.13599999 -3.57499998,0.001 -4.20799998,3.36699999 -4.20699998,4.34799999 z" fill="#000000" stroke="#000000" style="stroke-width: 0.5px;"></path></g><rect x="0" y="0" width="100" height="80" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="StartEvent_1" transform="matrix(1,0,0,1,96,78)" class="djs-element djs-shape" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="40" height="40"></rect><g class="djs-visual"><circle cx="14" cy="14" r="14" stroke="#000000" fill="#ffffff" style="stroke-width: 2px;"></circle></g><rect x="0" y="0" width="28" height="28" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="StartEvent_1_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,62,111)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="108" height="34"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="30.5703125" y="12">Invoice</tspan><tspan x="27.2109375" y="24">received</tspan></text></g><rect x="0" y="0" width="96" height="22" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="invoiceNotProcessed" transform="matrix(1,0,0,1,912,78)" class="djs-element djs-shape" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="40" height="40"></rect><g class="djs-visual"><circle cx="14" cy="14" r="14" stroke="#000000" fill="#ffffff" style="stroke-width: 4px;"></circle></g><rect x="0" y="0" width="28" height="28" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="invoiceNotProcessed_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,861,111)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="143" height="34"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="38.8984375" y="12">Invoice not</tspan><tspan x="40.1171875" y="24">processed</tspan></text></g><rect x="0" y="0" width="131" height="22" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g></g></g><g class="djs-group"><g data-element-id="Accountant" class="djs-element djs-shape" transform="matrix(1,0,0,1,30,342)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="991" height="156"></rect><g class="djs-visual"><rect x="0" y="0" width="979" height="144" rx="0" ry="0" stroke="#000000" fill="none" style="stroke-width: 2px;"></rect><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 12px;" transform="matrix(0,-1,1,0,0,144)"><tspan x="41.9765625" y="18.5">Accountant</tspan></text></g><rect x="0" y="0" width="979" height="144" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g><g class="djs-children"><g class="djs-group"><g data-element-id="prepareBankTransfer" class="djs-element djs-shape" transform="matrix(1,0,0,1,638,383)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="112" height="92"></rect><g class="djs-visual"><rect x="0" y="0" width="100" height="80" rx="10" ry="10" stroke="#000000" fill="#ffffff" style="stroke-width: 2px;"></rect><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 12px;"><tspan x="28.6484375" y="29.5">Prepare</tspan><tspan x="36.3203125" y="43.5">Bank</tspan><tspan x="27.65625" y="57.5">Transfer</tspan></text><path d="m 15,12 c 0.909,-0.845 1.594,-2.049 1.594,-3.385 0,-2.554 -1.805,-4.62199999 -4.357,-4.62199999 -2.55199998,0 -4.28799998,2.06799999 -4.28799998,4.62199999 0,1.348 0.974,2.562 1.89599998,3.405 -0.52899998,0.187 -5.669,2.097 -5.794,4.7560005 v 6.718 h 17 v -6.718 c 0,-2.2980005 -5.5279996,-4.5950005 -6.0509996,-4.7760005 zm -8,6 l 0,5.5 m 11,0 l 0,-5" fill="none" stroke="#000000" style="stroke-width: 0.5px;"></path><path d="m 15,12 m 2.162,1.009 c 0,2.4470005 -2.158,4.4310005 -4.821,4.4310005 -2.66499998,0 -4.822,-1.981 -4.822,-4.4310005 " fill="none" stroke="#000000" style="stroke-width: 0.5px;"></path><path d="m 15,12 m -6.9,-3.80 c 0,0 2.25099998,-2.358 4.27399998,-1.177 2.024,1.181 4.221,1.537 4.124,0.965 -0.098,-0.57 -0.117,-3.79099999 -4.191,-4.13599999 -3.57499998,0.001 -4.20799998,3.36699999 -4.20699998,4.34799999 z" fill="#000000" stroke="#000000" style="stroke-width: 0.5px;"></path></g><rect x="0" y="0" width="100" height="80" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="invoiceProcessed" transform="matrix(1,0,0,1,929,409)" class="djs-element djs-shape" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="40" height="40"></rect><g class="djs-visual"><circle cx="14" cy="14" r="14" stroke="#000000" fill="#ffffff" style="stroke-width: 4px;"></circle></g><rect x="0" y="0" width="28" height="28" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="invoiceProcessed_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,889,442)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="121" height="34"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="37.0703125" y="12">Invoice</tspan><tspan x="29.1171875" y="24">processed</tspan></text></g><rect x="0" y="0" width="109" height="22" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="ServiceTask_1" class="djs-element djs-shape selectable" transform="matrix(1,0,0,1,780,383)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="112" height="92" rx="14px" ry="14px"></rect><g class="djs-visual"><rect x="0" y="0" width="100" height="80" rx="10" ry="10" stroke="#000000" fill="#ffffff" style="stroke-width: 2px;"></rect><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 12px;"><tspan x="9.3125" y="43.5">Archive Invoice</tspan></text><path d="m 12,18 v -1.71335 c 0.352326,-0.0705 0.703932,-0.17838 1.047628,-0.32133 0.344416,-0.14465 0.665822,-0.32133 0.966377,-0.52145 l 1.19431,1.18005 1.567487,-1.57688 -1.195028,-1.18014 c 0.403376,-0.61394 0.683079,-1.29908 0.825447,-2.01824 l 1.622133,-0.01 v -2.2196 l -1.636514,0.01 c -0.07333,-0.35153 -0.178319,-0.70024 -0.323564,-1.04372 -0.145244,-0.34406 -0.321407,-0.6644 -0.522735,-0.96217 l 1.131035,-1.13631 -1.583305,-1.56293 -1.129598,1.13589 c -0.614052,-0.40108 -1.302883,-0.68093 -2.022633,-0.82247 l 0.0093,-1.61852 h -2.241173 l 0.0042,1.63124 c -0.353763,0.0736 -0.705369,0.17977 -1.049785,0.32371 -0.344415,0.14437 -0.665102,0.32092 -0.9635006,0.52046 l -1.1698628,-1.15823 -1.5667691,1.5792 1.1684265,1.15669 c -0.4026573,0.61283 -0.68308,1.29797 -0.8247287,2.01713 l -1.6588041,0.003 v 2.22174 l 1.6724648,-0.006 c 0.073327,0.35077 0.1797598,0.70243 0.3242851,1.04472 0.1452428,0.34448 0.3214064,0.6644 0.5227339,0.96066 l -1.1993431,1.19723 1.5840256,1.56011 1.1964668,-1.19348 c 0.6140517,0.40346 1.3028827,0.68232 2.0233517,0.82331 l 7.19e-4,1.69892 h 2.226848 z m 0.221462,-3.9957 c -1.788948,0.7502 -3.8576,-0.0928 -4.6097055,-1.87438 -0.7521065,-1.78321 0.090598,-3.84627 1.8802645,-4.59604 1.78823,-0.74936 3.856881,0.0929 4.608987,1.87437 0.752106,1.78165 -0.0906,3.84612 -1.879546,4.59605 z" fill="none" stroke="#000000" style="stroke-width: 1px;"></path><path d="m 17.2,18 c -1.788948,0.7502 -3.8576,-0.0928 -4.6097055,-1.87438 -0.7521065,-1.78321 0.090598,-3.84627 1.8802645,-4.59604 1.78823,-0.74936 3.856881,0.0929 4.608987,1.87437 0.752106,1.78165 -0.0906,3.84612 -1.879546,4.59605 z" fill="#ffffff" stroke="none" style="stroke-width: 0px;"></path><path d="m 17,22 v -1.71335 c 0.352326,-0.0705 0.703932,-0.17838 1.047628,-0.32133 0.344416,-0.14465 0.665822,-0.32133 0.966377,-0.52145 l 1.19431,1.18005 1.567487,-1.57688 -1.195028,-1.18014 c 0.403376,-0.61394 0.683079,-1.29908 0.825447,-2.01824 l 1.622133,-0.01 v -2.2196 l -1.636514,0.01 c -0.07333,-0.35153 -0.178319,-0.70024 -0.323564,-1.04372 -0.145244,-0.34406 -0.321407,-0.6644 -0.522735,-0.96217 l 1.131035,-1.13631 -1.583305,-1.56293 -1.129598,1.13589 c -0.614052,-0.40108 -1.302883,-0.68093 -2.022633,-0.82247 l 0.0093,-1.61852 h -2.241173 l 0.0042,1.63124 c -0.353763,0.0736 -0.705369,0.17977 -1.049785,0.32371 -0.344415,0.14437 -0.665102,0.32092 -0.9635006,0.52046 l -1.1698628,-1.15823 -1.5667691,1.5792 1.1684265,1.15669 c -0.4026573,0.61283 -0.68308,1.29797 -0.8247287,2.01713 l -1.6588041,0.003 v 2.22174 l 1.6724648,-0.006 c 0.073327,0.35077 0.1797598,0.70243 0.3242851,1.04472 0.1452428,0.34448 0.3214064,0.6644 0.5227339,0.96066 l -1.1993431,1.19723 1.5840256,1.56011 1.1964668,-1.19348 c 0.6140517,0.40346 1.3028827,0.68232 2.0233517,0.82331 l 7.19e-4,1.69892 h 2.226848 z m 0.221462,-3.9957 c -1.788948,0.7502 -3.8576,-0.0928 -4.6097055,-1.87438 -0.7521065,-1.78321 0.090598,-3.84627 1.8802645,-4.59604 1.78823,-0.74936 3.856881,0.0929 4.608987,1.87437 0.752106,1.78165 -0.0906,3.84612 -1.879546,4.59605 z" fill="#ffffff" stroke="#000000" style="stroke-width: 1px;"></path></g><rect x="0" y="0" width="100" height="80" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g></g></g><g class="djs-group"><g data-element-id="Association_1" class="djs-element djs-connection" style="display: block;"><rect fill="none" class="djs-outline" x="619" y="457" width="48" height="65"></rect><g class="djs-visual"><polyline points="625,516 661,463 " fill="none" stroke="#000000" style="stroke-width: 2px; stroke-dasharray: 1px, 6px; stroke-linecap: round;"></polyline></g><polyline points="625,516 661,463 " fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></polyline></g></g></g></g><g class="djs-group"><g data-element-id="DataStoreReference_1" transform="matrix(1,0,0,1,574,516)" class="djs-element djs-shape" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="75" height="73"></rect><g class="djs-visual"><path d="m  0,8.113 l  0,45 c  2.0655737704918034,10 59.9016393442623,10  61.9672131147541,0 l  0,-45 c -2.0655737704918034,-10 -59.9016393442623,-10 -61.9672131147541,0c  2.0655737704918034,10 59.9016393442623,10  61.9672131147541,0 m  -61.9672131147541,7c  2.0655737704918034,10 59.9016393442623,10 61.9672131147541,0m  -61.9672131147541,7c  2.0655737704918034,10 59.9016393442623,10  61.9672131147541,0" fill="#ffffff" stroke="#000000" style="stroke-width: 2px;"></path></g><rect x="0" y="0" width="63" height="61" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="DataStoreReference_1_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,517,582)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="188" height="34"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="17.3828125" y="12">Financial Accounting System</tspan></text></g><rect x="0" y="0" width="176" height="22" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="invoiceNotApproved" class="djs-element djs-connection" style="display: block;"><rect fill="none" class="djs-outline" x="502" y="86" width="52" height="164"></rect><g class="djs-visual"><path d="m  508,244L508,92 L548,92 " fill="none" stroke="#000000" style="stroke-width: 2px; marker-end: url(#markerSibcmmucua0);"></path></g><polyline points="508,244 508,92 548,92 " fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></polyline></g></g><g class="djs-group"><g data-element-id="invoiceNotApproved_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,447,216)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="102" height="38"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="38.875" y="12">no</tspan></text></g><rect x="0" y="0" width="90" height="26" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="sequenceFlow_180" class="djs-element djs-connection" style="display: block;"><rect fill="none" class="djs-outline" x="447" y="258" width="47" height="12"></rect><g class="djs-visual"><path d="m  453,264L488,264 " fill="none" stroke="#000000" style="stroke-width: 2px; marker-end: url(#markerSibcmmucua0);"></path></g><polyline points="453,264 488,264 " fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></polyline></g></g><g class="djs-group"><g data-element-id="sequenceFlow_180_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,426,264)" style="display: none;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="102" height="12"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="45" y="0"></tspan></text></g><rect x="0" y="0" width="90" height="0" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="sequenceFlow_183" class="djs-element djs-connection" style="display: block;"><rect fill="none" class="djs-outline" x="642" y="86" width="57" height="12"></rect><g class="djs-visual"><path d="m  648,92L693,92 " fill="none" stroke="#000000" style="stroke-width: 2px; marker-end: url(#markerSibcmmucua0);"></path></g><polyline points="648,92 693,92 " fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></polyline></g></g><g class="djs-group"><g data-element-id="sequenceFlow_183_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,626,92)" style="display: none;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="102" height="12"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="45" y="0"></tspan></text></g><rect x="0" y="0" width="90" height="0" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="invoiceApproved" class="djs-element djs-connection" style="display: block;"><rect fill="none" class="djs-outline" x="522" y="258" width="122" height="171"></rect><g class="djs-visual"><path d="m  528,264L587,264 L587,423 L638,423 " fill="none" stroke="#000000" style="stroke-width: 2px; marker-end: url(#markerSibcmmucua0);"></path></g><polyline points="528,264 587,264 587,423 638,423 " fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></polyline></g></g><g class="djs-group"><g data-element-id="invoiceApproved_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,511,237)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="102" height="38"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="36.4375" y="12">yes</tspan></text></g><rect x="0" y="0" width="90" height="26" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="reviewNotSuccessful" class="djs-element djs-connection" style="display: block;"><rect fill="none" class="djs-outline" x="727" y="86" width="191" height="12"></rect><g class="djs-visual"><path d="m  733,92L912,92 " fill="none" stroke="#000000" style="stroke-width: 2px; marker-end: url(#markerSibcmmucua0);"></path></g><polyline points="733,92 912,92 " fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></polyline></g></g><g class="djs-group"><g data-element-id="reviewNotSuccessful_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,711,91)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="102" height="38"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="38.875" y="12">no</tspan></text></g><rect x="0" y="0" width="90" height="26" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="reviewSuccessful" class="djs-element djs-connection" style="display: block;"><rect fill="none" class="djs-outline" x="397" y="29" width="322" height="201"></rect><g class="djs-visual"><path d="m  713,72L713,35 L403,35 L403,224 " fill="none" stroke="#000000" style="stroke-width: 2px; marker-end: url(#markerSibcmmucua0);"></path></g><polyline points="713,72 713,35 403,35 403,224 " fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></polyline></g></g><g class="djs-group"><g data-element-id="reviewSuccessful_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,691,36)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="102" height="38"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="36.4375" y="12">yes</tspan></text></g><rect x="0" y="0" width="90" height="26" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="sequenceFlow_178" class="djs-element djs-connection" style="display: block;"><rect fill="none" class="djs-outline" x="274" y="86" width="85" height="184"></rect><g class="djs-visual"><path d="m  280,92L310,92 L310,264 L353,264 " fill="none" stroke="#000000" style="stroke-width: 2px; marker-end: url(#markerSibcmmucua0);"></path></g><polyline points="280,92 310,92 310,264 353,264 " fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></polyline></g></g><g class="djs-group"><g data-element-id="sequenceFlow_178_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,265,185)" style="display: none;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="102" height="12"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="45" y="0"></tspan></text></g><rect x="0" y="0" width="90" height="0" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="SequenceFlow_2" class="djs-element djs-connection" style="display: block;"><rect fill="none" class="djs-outline" x="732" y="417" width="54" height="12"></rect><g class="djs-visual"><path d="m  738,423L780,423 " fill="none" stroke="#000000" style="stroke-width: 2px; marker-end: url(#markerSibcmmucua0);"></path></g><polyline points="738,423 780,423 " fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></polyline></g></g><g class="djs-group"><g data-element-id="SequenceFlow_2_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,703,423)" style="display: none;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="102" height="18"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="45" y="0"></tspan></text></g><rect x="0" y="0" width="90" height="6" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="SequenceFlow_1" class="djs-element djs-connection" style="display: block;"><rect fill="none" class="djs-outline" x="118" y="86" width="68" height="12"></rect><g class="djs-visual"><path d="m  124,92L180,92 " fill="none" stroke="#000000" style="stroke-width: 2px; marker-end: url(#markerSibcmmucua0);"></path></g><polyline points="124,92 180,92 " fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></polyline></g></g><g class="djs-group"><g data-element-id="SequenceFlow_1_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,107,82)" style="display: none;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="102" height="32"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="45" y="0"></tspan></text></g><rect x="0" y="0" width="90" height="20" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="SequenceFlow_3" class="djs-element djs-connection" style="display: block;"><rect fill="none" class="djs-outline" x="874" y="417" width="61" height="12"></rect><g class="djs-visual"><path d="m  880,423L929,423 " fill="none" stroke="#000000" style="stroke-width: 2px; marker-end: url(#markerSibcmmucua0);"></path></g><polyline points="880,423 929,423 " fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></polyline></g></g><g class="djs-group"><g data-element-id="SequenceFlow_3_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,871,423)" style="display: none;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="102" height="18"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="45" y="0"></tspan></text></g><rect x="0" y="0" width="90" height="6" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g></g></g></svg></div></div></div>
-
-  <!-- ngIf: !disableNavigation --><div ng-if="!disableNavigation" class="navigation zoom ng-scope">
-    <button class="btn btn-default in" title="zoom in" ng-click="zoomIn()">
-      <span class="glyphicon glyphicon-plus"></span>
-    </button>
-    <button class="btn btn-default out" title="zoom out" ng-click="zoomOut()">
-      <span class="glyphicon glyphicon-minus"></span>
-    </button>
-  </div><!-- end ngIf: !disableNavigation -->
-
-  <!-- ngIf: !disableNavigation --><div ng-if="!disableNavigation" class="navigation reset ng-scope">
-    <button class="btn btn-default" title="reset zoom" ng-click="resetZoom()">
-      <span class="glyphicon glyphicon-screenshot"></span>
-    </button>
-  </div><!-- end ngIf: !disableNavigation -->
-</div>
-</div>
-</div>
+      <div class="process-instances">
+        <label>Running Instances</label>
+        <ul>
+          <li>
+            of the selected version:
+            <label>3</label>
+          </li>
+          <li>
+            of all versions:
+            <label>3</label>
+          </li>
+        </ul>
       </div>
-
-      <!-- content bottom pane -->
-      <div class="ctn-row ctn-content-bottom ctn-tabbed" ctn-collapsable="bottom" style="height: 350px;">
-        <div ng-show="processDefinitionTabs.length" class="">
-          <ul class="nav nav-tabs">
-            <!-- ngRepeat: tabProvider in processDefinitionTabs --><li ng-class="{ active: selectedTab == tabProvider }" ng-repeat="tabProvider in processDefinitionTabs" class="ng-scope active">
-              <a href="" ng-click="selectTab(tabProvider)" class="ng-binding">Process Instances</a>
-            </li><!-- end ngRepeat: tabProvider in processDefinitionTabs --><li ng-class="{ active: selectedTab == tabProvider }" ng-repeat="tabProvider in processDefinitionTabs" class="ng-scope">
-              <a href="" ng-click="selectTab(tabProvider)" class="ng-binding">Called Process Definitions</a>
-            </li><!-- end ngRepeat: tabProvider in processDefinitionTabs --><li ng-class="{ active: selectedTab == tabProvider }" ng-repeat="tabProvider in processDefinitionTabs" class="ng-scope">
-              <a href="" ng-click="selectTab(tabProvider)" class="ng-binding">Job Definitions</a>
-            </li><!-- end ngRepeat: tabProvider in processDefinitionTabs -->
-          </ul>
-
-          <div class="ctn-tabbed-content ctn-scroll">
-            <view provider="selectedTab" vars="processDefinitionVars"><!-- # CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/process-instance-table.html -->
-<div cam-widget-loader="" loading-state="LOADED" text-empty="No process instances matched by current filter." class="ng-scope ng-isolate-scope"><div class="loader-state loaded" ng-show="loadingState === 'LOADED'" ng-transclude="">
-  <table class="process-instances cam-table ng-scope">
-    <thead>
-      <tr>
-        <th class="state">State</th>
-        <th class="instance-id uuid">ID</th>
-        <th class="start-time">Start Time</th>
-        <th class="business-key">Business Key</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- ngRepeat: processInstance in processInstances --><tr ng-repeat="processInstance in processInstances" class="ng-scope">
-        <td class="state">
-          <a state-circle="" incidents="processInstance.incidents" ng-href="#/process-instance/1447aafe-1b76-11e5-be07-a44e31a96f6c?detailsTab=incidents-tab" class="circle circle-green" href="#/process-instance/1447aafe-1b76-11e5-be07-a44e31a96f6c?detailsTab=incidents-tab"></a>
-          <span class="badge badge-warning badge-suspended ng-scope ng-hide" ng-show="processInstance.suspended" tooltip="Currently suspended" tooltip-placement="left">
-            <span class="glyphicon glyphicon-pause white"></span>
-          </span>
-        </td>
-
-        <td class="instance-id uuid">
-          <a href="#/process-instance/1447aafe-1b76-11e5-be07-a44e31a96f6c" title="1447aafe-1b76-11e5-be07-a44e31a96f6c" class="ng-binding">
-            1447aafe-1b76-11e5-be07-a44e31a96f6c
-          </a>
-        </td>
-
-        <td class="start-time ng-binding">
-          2015-06-25T22:09:00
-        </td>
-
-        <td class="business-key ng-binding">
-
-        </td>
-      </tr><!-- end ngRepeat: processInstance in processInstances --><tr ng-repeat="processInstance in processInstances" class="ng-scope">
-        <td class="state">
-          <a state-circle="" incidents="processInstance.incidents" ng-href="#/process-instance/1431d8fc-1b76-11e5-be07-a44e31a96f6c?detailsTab=incidents-tab" class="circle circle-green" href="#/process-instance/1431d8fc-1b76-11e5-be07-a44e31a96f6c?detailsTab=incidents-tab"></a>
-          <span class="badge badge-warning badge-suspended ng-scope ng-hide" ng-show="processInstance.suspended" tooltip="Currently suspended" tooltip-placement="left">
-            <span class="glyphicon glyphicon-pause white"></span>
-          </span>
-        </td>
-
-        <td class="instance-id uuid">
-          <a href="#/process-instance/1431d8fc-1b76-11e5-be07-a44e31a96f6c" title="1431d8fc-1b76-11e5-be07-a44e31a96f6c" class="ng-binding">
-            1431d8fc-1b76-11e5-be07-a44e31a96f6c
-          </a>
-        </td>
-
-        <td class="start-time ng-binding">
-          2015-06-25T22:09:00
-        </td>
-
-        <td class="business-key ng-binding">
-
-        </td>
-      </tr><!-- end ngRepeat: processInstance in processInstances --><tr ng-repeat="processInstance in processInstances" class="ng-scope">
-        <td class="state">
-          <a state-circle="" incidents="processInstance.incidents" ng-href="#/process-instance/141e02d1-1b76-11e5-be07-a44e31a96f6c?detailsTab=incidents-tab" class="circle circle-green" href="#/process-instance/141e02d1-1b76-11e5-be07-a44e31a96f6c?detailsTab=incidents-tab"></a>
-          <span class="badge badge-warning badge-suspended ng-scope ng-hide" ng-show="processInstance.suspended" tooltip="Currently suspended" tooltip-placement="left">
-            <span class="glyphicon glyphicon-pause white"></span>
-          </span>
-        </td>
-
-        <td class="instance-id uuid">
-          <a href="#/process-instance/141e02d1-1b76-11e5-be07-a44e31a96f6c" title="141e02d1-1b76-11e5-be07-a44e31a96f6c" class="ng-binding">
-            141e02d1-1b76-11e5-be07-a44e31a96f6c
-          </a>
-        </td>
-
-        <td class="start-time ng-binding">
-          2015-06-25T22:09:00
-        </td>
-
-        <td class="business-key ng-binding">
-
-        </td>
-      </tr><!-- end ngRepeat: processInstance in processInstances -->
-    </tbody>
-  </table>
-
-  <!-- ngIf: pages.total > pages.size -->
-</div>
-
-<!-- ngIf: loadingState === 'LOADING' -->
-
-<!-- ngIf: loadingState === 'EMPTY' -->
-
-<!-- ngIf: loadingState === 'ERROR' -->
-</div>
-<!-- / CE - camunda-bpm-webapp/webapp/src/main/resources-plugin/base/app/views/processDefinition/process-instance-table.html -->
-</view>
-          </div>
-        </div>
+      <h5>
+      Filter
+      <div class="btn-group btn-control dropdown">
+        <button class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="glyphicon glyphicon-plus-sign"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="">
+              by variable
+            </a>
+          </li>
+          <li>
+            <a href="">
+              by business key
+            </a>
+          </li>
+          <li>
+            <a href="">
+              by start date
+            </a>
+          </li>
+        </ul>
       </div>
-
-      <a class="show-collapsable expand-collapse" title="Show sidebar" style="display: none;"><i class="glyphicon glyphicon-chevron-right"></i></a>
-    <div class="resize-handle horizontal ui-draggable" style="top: 275px;"></div></div>
-  <div class="resize-handle vertical ui-draggable" style="left: 280px;"></div></div>
-
-</div><!-- end .ctn-fixed-view -->
-<!-- / CE - camunda-cockpit-ui/client/scripts/pages/process-definition.html -->
-</div>
+      </h5>
+      <form name="filterForm" novalidate="" class="ng-pristine ng-valid">
+        <ul class="list-unstyled">
+        </ul>
+      </form>
+      <div class="footer ng-hide">
+        <span class="glyphicon glyphicon-refresh animate-spin"></span> refreshing…
       </div>
     </div>
-
-    <!-- footer -->
-    <footer cam-widget-footer="" version="v7.3.0" class="ng-isolate-scope"><div class="container-fluid">
-  <div class="row">
-    <div class="col-xs-12">
-      Powered by <a href="http://camunda.org">camunda BPM</a> /
-      <span class="version ng-binding">v7.3.0</span>
-    </div>
+    <a class="hide-collapsable pull-right expand-collapse" title="Hide sidebar" style="display: block;"><i class="glyphicon glyphicon-chevron-left"></i></a>
   </div>
+  <div class="ctn-column ctn-content" ctn-collapsable-parent="tabs" style="left: 280px;">
+    <div class="ctn-row ctn-content-top" style="bottom: 350px;">
+      <div process-diagram="processDiagram" on-element-click="handleBpmnElementSelection(id, $event)" selection="filter" process-data="processData" provider-component="cockpit.processDefinition.diagram.overlay" class="ng-isolate-scope"><div  diagram-data="diagramData" control="control" on-load="onLoad()" on-click="onClick(element, $event)" on-mouse-enter="onMouseEnter(element, $event)" on-mouse-leave="onMouseLeave(element, $event)" style="height: 100%" class="ng-isolate-scope">
+        <div>
+          <div class="diagram-holder grab-cursor"><div class="bjs-container" style="width: 100%; height: 100%; position: relative;"><a href="http://bpmn.io" target="_blank" class="bjs-powered-by" title="Powered by bpmn.io" style="position: absolute; bottom: 15px; right: 15px; z-index: 100"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAMAAADypuvZAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAADBQTFRFiMte9PrwldFwfcZPqtqN0+zEyOe1XLgjvuKncsJAZ70y6fXh3vDT////UrQV////G2zN+AAAABB0Uk5T////////////////////AOAjXRkAAAHDSURBVHjavJZJkoUgDEBJmAX8979tM8u3E6x20VlYJfFFMoL4vBDxATxZcakIOJTWSmxvKWVIkJ8jHvlRv1F2LFrVISCZI+tCtQx+XfewgVTfyY3plPiQEAzI3zWy+kR6NBhFBYeBuscJLOUuA2WVLpCjVIaFzrNQZArxAZKUQm6gsj37L9Cb7dnIBUKxENaaMJQqMpDXvSL+ktxdGRm2IsKgJGGPg7atwUG5CcFUEuSv+CwQqizTrvDTNXdMU2bMiDWZd8d7QIySWVRsb2vBBioxOFt4OinPBapL+neAb5KL5IJ8szOza2/DYoipUCx+CjO0Bpsv0V6mktNZ+k8rlABlWG0FrOpKYVo8DT3dBeLEjUBAj7moDogVii7nSS9QzZnFcOVBp1g2PyBQ3Vr5aIapN91VJy33HTJLC1iX2FY6F8gRdaAeIEfVONgtFCzZTmoLEdOjBDfsIOA6128gw3eu1shAajdZNAORxuQDJN5A5PbEG6gNIu24QJD5iNyRMZIr6bsHbCtCU/OaOaSvgkUyDMdDa1BXGf5HJ1To+/Ym6mCKT02Y+/Sa126ZKyd3jxhzpc1r8zVL6YM1Qy/kR4ABAFJ6iQUnivhAAAAAAElFTkSuQmCC"></a><div class="djs-container" style="position: relative; overflow: hidden; width: 100%; height: 100%;"><div class="djs-overlay-container" style="position: absolute; width: 0px; height: 0px; transform: matrix(0.443, 0, 0, 0.443, 291.915, 2.659);"><div class="djs-overlays djs-overlays-collaboration_3" style="position: absolute"><div id="ov-937355758-1" class="djs-overlay" style="position: absolute; left: 0px; top: 0px;"><div class="bpmn-overlay ">
+          <span class="activity-bottom-left-position  ng-hide">
+            <span class="badge   ng-hide"   >
+            </span>
+            <span class="badge badge-important  ng-hide"   >!</span>
+          </span>
+        </div>
+        <span class="badge badge-warning activity-top-right-position  ng-hide"  >
+          <span class="glyphicon glyphicon-pause"></span>
+        </span>
+      </div>
+      <span class="activity-bottom-left-position  ng-hide">
+        <span class="badge   ng-hide"   >
+        </span>
+        <span class="badge badge-important  ng-hide"   >!</span>
+      </span>
+    </div>
+    <span class="badge badge-warning activity-top-right-position  ng-hide"  >
+      <span class="glyphicon glyphicon-pause"></span>
+    </span>
+  </div>
+  <span class="activity-bottom-left-position  ng-hide">
+    <span class="badge   ng-hide"   >
+    </span>
+    <span class="badge badge-important  ng-hide"   >!</span>
+  </span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+  <span class="glyphicon glyphicon-pause"></span>
+</span>
+</div>
+<span class="activity-bottom-left-position  ng-hide">
+<span class="badge   ng-hide"   >
+</span>
+<span class="badge badge-important  ng-hide"   >!</span>
+</span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+<span class="glyphicon glyphicon-pause"></span>
+</span>
+</div>
+<span class="activity-bottom-left-position  ng-hide">
+<span class="badge   ng-hide"   >
+</span>
+<span class="badge badge-important  ng-hide"   >!</span>
+</span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+<span class="glyphicon glyphicon-pause"></span>
+</span>
+</div>
+<span class="activity-bottom-left-position ">
+<span class="badge  "   >
+1
+</span>
+<span class="badge badge-important  ng-hide"   >!</span>
+</span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+<span class="glyphicon glyphicon-pause"></span>
+</span>
+</div>
+<span class="activity-bottom-left-position  ng-hide">
+<span class="badge   ng-hide"   >
+</span>
+<span class="badge badge-important  ng-hide"   >!</span>
+</span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+<span class="glyphicon glyphicon-pause"></span>
+</span>
+</div>
+<span class="activity-bottom-left-position ">
+<span class="badge  "   >
+1
+</span>
+<span class="badge badge-important  ng-hide"   >!</span>
+</span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+<span class="glyphicon glyphicon-pause"></span>
+</span>
+</div>
+<span class="activity-bottom-left-position  ng-hide">
+<span class="badge   ng-hide"   >
+</span>
+<span class="badge badge-important  ng-hide"   >!</span>
+</span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+<span class="glyphicon glyphicon-pause"></span>
+</span>
+</div>
+<span class="activity-bottom-left-position  ng-hide">
+<span class="badge   ng-hide"   >
+</span>
+<span class="badge badge-important  ng-hide"   >!</span>
+</span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+<span class="glyphicon glyphicon-pause"></span>
+</span>
+</div>
+<span class="activity-bottom-left-position  ng-hide">
+<span class="badge   ng-hide"   >
+</span>
+<span class="badge badge-important  ng-hide"   >!</span>
+</span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+<span class="glyphicon glyphicon-pause"></span>
+</span>
+</div>
+<span class="activity-bottom-left-position  ng-hide">
+<span class="badge   ng-hide"   >
+</span>
+<span class="badge badge-important  ng-hide"   >!</span>
+</span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+<span class="glyphicon glyphicon-pause"></span>
+</span>
+</div>
+<span class="activity-bottom-left-position  ng-hide">
+<span class="badge   ng-hide"   >
+</span>
+<span class="badge badge-important  ng-hide"   >!</span>
+</span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+<span class="glyphicon glyphicon-pause"></span>
+</span>
+</div>
+<span class="activity-bottom-left-position  ng-hide">
+<span class="badge   ng-hide"   >
+</span>
+<span class="badge badge-important  ng-hide"   >!</span>
+</span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+<span class="glyphicon glyphicon-pause"></span>
+</span>
+</div>
+<span class="activity-bottom-left-position  ng-hide">
+<span class="badge   ng-hide"   >
+</span>
+<span class="badge badge-important  ng-hide"   >!</span>
+</span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+<span class="glyphicon glyphicon-pause"></span>
+</span>
+</div>
+<span class="activity-bottom-left-position  ng-hide">
+<span class="badge   ng-hide"   >
+</span>
+<span class="badge badge-important  ng-hide"   >!</span>
+</span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+<span class="glyphicon glyphicon-pause"></span>
+</span>
+</div>
+<span class="activity-bottom-left-position  ng-hide">
+<span class="badge   ng-hide"   >
+</span>
+<span class="badge badge-important  ng-hide"   >!</span>
+</span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+<span class="glyphicon glyphicon-pause"></span>
+</span>
+</div>
+<span class="activity-bottom-left-position ">
+<span class="badge  "   >
+1
+</span>
+<span class="badge badge-important  ng-hide"   >!</span>
+</span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+<span class="glyphicon glyphicon-pause"></span>
+</span>
+</div>
+<span class="activity-bottom-left-position  ng-hide">
+<span class="badge   ng-hide"   >
+</span>
+<span class="badge badge-important  ng-hide"   >!</span>
+</span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+<span class="glyphicon glyphicon-pause"></span>
+</span>
+</div>
+<span class="activity-bottom-left-position  ng-hide">
+<span class="badge   ng-hide"   >
+</span>
+<span class="badge badge-important  ng-hide"   >!</span>
+</span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+<span class="glyphicon glyphicon-pause"></span>
+</span>
+</div>
+<span class="activity-bottom-left-position  ng-hide">
+<span class="badge   ng-hide"   >
+</span>
+<span class="badge badge-important  ng-hide"   >!</span>
+</span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+<span class="glyphicon glyphicon-pause"></span>
+</span>
+</div>
+<span class="activity-bottom-left-position  ng-hide">
+<span class="badge   ng-hide"   >
+</span>
+<span class="badge badge-important  ng-hide"   >!</span>
+</span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+<span class="glyphicon glyphicon-pause"></span>
+</span>
+</div>
+<span class="activity-bottom-left-position  ng-hide">
+<span class="badge   ng-hide"   >
+</span>
+<span class="badge badge-important  ng-hide"   >!</span>
+</span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+<span class="glyphicon glyphicon-pause"></span>
+</span>
+</div>
+<span class="activity-bottom-left-position  ng-hide">
+<span class="badge   ng-hide"   >
+</span>
+<span class="badge badge-important  ng-hide"   >!</span>
+</span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+<span class="glyphicon glyphicon-pause"></span>
+</span>
+</div>
+<span class="activity-bottom-left-position  ng-hide">
+<span class="badge   ng-hide"   >
+</span>
+<span class="badge badge-important  ng-hide"   >!</span>
+</span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+<span class="glyphicon glyphicon-pause"></span>
+</span>
+</div>
+<span class="activity-bottom-left-position  ng-hide">
+<span class="badge   ng-hide"   >
+</span>
+<span class="badge badge-important  ng-hide"   >!</span>
+</span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+<span class="glyphicon glyphicon-pause"></span>
+</span>
+</div>
+<span class="activity-bottom-left-position  ng-hide">
+<span class="badge   ng-hide"   >
+</span>
+<span class="badge badge-important  ng-hide"   >!</span>
+</span>
+</div>
+<span class="badge badge-warning activity-top-right-position  ng-hide"  >
+<span class="glyphicon glyphicon-pause"></span>
+</span>
+</div></div></div></div></div><svg width="100%" height="100%" data-element-id="collaboration_3"><desc>Created with Snap</desc><defs><marker viewBox="0 0 20 20" markerWidth="10" markerHeight="10" orient="auto" refX="11" refY="10" id="markerSibcmmucua0"><path d="M 1 5 L 11 10 L 1 15 Z" fill="#000000" style="stroke-width: 1px; stroke-linecap: round; stroke-dasharray: 10000px, 1px;"></path></marker><marker viewBox="0 0 20 20" markerWidth="20" markerHeight="20" orient="auto" refX="6" refY="6" id="markerSibcmmucua2"><circle cx="6" cy="6" r="5" fill="#ffffff" stroke="#000000" style="stroke-width: 1px; stroke-linecap: round; stroke-dasharray: 10000px, 1px;"></circle></marker><marker viewBox="0 0 20 20" markerWidth="20" markerHeight="20" orient="auto" refX="11" refY="10" id="markerSibcmmucua4"><path d="M 1 5 L 11 10 L 1 15 Z" fill="#ffffff" stroke="#000000" style="stroke-width: 1px; stroke-linecap: round; stroke-dasharray: 10000px, 1px;"></path></marker><marker viewBox="0 0 20 20" markerWidth="10" markerHeight="10" orient="auto" refX="11" refY="10" id="markerSibcmmucua6"><path d="M 1 5 L 11 10 L 1 15" fill="#ffffff" stroke="#000000" style="stroke-width: 1px; stroke-linecap: round; stroke-dasharray: 10000px, 1px;"></path></marker><marker viewBox="0 0 20 20" markerWidth="10" markerHeight="10" orient="auto" refX="-1" refY="10" id="markerSibcmmucua8"><path d="M 0 10 L 8 6 L 16 10 L 8 14 Z" fill="#ffffff" stroke="#000000" style="stroke-width: 1px; stroke-linecap: round; stroke-dasharray: 10000px, 1px;"></path></marker><marker viewBox="0 0 20 20" markerWidth="10" markerHeight="10" orient="auto" refX="-5" refY="10" id="markerSibcmmucuaa"><path d="M 1 4 L 5 16" fill="#000000" stroke="#000000" style="stroke-width: 1px; stroke-linecap: round; stroke-dasharray: 10000px, 1px;"></path></marker></defs><g class="viewport" transform="matrix(0.4432,0,0,0.4432,291.9148,2.6591)"><g data-element-id="collaboration_3" class="layer-base"><g class="djs-group"><g data-element-id="Process_Engine_1" class="djs-element djs-shape" transform="matrix(1,0,0,1,0,0)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="1021" height="498"></rect><g class="djs-visual"><rect x="0" y="0" width="1009" height="486" rx="0" ry="0" stroke="#000000" fill="none" style="stroke-width: 2px;"></rect><polyline points="30,0 30,486 " fill="none" stroke="#000000" style="stroke-width: 2px;"></polyline><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 12px;" transform="matrix(0,-1,1,0,0,486)"><tspan x="201.9765625" y="18.5">Invoice Receipt</tspan></text></g><rect x="0" y="0" width="1009" height="486" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g><g class="djs-children"><g class="djs-group"><g data-element-id="Approver" class="djs-element djs-shape" transform="matrix(1,0,0,1,30,182)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="991" height="173"></rect><g class="djs-visual"><rect x="0" y="0" width="979" height="161" rx="0" ry="0" stroke="#000000" fill="none" style="stroke-width: 2px;"></rect><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 12px;" transform="matrix(0,-1,1,0,0,161)"><tspan x="56.1484375" y="18.5">Approver</tspan></text></g><rect x="0" y="0" width="979" height="161" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g><g class="djs-children"><g class="djs-group"><g data-element-id="approveInvoice" class="djs-element djs-shape" transform="matrix(1,0,0,1,353,224)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="112" height="92"></rect><g class="djs-visual"><rect x="0" y="0" width="100" height="80" rx="10" ry="10" stroke="#000000" fill="#ffffff" style="stroke-width: 2px;"></rect><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 12px;"><tspan x="6.96875" y="43.5">Approve Invoice</tspan></text><path d="m 15,12 c 0.909,-0.845 1.594,-2.049 1.594,-3.385 0,-2.554 -1.805,-4.62199999 -4.357,-4.62199999 -2.55199998,0 -4.28799998,2.06799999 -4.28799998,4.62199999 0,1.348 0.974,2.562 1.89599998,3.405 -0.52899998,0.187 -5.669,2.097 -5.794,4.7560005 v 6.718 h 17 v -6.718 c 0,-2.2980005 -5.5279996,-4.5950005 -6.0509996,-4.7760005 zm -8,6 l 0,5.5 m 11,0 l 0,-5" fill="none" stroke="#000000" style="stroke-width: 0.5px;"></path><path d="m 15,12 m 2.162,1.009 c 0,2.4470005 -2.158,4.4310005 -4.821,4.4310005 -2.66499998,0 -4.822,-1.981 -4.822,-4.4310005 " fill="none" stroke="#000000" style="stroke-width: 0.5px;"></path><path d="m 15,12 m -6.9,-3.80 c 0,0 2.25099998,-2.358 4.27399998,-1.177 2.024,1.181 4.221,1.537 4.124,0.965 -0.098,-0.57 -0.117,-3.79099999 -4.191,-4.13599999 -3.57499998,0.001 -4.20799998,3.36699999 -4.20699998,4.34799999 z" fill="#000000" stroke="#000000" style="stroke-width: 0.5px;"></path></g><rect x="0" y="0" width="100" height="80" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="invoice_approved" transform="matrix(1,0,0,1,488,244)" class="djs-element djs-shape" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="52" height="52"></rect><g class="djs-visual"><polygon points="20,0,40,20,20,40,0,20" stroke="#000000" fill="#ffffff" style="stroke-width: 2px;"></polygon><path d="m 12.8,12 5.942857142857143,7.771428571428571 -5.942857142857143,7.771428571428571 2.742857142857143,0 4.571428571428571,-5.971382857142857 4.571428571428571,5.971382857142857 2.742857142857143,0 -5.942857142857143,-7.771428571428571 5.942857142857143,-7.771428571428571 -2.742857142857143,0 -4.571428571428571,5.971382857142857 -4.571428571428571,-5.971382857142857 -2.742857142857143,0 z" fill="#000000" stroke="#000000" style="stroke-width: 1px;"></path></g><rect x="0" y="0" width="40" height="40" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="invoice_approved_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,455,289)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="119" height="34"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="36.0703125" y="12">Invoice</tspan><tspan x="27.5" y="24">approved?</tspan></text></g><rect x="0" y="0" width="107" height="22" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g></g></g><g class="djs-group"><g data-element-id="teamAssistant" class="djs-element djs-shape" transform="matrix(1,0,0,1,30,0)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="991" height="195"></rect><g class="djs-visual"><rect x="0" y="0" width="979" height="183" rx="0" ry="0" stroke="#000000" fill="none" style="stroke-width: 2px;"></rect><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 12px;" transform="matrix(0,-1,1,0,0,183)"><tspan x="50.1484375" y="18.5">Team Assistant</tspan></text></g><rect x="0" y="0" width="979" height="183" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g><g class="djs-children"><g class="djs-group"><g data-element-id="reviewInvoice" class="djs-element djs-shape" transform="matrix(1,0,0,1,548,52)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="112" height="92"></rect><g class="djs-visual"><rect x="0" y="0" width="100" height="80" rx="10" ry="10" stroke="#000000" fill="#ffffff" style="stroke-width: 2px;"></rect><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 12px;"><tspan x="9.6484375" y="43.5">Review Invoice</tspan></text><path d="m 15,12 c 0.909,-0.845 1.594,-2.049 1.594,-3.385 0,-2.554 -1.805,-4.62199999 -4.357,-4.62199999 -2.55199998,0 -4.28799998,2.06799999 -4.28799998,4.62199999 0,1.348 0.974,2.562 1.89599998,3.405 -0.52899998,0.187 -5.669,2.097 -5.794,4.7560005 v 6.718 h 17 v -6.718 c 0,-2.2980005 -5.5279996,-4.5950005 -6.0509996,-4.7760005 zm -8,6 l 0,5.5 m 11,0 l 0,-5" fill="none" stroke="#000000" style="stroke-width: 0.5px;"></path><path d="m 15,12 m 2.162,1.009 c 0,2.4470005 -2.158,4.4310005 -4.821,4.4310005 -2.66499998,0 -4.822,-1.981 -4.822,-4.4310005 " fill="none" stroke="#000000" style="stroke-width: 0.5px;"></path><path d="m 15,12 m -6.9,-3.80 c 0,0 2.25099998,-2.358 4.27399998,-1.177 2.024,1.181 4.221,1.537 4.124,0.965 -0.098,-0.57 -0.117,-3.79099999 -4.191,-4.13599999 -3.57499998,0.001 -4.20799998,3.36699999 -4.20699998,4.34799999 z" fill="#000000" stroke="#000000" style="stroke-width: 0.5px;"></path></g><rect x="0" y="0" width="100" height="80" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="reviewSuccessful_gw" transform="matrix(1,0,0,1,693,72)" class="djs-element djs-shape" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="52" height="52"></rect><g class="djs-visual"><polygon points="20,0,40,20,20,40,0,20" stroke="#000000" fill="#ffffff" style="stroke-width: 2px;"></polygon><path d="m 12.8,12 5.942857142857143,7.771428571428571 -5.942857142857143,7.771428571428571 2.742857142857143,0 4.571428571428571,-5.971382857142857 4.571428571428571,5.971382857142857 2.742857142857143,0 -5.942857142857143,-7.771428571428571 5.942857142857143,-7.771428571428571 -2.742857142857143,0 -4.571428571428571,5.971382857142857 -4.571428571428571,-5.971382857142857 -2.742857142857143,0 z" fill="#000000" stroke="#000000" style="stroke-width: 1px;"></path></g><rect x="0" y="0" width="40" height="40" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="reviewSuccessful_gw_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,656,117)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="126" height="34"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="38.9609375" y="12">Review</tspan><tspan x="28.2578125" y="24">successful?</tspan></text></g><rect x="0" y="0" width="114" height="22" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="assignApprover" class="djs-element djs-shape" transform="matrix(1,0,0,1,180,52)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="112" height="92"></rect><g class="djs-visual"><rect x="0" y="0" width="100" height="80" rx="10" ry="10" stroke="#000000" fill="#ffffff" style="stroke-width: 2px;"></rect><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 12px;"><tspan x="5.9765625" y="43.5">Assign Approver</tspan></text><path d="m 15,12 c 0.909,-0.845 1.594,-2.049 1.594,-3.385 0,-2.554 -1.805,-4.62199999 -4.357,-4.62199999 -2.55199998,0 -4.28799998,2.06799999 -4.28799998,4.62199999 0,1.348 0.974,2.562 1.89599998,3.405 -0.52899998,0.187 -5.669,2.097 -5.794,4.7560005 v 6.718 h 17 v -6.718 c 0,-2.2980005 -5.5279996,-4.5950005 -6.0509996,-4.7760005 zm -8,6 l 0,5.5 m 11,0 l 0,-5" fill="none" stroke="#000000" style="stroke-width: 0.5px;"></path><path d="m 15,12 m 2.162,1.009 c 0,2.4470005 -2.158,4.4310005 -4.821,4.4310005 -2.66499998,0 -4.822,-1.981 -4.822,-4.4310005 " fill="none" stroke="#000000" style="stroke-width: 0.5px;"></path><path d="m 15,12 m -6.9,-3.80 c 0,0 2.25099998,-2.358 4.27399998,-1.177 2.024,1.181 4.221,1.537 4.124,0.965 -0.098,-0.57 -0.117,-3.79099999 -4.191,-4.13599999 -3.57499998,0.001 -4.20799998,3.36699999 -4.20699998,4.34799999 z" fill="#000000" stroke="#000000" style="stroke-width: 0.5px;"></path></g><rect x="0" y="0" width="100" height="80" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="StartEvent_1" transform="matrix(1,0,0,1,96,78)" class="djs-element djs-shape" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="40" height="40"></rect><g class="djs-visual"><circle cx="14" cy="14" r="14" stroke="#000000" fill="#ffffff" style="stroke-width: 2px;"></circle></g><rect x="0" y="0" width="28" height="28" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="StartEvent_1_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,62,111)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="108" height="34"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="30.5703125" y="12">Invoice</tspan><tspan x="27.2109375" y="24">received</tspan></text></g><rect x="0" y="0" width="96" height="22" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="invoiceNotProcessed" transform="matrix(1,0,0,1,912,78)" class="djs-element djs-shape" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="40" height="40"></rect><g class="djs-visual"><circle cx="14" cy="14" r="14" stroke="#000000" fill="#ffffff" style="stroke-width: 4px;"></circle></g><rect x="0" y="0" width="28" height="28" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="invoiceNotProcessed_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,861,111)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="143" height="34"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="38.8984375" y="12">Invoice not</tspan><tspan x="40.1171875" y="24">processed</tspan></text></g><rect x="0" y="0" width="131" height="22" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g></g></g><g class="djs-group"><g data-element-id="Accountant" class="djs-element djs-shape" transform="matrix(1,0,0,1,30,342)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="991" height="156"></rect><g class="djs-visual"><rect x="0" y="0" width="979" height="144" rx="0" ry="0" stroke="#000000" fill="none" style="stroke-width: 2px;"></rect><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 12px;" transform="matrix(0,-1,1,0,0,144)"><tspan x="41.9765625" y="18.5">Accountant</tspan></text></g><rect x="0" y="0" width="979" height="144" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g><g class="djs-children"><g class="djs-group"><g data-element-id="prepareBankTransfer" class="djs-element djs-shape" transform="matrix(1,0,0,1,638,383)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="112" height="92"></rect><g class="djs-visual"><rect x="0" y="0" width="100" height="80" rx="10" ry="10" stroke="#000000" fill="#ffffff" style="stroke-width: 2px;"></rect><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 12px;"><tspan x="28.6484375" y="29.5">Prepare</tspan><tspan x="36.3203125" y="43.5">Bank</tspan><tspan x="27.65625" y="57.5">Transfer</tspan></text><path d="m 15,12 c 0.909,-0.845 1.594,-2.049 1.594,-3.385 0,-2.554 -1.805,-4.62199999 -4.357,-4.62199999 -2.55199998,0 -4.28799998,2.06799999 -4.28799998,4.62199999 0,1.348 0.974,2.562 1.89599998,3.405 -0.52899998,0.187 -5.669,2.097 -5.794,4.7560005 v 6.718 h 17 v -6.718 c 0,-2.2980005 -5.5279996,-4.5950005 -6.0509996,-4.7760005 zm -8,6 l 0,5.5 m 11,0 l 0,-5" fill="none" stroke="#000000" style="stroke-width: 0.5px;"></path><path d="m 15,12 m 2.162,1.009 c 0,2.4470005 -2.158,4.4310005 -4.821,4.4310005 -2.66499998,0 -4.822,-1.981 -4.822,-4.4310005 " fill="none" stroke="#000000" style="stroke-width: 0.5px;"></path><path d="m 15,12 m -6.9,-3.80 c 0,0 2.25099998,-2.358 4.27399998,-1.177 2.024,1.181 4.221,1.537 4.124,0.965 -0.098,-0.57 -0.117,-3.79099999 -4.191,-4.13599999 -3.57499998,0.001 -4.20799998,3.36699999 -4.20699998,4.34799999 z" fill="#000000" stroke="#000000" style="stroke-width: 0.5px;"></path></g><rect x="0" y="0" width="100" height="80" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="invoiceProcessed" transform="matrix(1,0,0,1,929,409)" class="djs-element djs-shape" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="40" height="40"></rect><g class="djs-visual"><circle cx="14" cy="14" r="14" stroke="#000000" fill="#ffffff" style="stroke-width: 4px;"></circle></g><rect x="0" y="0" width="28" height="28" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="invoiceProcessed_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,889,442)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="121" height="34"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="37.0703125" y="12">Invoice</tspan><tspan x="29.1171875" y="24">processed</tspan></text></g><rect x="0" y="0" width="109" height="22" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="ServiceTask_1" class="djs-element djs-shape selectable" transform="matrix(1,0,0,1,780,383)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="112" height="92" rx="14px" ry="14px"></rect><g class="djs-visual"><rect x="0" y="0" width="100" height="80" rx="10" ry="10" stroke="#000000" fill="#ffffff" style="stroke-width: 2px;"></rect><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 12px;"><tspan x="9.3125" y="43.5">Archive Invoice</tspan></text><path d="m 12,18 v -1.71335 c 0.352326,-0.0705 0.703932,-0.17838 1.047628,-0.32133 0.344416,-0.14465 0.665822,-0.32133 0.966377,-0.52145 l 1.19431,1.18005 1.567487,-1.57688 -1.195028,-1.18014 c 0.403376,-0.61394 0.683079,-1.29908 0.825447,-2.01824 l 1.622133,-0.01 v -2.2196 l -1.636514,0.01 c -0.07333,-0.35153 -0.178319,-0.70024 -0.323564,-1.04372 -0.145244,-0.34406 -0.321407,-0.6644 -0.522735,-0.96217 l 1.131035,-1.13631 -1.583305,-1.56293 -1.129598,1.13589 c -0.614052,-0.40108 -1.302883,-0.68093 -2.022633,-0.82247 l 0.0093,-1.61852 h -2.241173 l 0.0042,1.63124 c -0.353763,0.0736 -0.705369,0.17977 -1.049785,0.32371 -0.344415,0.14437 -0.665102,0.32092 -0.9635006,0.52046 l -1.1698628,-1.15823 -1.5667691,1.5792 1.1684265,1.15669 c -0.4026573,0.61283 -0.68308,1.29797 -0.8247287,2.01713 l -1.6588041,0.003 v 2.22174 l 1.6724648,-0.006 c 0.073327,0.35077 0.1797598,0.70243 0.3242851,1.04472 0.1452428,0.34448 0.3214064,0.6644 0.5227339,0.96066 l -1.1993431,1.19723 1.5840256,1.56011 1.1964668,-1.19348 c 0.6140517,0.40346 1.3028827,0.68232 2.0233517,0.82331 l 7.19e-4,1.69892 h 2.226848 z m 0.221462,-3.9957 c -1.788948,0.7502 -3.8576,-0.0928 -4.6097055,-1.87438 -0.7521065,-1.78321 0.090598,-3.84627 1.8802645,-4.59604 1.78823,-0.74936 3.856881,0.0929 4.608987,1.87437 0.752106,1.78165 -0.0906,3.84612 -1.879546,4.59605 z" fill="none" stroke="#000000" style="stroke-width: 1px;"></path><path d="m 17.2,18 c -1.788948,0.7502 -3.8576,-0.0928 -4.6097055,-1.87438 -0.7521065,-1.78321 0.090598,-3.84627 1.8802645,-4.59604 1.78823,-0.74936 3.856881,0.0929 4.608987,1.87437 0.752106,1.78165 -0.0906,3.84612 -1.879546,4.59605 z" fill="#ffffff" stroke="none" style="stroke-width: 0px;"></path><path d="m 17,22 v -1.71335 c 0.352326,-0.0705 0.703932,-0.17838 1.047628,-0.32133 0.344416,-0.14465 0.665822,-0.32133 0.966377,-0.52145 l 1.19431,1.18005 1.567487,-1.57688 -1.195028,-1.18014 c 0.403376,-0.61394 0.683079,-1.29908 0.825447,-2.01824 l 1.622133,-0.01 v -2.2196 l -1.636514,0.01 c -0.07333,-0.35153 -0.178319,-0.70024 -0.323564,-1.04372 -0.145244,-0.34406 -0.321407,-0.6644 -0.522735,-0.96217 l 1.131035,-1.13631 -1.583305,-1.56293 -1.129598,1.13589 c -0.614052,-0.40108 -1.302883,-0.68093 -2.022633,-0.82247 l 0.0093,-1.61852 h -2.241173 l 0.0042,1.63124 c -0.353763,0.0736 -0.705369,0.17977 -1.049785,0.32371 -0.344415,0.14437 -0.665102,0.32092 -0.9635006,0.52046 l -1.1698628,-1.15823 -1.5667691,1.5792 1.1684265,1.15669 c -0.4026573,0.61283 -0.68308,1.29797 -0.8247287,2.01713 l -1.6588041,0.003 v 2.22174 l 1.6724648,-0.006 c 0.073327,0.35077 0.1797598,0.70243 0.3242851,1.04472 0.1452428,0.34448 0.3214064,0.6644 0.5227339,0.96066 l -1.1993431,1.19723 1.5840256,1.56011 1.1964668,-1.19348 c 0.6140517,0.40346 1.3028827,0.68232 2.0233517,0.82331 l 7.19e-4,1.69892 h 2.226848 z m 0.221462,-3.9957 c -1.788948,0.7502 -3.8576,-0.0928 -4.6097055,-1.87438 -0.7521065,-1.78321 0.090598,-3.84627 1.8802645,-4.59604 1.78823,-0.74936 3.856881,0.0929 4.608987,1.87437 0.752106,1.78165 -0.0906,3.84612 -1.879546,4.59605 z" fill="#ffffff" stroke="#000000" style="stroke-width: 1px;"></path></g><rect x="0" y="0" width="100" height="80" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g></g></g><g class="djs-group"><g data-element-id="Association_1" class="djs-element djs-connection" style="display: block;"><rect fill="none" class="djs-outline" x="619" y="457" width="48" height="65"></rect><g class="djs-visual"><polyline points="625,516 661,463 " fill="none" stroke="#000000" style="stroke-width: 2px; stroke-dasharray: 1px, 6px; stroke-linecap: round;"></polyline></g><polyline points="625,516 661,463 " fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></polyline></g></g></g></g><g class="djs-group"><g data-element-id="DataStoreReference_1" transform="matrix(1,0,0,1,574,516)" class="djs-element djs-shape" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="75" height="73"></rect><g class="djs-visual"><path d="m  0,8.113 l  0,45 c  2.0655737704918034,10 59.9016393442623,10  61.9672131147541,0 l  0,-45 c -2.0655737704918034,-10 -59.9016393442623,-10 -61.9672131147541,0c  2.0655737704918034,10 59.9016393442623,10  61.9672131147541,0 m  -61.9672131147541,7c  2.0655737704918034,10 59.9016393442623,10 61.9672131147541,0m  -61.9672131147541,7c  2.0655737704918034,10 59.9016393442623,10  61.9672131147541,0" fill="#ffffff" stroke="#000000" style="stroke-width: 2px;"></path></g><rect x="0" y="0" width="63" height="61" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="DataStoreReference_1_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,517,582)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="188" height="34"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="17.3828125" y="12">Financial Accounting System</tspan></text></g><rect x="0" y="0" width="176" height="22" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="invoiceNotApproved" class="djs-element djs-connection" style="display: block;"><rect fill="none" class="djs-outline" x="502" y="86" width="52" height="164"></rect><g class="djs-visual"><path d="m  508,244L508,92 L548,92 " fill="none" stroke="#000000" style="stroke-width: 2px; marker-end: url(#markerSibcmmucua0);"></path></g><polyline points="508,244 508,92 548,92 " fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></polyline></g></g><g class="djs-group"><g data-element-id="invoiceNotApproved_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,447,216)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="102" height="38"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="38.875" y="12">no</tspan></text></g><rect x="0" y="0" width="90" height="26" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="sequenceFlow_180" class="djs-element djs-connection" style="display: block;"><rect fill="none" class="djs-outline" x="447" y="258" width="47" height="12"></rect><g class="djs-visual"><path d="m  453,264L488,264 " fill="none" stroke="#000000" style="stroke-width: 2px; marker-end: url(#markerSibcmmucua0);"></path></g><polyline points="453,264 488,264 " fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></polyline></g></g><g class="djs-group"><g data-element-id="sequenceFlow_180_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,426,264)" style="display: none;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="102" height="12"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="45" y="0"></tspan></text></g><rect x="0" y="0" width="90" height="0" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="sequenceFlow_183" class="djs-element djs-connection" style="display: block;"><rect fill="none" class="djs-outline" x="642" y="86" width="57" height="12"></rect><g class="djs-visual"><path d="m  648,92L693,92 " fill="none" stroke="#000000" style="stroke-width: 2px; marker-end: url(#markerSibcmmucua0);"></path></g><polyline points="648,92 693,92 " fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></polyline></g></g><g class="djs-group"><g data-element-id="sequenceFlow_183_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,626,92)" style="display: none;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="102" height="12"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="45" y="0"></tspan></text></g><rect x="0" y="0" width="90" height="0" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="invoiceApproved" class="djs-element djs-connection" style="display: block;"><rect fill="none" class="djs-outline" x="522" y="258" width="122" height="171"></rect><g class="djs-visual"><path d="m  528,264L587,264 L587,423 L638,423 " fill="none" stroke="#000000" style="stroke-width: 2px; marker-end: url(#markerSibcmmucua0);"></path></g><polyline points="528,264 587,264 587,423 638,423 " fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></polyline></g></g><g class="djs-group"><g data-element-id="invoiceApproved_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,511,237)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="102" height="38"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="36.4375" y="12">yes</tspan></text></g><rect x="0" y="0" width="90" height="26" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="reviewNotSuccessful" class="djs-element djs-connection" style="display: block;"><rect fill="none" class="djs-outline" x="727" y="86" width="191" height="12"></rect><g class="djs-visual"><path d="m  733,92L912,92 " fill="none" stroke="#000000" style="stroke-width: 2px; marker-end: url(#markerSibcmmucua0);"></path></g><polyline points="733,92 912,92 " fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></polyline></g></g><g class="djs-group"><g data-element-id="reviewNotSuccessful_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,711,91)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="102" height="38"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="38.875" y="12">no</tspan></text></g><rect x="0" y="0" width="90" height="26" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="reviewSuccessful" class="djs-element djs-connection" style="display: block;"><rect fill="none" class="djs-outline" x="397" y="29" width="322" height="201"></rect><g class="djs-visual"><path d="m  713,72L713,35 L403,35 L403,224 " fill="none" stroke="#000000" style="stroke-width: 2px; marker-end: url(#markerSibcmmucua0);"></path></g><polyline points="713,72 713,35 403,35 403,224 " fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></polyline></g></g><g class="djs-group"><g data-element-id="reviewSuccessful_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,691,36)" style="display: block;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="102" height="38"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="36.4375" y="12">yes</tspan></text></g><rect x="0" y="0" width="90" height="26" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="sequenceFlow_178" class="djs-element djs-connection" style="display: block;"><rect fill="none" class="djs-outline" x="274" y="86" width="85" height="184"></rect><g class="djs-visual"><path d="m  280,92L310,92 L310,264 L353,264 " fill="none" stroke="#000000" style="stroke-width: 2px; marker-end: url(#markerSibcmmucua0);"></path></g><polyline points="280,92 310,92 310,264 353,264 " fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></polyline></g></g><g class="djs-group"><g data-element-id="sequenceFlow_178_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,265,185)" style="display: none;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="102" height="12"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="45" y="0"></tspan></text></g><rect x="0" y="0" width="90" height="0" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="SequenceFlow_2" class="djs-element djs-connection" style="display: block;"><rect fill="none" class="djs-outline" x="732" y="417" width="54" height="12"></rect><g class="djs-visual"><path d="m  738,423L780,423 " fill="none" stroke="#000000" style="stroke-width: 2px; marker-end: url(#markerSibcmmucua0);"></path></g><polyline points="738,423 780,423 " fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></polyline></g></g><g class="djs-group"><g data-element-id="SequenceFlow_2_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,703,423)" style="display: none;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="102" height="18"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="45" y="0"></tspan></text></g><rect x="0" y="0" width="90" height="6" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="SequenceFlow_1" class="djs-element djs-connection" style="display: block;"><rect fill="none" class="djs-outline" x="118" y="86" width="68" height="12"></rect><g class="djs-visual"><path d="m  124,92L180,92 " fill="none" stroke="#000000" style="stroke-width: 2px; marker-end: url(#markerSibcmmucua0);"></path></g><polyline points="124,92 180,92 " fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></polyline></g></g><g class="djs-group"><g data-element-id="SequenceFlow_1_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,107,82)" style="display: none;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="102" height="32"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="45" y="0"></tspan></text></g><rect x="0" y="0" width="90" height="20" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g><g class="djs-group"><g data-element-id="SequenceFlow_3" class="djs-element djs-connection" style="display: block;"><rect fill="none" class="djs-outline" x="874" y="417" width="61" height="12"></rect><g class="djs-visual"><path d="m  880,423L929,423 " fill="none" stroke="#000000" style="stroke-width: 2px; marker-end: url(#markerSibcmmucua0);"></path></g><polyline points="880,423 929,423 " fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></polyline></g></g><g class="djs-group"><g data-element-id="SequenceFlow_3_label" class="djs-element djs-shape" transform="matrix(1,0,0,1,871,423)" style="display: none;"><rect fill="none" class="djs-outline" x="-6" y="-6" width="102" height="18"></rect><g class="djs-visual"><text class=" djs-label" style="font-family: Arial, sans-serif; font-size: 11px;"><tspan x="45" y="0"></tspan></text></g><rect x="0" y="0" width="90" height="6" fill="none" stroke="#ffffff" style="stroke-opacity: 0; stroke-width: 15px;" class="djs-hit"></rect></g></g></g></g></svg></div></div></div>
+<div class="navigation zoom ">
+<button class="btn btn-default in" title="zoom in">
+<span class="glyphicon glyphicon-plus"></span>
+</button>
+<button class="btn btn-default out" title="zoom out">
+<span class="glyphicon glyphicon-minus"></span>
+</button>
+</div>
+<div class="navigation reset ">
+<button class="btn btn-default" title="reset zoom">
+<span class="glyphicon glyphicon-screenshot"></span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="ctn-row ctn-content-bottom ctn-tabbed" ctn-collapsable="bottom" style="height: 350px;">
+<div>
+<ul class="nav nav-tabs">
+<li class=" active">
+<a href="">Process Instances</a>
+</li><li>
+<a href="">Called Process Definitions</a>
+</li><li>
+<a href="">Job Definitions</a>
+</li>
+</ul>
+<div class="ctn-tabbed-content ctn-scroll">
+<view provider="selectedTab" vars="processDefinitionVars">
+<div  loading-state="LOADED" text-empty="No process instances matched by current filter." class=" ng-isolate-scope"><div class="loader-state loaded" ng-transclude="">
+<table class="process-instances cam-table ">
+<thead>
+<tr>
+<th class="state">State</th>
+<th class="instance-id uuid">ID</th>
+<th class="start-time">Start Time</th>
+<th class="business-key">Business Key</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="state">
+<a state-circle="" incidents="processInstance.incidents" class="circle circle-green" href="#/process-instance/1447aafe-1b76-11e5-be07-a44e31a96f6c?detailsTab=incidents-tab"></a>
+<span class="badge badge-warning badge-suspended  ng-hide"  >
+<span class="glyphicon glyphicon-pause white"></span>
+</span>
+</td>
+<td class="instance-id uuid">
+<a href="#/process-instance/1447aafe-1b76-11e5-be07-a44e31a96f6c" title="1447aafe-1b76-11e5-be07-a44e31a96f6c">
+1447aafe-1b76-11e5-be07-a44e31a96f6c
+</a>
+</td>
+<td class="start-time ">
+2015-06-25T22:09:00
+</td>
+<td class="business-key ">
+</td>
+</tr><tr>
+<td class="state">
+<a state-circle="" incidents="processInstance.incidents" class="circle circle-green" href="#/process-instance/1431d8fc-1b76-11e5-be07-a44e31a96f6c?detailsTab=incidents-tab"></a>
+<span class="badge badge-warning badge-suspended  ng-hide"  >
+<span class="glyphicon glyphicon-pause white"></span>
+</span>
+</td>
+<td class="instance-id uuid">
+<a href="#/process-instance/1431d8fc-1b76-11e5-be07-a44e31a96f6c" title="1431d8fc-1b76-11e5-be07-a44e31a96f6c">
+1431d8fc-1b76-11e5-be07-a44e31a96f6c
+</a>
+</td>
+<td class="start-time ">
+2015-06-25T22:09:00
+</td>
+<td class="business-key ">
+</td>
+</tr><tr>
+<td class="state">
+<a state-circle="" incidents="processInstance.incidents" class="circle circle-green" href="#/process-instance/141e02d1-1b76-11e5-be07-a44e31a96f6c?detailsTab=incidents-tab"></a>
+<span class="badge badge-warning badge-suspended  ng-hide"  >
+<span class="glyphicon glyphicon-pause white"></span>
+</span>
+</td>
+<td class="instance-id uuid">
+<a href="#/process-instance/141e02d1-1b76-11e5-be07-a44e31a96f6c" title="141e02d1-1b76-11e5-be07-a44e31a96f6c">
+141e02d1-1b76-11e5-be07-a44e31a96f6c
+</a>
+</td>
+<td class="start-time ">
+2015-06-25T22:09:00
+</td>
+<td class="business-key ">
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</view>
+</div>
+</div>
+</div>
+<a class="show-collapsable expand-collapse" title="Show sidebar" style="display: none;"><i class="glyphicon glyphicon-chevron-right"></i></a>
+<div class="resize-handle horizontal ui-draggable" style="top: 275px;"></div></div>
+<div class="resize-handle vertical ui-draggable" style="left: 280px;"></div></div>
+</div>
+</div>
+</div>
+</div>
+<footer  version="v7.3.0" class="ng-isolate-scope"><div class="container-fluid">
+<div class="row">
+<div class="col-xs-12">
+Powered by <a href="http://camunda.org">camunda BPM</a> /
+<span class="version ">v7.3.0</span>
+</div>
+</div>
 </div>
 </footer>
 
-    <script type="application/javascript">
-      window.PLUGIN_DEPENDENCIES = [{ ngModuleName: 'cockpit.plugin.jobDefinition', requirePackageName: 'cockpit-plugin-jobDefinition' },
-{ ngModuleName: 'cockpit.plugin.base', requirePackageName: 'cockpit-plugin-base' }] || [];
-      window.PLUGIN_PACKAGES = [{ name: 'cockpit-plugin-jobDefinition', location: '/camunda/api/cockpit/plugin/jobDefinition/static/app', main: 'plugin.js' },
-{ name: 'cockpit-plugin-base', location: '/camunda/api/cockpit/plugin/base/static/app', main: 'plugin.js' }] || [];
-    </script>
 
-    <script type="application/javascript" src="camunda/cockpit/scripts/deps.js" data-main="camunda/cockpit/scripts/camunda-cockpit-ui"></script>
+<script type="text/javascript" src="styles-editor.js"></script>
 
-    <!--[if lte IE 9]>
-    <script type="text/javascript"
-            src="camunda/cockpit/scripts/placeholders.utils.js"></script>
-    <script type="text/javascript"
-            src="camunda/cockpit/scripts/placeholders.main.js"></script>
-    <script type="text/javascript"
-            src="camunda/cockpit/scripts/placeholders.jquery.js"></script>
-    <![endif]-->
+<script type="text/javascript">
+  'use strict';
+  /* global StylesEditor: false */
+
+  var editor = window.stylesEditor = new StylesEditor({
+    globals: {
+    },
+
+    variables: StylesEditor.objToStates({
+      'body-bg':        '#fff',
+      'brand-primary':  '#52b415'
+    })
+  });
+
+  document.body.appendChild(editor.el);
+  setTimeout(function () {
+    editor.open = true;
+
+    editor.inputEl.value = [
+      '// guess what will change ;)',
+      '@import "gh-pages";'
+    ].join('\n');
+
+    editor.update();
+  }, 500);
+</script>
+
 
 
 </body></html>

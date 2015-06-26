@@ -1,400 +1,324 @@
-<html lang="en" ng-app="cam.admin" data-ng-app="cam.admin"><head><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide{display:none !important;}ng\:form{display:block;}.ng-animate-block-transitions{transition:0s all!important;-webkit-transition:0s all!important;}</style>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<html lang="en" data-ng-app="cam.admin"><head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>camunda Admin</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="camunda Admin">
+  <meta name="author" content="camunda services GmbH">
+  <link href="camunda/admin/styles.css" rel="stylesheet">
 
-    <title>camunda Admin</title>
+  <link type="text/css"
+        rel="stylesheet"
+        href="styles-editor.css" />
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta name="description" content="camunda Admin">
-    <meta name="author" content="camunda services GmbH">
-
-    <!-- settings the base path for relative links -->
-    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="camunda-admin-ui" src="camunda/admin/scripts/camunda-admin-ui.js"></script><base href="camunda/admin/default/" admin-api="/camunda/api/admin/" engine-api="/camunda/api/engine/" app-root="/camunda">
-
-    <!-- an example of plugin/feature exclusion -->
-    <!--
-    <base href="camunda/admin/default/"
-          admin-api="/camunda/api/admin/"
-          engine-api="/camunda/api/engine/"
-          app-root="/camunda"
-          cam-exclude-plugins="admin.dashboard:process-definition-tiles" />
-    -->
-
-
-    <!-- styles -->
-    <link href="camunda/admin/styles/styles.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="camunda/admin/styles/user-styles.css">
-
-    <!-- favicon -->
-    <link rel="shortcut icon" href="camunda/admin/assets/images/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" href="camunda/admin/assets/images/camunda.60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="camunda/admin/assets/images/camunda.72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="camunda/admin/assets/images/camunda.114.png">
-  </head>
-  <body>
-    <!-- navigation -->
-    <div cam-widget-header="" authentication="authentication" current-app="admin" brand-name="Camunda Admin" class="ng-isolate-scope"><div class="navbar-header">
-  <button type="button" class="navbar-toggle collapsed">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="camunda/admin/assets/images/camunda.60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="camunda/admin/assets/images/camunda.72.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="camunda/admin/assets/images/camunda.114.png">
+</head>
+<body>
+  <div  authentication="authentication" current-app="admin" brand-name="Camunda Admin" class="ng-isolate-scope"><div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed">
     <span class="sr-only">Toggle navigation</span>
     <span class="icon-bar"></span>
     <span class="icon-bar"></span>
     <span class="icon-bar"></span>
-  </button>
-
-  <a class="navbar-brand ng-binding" href="#/" title="Camunda Admin">
-    Camunda Admin
-  </a>
-</div>
-
-<div ng-transclude="">
-      <!-- camIfLoggedIn:  --><ul cam-if-logged-in="" class="nav navbar-nav ng-scope" ng-controller="NavigationController">
-
-        <li class="dropdown" ng-class="activeClass('#/user')">
-          <a href="#/users">Users</a>
-        </li>
-
-        <li class="dropdown" ng-class="activeClass('#/group')">
-          <a href="#/groups">Groups</a>
-        </li>
-
-        <!-- showIfAuthorized:  --><li class="dropdown ng-scope active" ng-class="activeClass('#/authorization')" show-if-authorized="" auth-permission="ALL" auth-resource-name="authorization">
-          <a href="#/authorization?resource=0">Authorizations</a>
-        </li>
-        <li class="dropdown" ng-class="activeClass('#/system')">
-          <a href="#/system?section=system-settings-general">System</a>
-        </li>
-      </ul>
-    </div>
-
-<ul class="cam-nav nav navbar-nav">
-
-  <li class="dropdown engine-select ng-hide" ng-show="engines.length > 1 &amp;&amp; currentEngine" engine-select="">
-<!-- # CE - camunda-commons-ui/lib/directives/engineSelect.html -->
-  <a href="" class="dropdown-toggle ng-binding" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <span class="glyphicon glyphicon-info-sign glyphicon glyphicon-info-sign  ng-scope" tooltip="If you have multiple engines running you can select the process engine here. The data displayed in this application is based on the selected engine only." tooltip-placement="bottom"></span>
-    default
-  </a>
-  <ul class="dropdown-menu dropdown-menu-right">
-    <!-- ngRepeat: (id, engine) in engines --><li ng-repeat="(id, engine) in engines" class="ng-scope">
-      <a ng-href="camunda/admin/default/../default/" class="ng-binding" href="camunda/admin/default/../default/">
-        default
-      </a>
-    </li><!-- end ngRepeat: (id, engine) in engines -->
-  </ul>
-<!-- / CE - camunda-commons-ui/lib/directives/engineSelect.html -->
-</li>
-
-  <!-- ngIf: authentication.name --><li class="account dropdown ng-scope" ng-if="authentication.name">
-    <a href="" class="dropdown-toggle ng-binding" aria-haspopup="true" aria-expanded="false">
-      <span class="glyphicon glyphicon-user "></span>
-      demo
+    </button>
+    <a class="navbar-brand " href="#/" title="Camunda Admin">
+      Camunda Admin
     </a>
-
-    <ul class="dropdown-menu dropdown-menu-right">
-      <li class="profile">
-        <a ng-href="../../admin/default/#/users/demo?tab=profile" href="../../admin/default/#/users/demo?tab=profile">
-          My Profile
-        </a>
+  </div>
+  <div ng-transclude="">
+    <ul  class="nav navbar-nav ">
+      <li class="dropdown">
+        <a href="#/users">Users</a>
       </li>
-
-      <li class="divider"></li>
-
-      <li class="logout">
-        <a href="" ng-click="logout()">
-          Sign out
-        </a>
+      <li class="dropdown">
+        <a href="#/groups">Groups</a>
+      </li>
+      <li class="dropdown  active" show-if-authorized="" auth-permission="ALL" auth-resource-name="authorization">
+        <a href="#/authorization?resource=0">Authorizations</a>
+      </li>
+      <li class="dropdown">
+        <a href="#/system?section=system-settings-general">System</a>
       </li>
     </ul>
-  </li><!-- end ngIf: authentication.name -->
-
-  <!-- ngIf: authentication.name --><li class="divider-vertical ng-scope" ng-if="authentication.name"></li><!-- end ngIf: authentication.name -->
-
-  <li class="app-switch dropdown">
-    <a href="" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-      <span class="glyphicon glyphicon-home"></span>
-      <span class="caret"></span>
-    </a>
-
-    <ul class="dropdown-menu dropdown-menu-right">
-      <!-- ngRepeat: (appName, app) in apps --><!-- ngIf: appName !== currentApp && (!authentication || authentication.canAccess(appName)) --><li ng-repeat="(appName, app) in apps" ng-if="appName !== currentApp &amp;&amp; (!authentication || authentication.canAccess(appName))" ng-class="appName" class="ng-scope cockpit">
-        <a ng-href="../../cockpit/default/" class="ng-binding" href="../../cockpit/default/">
-          Cockpit
-        </a>
-      </li><!-- end ngIf: appName !== currentApp && (!authentication || authentication.canAccess(appName)) --><!-- end ngRepeat: (appName, app) in apps --><!-- ngIf: appName !== currentApp && (!authentication || authentication.canAccess(appName)) --><li ng-repeat="(appName, app) in apps" ng-if="appName !== currentApp &amp;&amp; (!authentication || authentication.canAccess(appName))" ng-class="appName" class="ng-scope tasklist">
-        <a ng-href="../../tasklist/default/" class="ng-binding" href="../../tasklist/default/">
+  </div>
+  <ul class="cam-nav nav navbar-nav">
+    <li class="dropdown engine-select ng-hide" engine-select="">
+      <a href="" class="dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="glyphicon glyphicon-info-sign glyphicon glyphicon-info-sign  "  ></span>
+        default
+      </a>
+      <ul class="dropdown-menu dropdown-menu-right">
+        <li>
+          <a href="camunda/admin/default/../default/">
+            default
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="account dropdown ">
+      <a href="" class="dropdown-toggle " aria-haspopup="true" aria-expanded="false">
+        <span class="glyphicon glyphicon-user "></span>
+        demo
+      </a>
+      <ul class="dropdown-menu dropdown-menu-right">
+        <li class="profile">
+          <a href="../../admin/default/#/users/demo?tab=profile">
+            My Profile
+          </a>
+        </li>
+        <li class="divider"></li>
+        <li class="logout">
+          <a href="">
+            Sign out
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="app-switch dropdown">
+      <a href="" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+        <span class="glyphicon glyphicon-home"></span>
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-right">
+        <li class=" cockpit">
+          <a href="../../cockpit/default/">
+            Cockpit
+          </a>
+        </li><li class=" tasklist">
+        <a href="../../tasklist/default/">
           Tasklist
         </a>
-      </li><!-- end ngIf: appName !== currentApp && (!authentication || authentication.canAccess(appName)) --><!-- end ngRepeat: (appName, app) in apps -->
+      </li>
     </ul>
   </li>
 </ul>
 </div>
-
-    <!-- content -->
-    <div class="ctn-main">
-      <div class="ctn-wrapper">
-        <div notifications-panel="" class="notifications-panel ng-isolate-scope"><div class="notifications">  <!-- ngRepeat: notification in notifications --></div></div>
-
-        <!-- view body provided by ngView -->
-        <!-- ngView:  --><div ng-view="" class="ng-scope"><!-- # CE - camunda-admin-ui/client/scripts/pages/authorizations.html -->
-<div class="container-fluid ng-scope">
-  <section class="authorizations row">
-    <div class="page-header">
-      <h1 ng-controller="AuthorizationCreateController" class="ng-scope">
+<div class="ctn-main">
+<div class="ctn-wrapper">
+  <div notifications-panel="" class="notifications-panel ng-isolate-scope"><div class="notifications">  </div></div>
+  <div class="container-fluid ">
+    <section class="authorizations row">
+      <div class="page-header">
+        <h1>
         Authorizations
-        <a ng-click="addNewAuthorization()" tooltip-placement="right" tooltip="Create a new authorization" class="ng-scope">
+        <a  >
           <span class="glyphicon glyphicon-plus-sign"></span>
         </a>
-      </h1>
-    </div>
-
-    <div class="col-md-3">
-      <div class="well sidebar-nav">
-        <ul class="nav nav-list">
-          <li class="nav-header">Resources</li>
-          <!-- ngRepeat: res in resourceList | orderBy:'name':false --><li ng-class="activeClass('resource='+res.id)" ng-repeat="res in resourceList | orderBy:'name':false" class="ng-scope active">
-            <a href="#/authorization/?resource=0" class="ng-binding">Application</a>
-          </li><!-- end ngRepeat: res in resourceList | orderBy:'name':false --><li ng-class="activeClass('resource='+res.id)" ng-repeat="res in resourceList | orderBy:'name':false" class="ng-scope">
-            <a href="#/authorization/?resource=4" class="ng-binding">Authorization</a>
-          </li><!-- end ngRepeat: res in resourceList | orderBy:'name':false --><li ng-class="activeClass('resource='+res.id)" ng-repeat="res in resourceList | orderBy:'name':false" class="ng-scope">
-            <a href="#/authorization/?resource=9" class="ng-binding">Deployment</a>
-          </li><!-- end ngRepeat: res in resourceList | orderBy:'name':false --><li ng-class="activeClass('resource='+res.id)" ng-repeat="res in resourceList | orderBy:'name':false" class="ng-scope">
-            <a href="#/authorization/?resource=5" class="ng-binding">Filter</a>
-          </li><!-- end ngRepeat: res in resourceList | orderBy:'name':false --><li ng-class="activeClass('resource='+res.id)" ng-repeat="res in resourceList | orderBy:'name':false" class="ng-scope">
-            <a href="#/authorization/?resource=2" class="ng-binding">Group</a>
-          </li><!-- end ngRepeat: res in resourceList | orderBy:'name':false --><li ng-class="activeClass('resource='+res.id)" ng-repeat="res in resourceList | orderBy:'name':false" class="ng-scope">
-            <a href="#/authorization/?resource=3" class="ng-binding">Group Membership</a>
-          </li><!-- end ngRepeat: res in resourceList | orderBy:'name':false --><li ng-class="activeClass('resource='+res.id)" ng-repeat="res in resourceList | orderBy:'name':false" class="ng-scope">
-            <a href="#/authorization/?resource=6" class="ng-binding">Process Definition</a>
-          </li><!-- end ngRepeat: res in resourceList | orderBy:'name':false --><li ng-class="activeClass('resource='+res.id)" ng-repeat="res in resourceList | orderBy:'name':false" class="ng-scope">
-            <a href="#/authorization/?resource=8" class="ng-binding">Process Instance</a>
-          </li><!-- end ngRepeat: res in resourceList | orderBy:'name':false --><li ng-class="activeClass('resource='+res.id)" ng-repeat="res in resourceList | orderBy:'name':false" class="ng-scope">
-            <a href="#/authorization/?resource=7" class="ng-binding">Task</a>
-          </li><!-- end ngRepeat: res in resourceList | orderBy:'name':false --><li ng-class="activeClass('resource='+res.id)" ng-repeat="res in resourceList | orderBy:'name':false" class="ng-scope">
-            <a href="#/authorization/?resource=1" class="ng-binding">User</a>
-          </li><!-- end ngRepeat: res in resourceList | orderBy:'name':false -->
-        </ul>
+        </h1>
       </div>
-    </div>
-
-    <form class="col-md-9 form-horizontal ng-scope ng-pristine ng-valid" name="createAuthForm" ng-controller="AuthorizationCreateController">
-
-      <legend class="ng-binding">Application Authorizations</legend>
-
-      <table class="cam-table">
-        <thead>
-          <tr>
-            <th class="authorization-type">Type</th>
-            <th class="user group">User / Group</th>
-            <th class="permissions">Permissions</th>
-            <th class="resource-id">Resource Id</th>
-            <th class="action">Action</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <!-- ngRepeat: authorization in authorizations | orderBy:getIdentityId:false --><!-- ngIf: loadingState === 'LOADED' --><tr ng-if="loadingState === 'LOADED'" ng-repeat="authorization in authorizations | orderBy:getIdentityId:false" class="ng-scope">
-            <!-- ngIf: !authorization.inUpdate || !!authorization.id --><td class="authorization-type ng-scope ng-binding" ng-if="!authorization.inUpdate || !!authorization.id">
-              ALLOW
-            </td><!-- end ngIf: !authorization.inUpdate || !!authorization.id -->
-            <!-- ngIf: !!authorization.inUpdate && !authorization.id -->
-
-            <!-- ngIf: !authorization.inUpdate --><td class="user group ng-scope" ng-if="!authorization.inUpdate">
-              <span ng-show="!!authorization.userId" tooltip="User" class="ng-scope ng-binding ng-hide">
-                <span class="glyphicon glyphicon-user"></span>
-
-              </span>
-
-              <span ng-show="!!authorization.groupId" tooltip="Group" class="ng-scope ng-binding">
-                <span class="glyphicon glyphicon-th"></span>
-                accounting
-              </span>
-            </td><!-- end ngIf: !authorization.inUpdate -->
-            <!-- ngIf: !!authorization.inUpdate -->
-
-            <!-- ngIf: !authorization.inUpdate --><td class="permissions ng-scope ng-binding" ng-if="!authorization.inUpdate">
-              ACCESS
-            </td><!-- end ngIf: !authorization.inUpdate -->
-            <!-- ngIf: !!authorization.inUpdate -->
-
-            <!-- ngIf: !authorization.inUpdate --><td class="resource-id ng-scope ng-binding" ng-if="!authorization.inUpdate">
-              tasklist
-            </td><!-- end ngIf: !authorization.inUpdate -->
-            <!-- ngIf: !!authorization.inUpdate -->
-
-            <!-- ngIf: !authorization.inUpdate --><td class="action ng-scope" ng-if="!authorization.inUpdate">
-              <a ng-click="updateAuthorization(authorization)">
-                Edit
-              </a>
-              <a ng-click="deleteAuthorization(authorization)">
-                Delete
-              </a>
-            </td><!-- end ngIf: !authorization.inUpdate -->
-            <!-- ngIf: !!authorization.inUpdate -->
-          </tr><!-- end ngIf: loadingState === 'LOADED' --><!-- end ngRepeat: authorization in authorizations | orderBy:getIdentityId:false --><!-- ngIf: loadingState === 'LOADED' --><tr ng-if="loadingState === 'LOADED'" ng-repeat="authorization in authorizations | orderBy:getIdentityId:false" class="ng-scope">
-            <!-- ngIf: !authorization.inUpdate || !!authorization.id --><td class="authorization-type ng-scope ng-binding" ng-if="!authorization.inUpdate || !!authorization.id">
-              ALLOW
-            </td><!-- end ngIf: !authorization.inUpdate || !!authorization.id -->
-            <!-- ngIf: !!authorization.inUpdate && !authorization.id -->
-
-            <!-- ngIf: !authorization.inUpdate --><td class="user group ng-scope" ng-if="!authorization.inUpdate">
-              <span ng-show="!!authorization.userId" tooltip="User" class="ng-scope ng-binding ng-hide">
-                <span class="glyphicon glyphicon-user"></span>
-
-              </span>
-
-              <span ng-show="!!authorization.groupId" tooltip="Group" class="ng-scope ng-binding">
-                <span class="glyphicon glyphicon-th"></span>
-                camunda-admin
-              </span>
-            </td><!-- end ngIf: !authorization.inUpdate -->
-            <!-- ngIf: !!authorization.inUpdate -->
-
-            <!-- ngIf: !authorization.inUpdate --><td class="permissions ng-scope ng-binding" ng-if="!authorization.inUpdate">
-              ALL
-            </td><!-- end ngIf: !authorization.inUpdate -->
-            <!-- ngIf: !!authorization.inUpdate -->
-
-            <!-- ngIf: !authorization.inUpdate --><td class="resource-id ng-scope ng-binding" ng-if="!authorization.inUpdate">
-              *
-            </td><!-- end ngIf: !authorization.inUpdate -->
-            <!-- ngIf: !!authorization.inUpdate -->
-
-            <!-- ngIf: !authorization.inUpdate --><td class="action ng-scope" ng-if="!authorization.inUpdate">
-              <a ng-click="updateAuthorization(authorization)">
-                Edit
-              </a>
-              <a ng-click="deleteAuthorization(authorization)">
-                Delete
-              </a>
-            </td><!-- end ngIf: !authorization.inUpdate -->
-            <!-- ngIf: !!authorization.inUpdate -->
-          </tr><!-- end ngIf: loadingState === 'LOADED' --><!-- end ngRepeat: authorization in authorizations | orderBy:getIdentityId:false --><!-- ngIf: loadingState === 'LOADED' --><tr ng-if="loadingState === 'LOADED'" ng-repeat="authorization in authorizations | orderBy:getIdentityId:false" class="ng-scope">
-            <!-- ngIf: !authorization.inUpdate || !!authorization.id --><td class="authorization-type ng-scope ng-binding" ng-if="!authorization.inUpdate || !!authorization.id">
-              ALLOW
-            </td><!-- end ngIf: !authorization.inUpdate || !!authorization.id -->
-            <!-- ngIf: !!authorization.inUpdate && !authorization.id -->
-
-            <!-- ngIf: !authorization.inUpdate --><td class="user group ng-scope" ng-if="!authorization.inUpdate">
-              <span ng-show="!!authorization.userId" tooltip="User" class="ng-scope ng-binding ng-hide">
-                <span class="glyphicon glyphicon-user"></span>
-
-              </span>
-
-              <span ng-show="!!authorization.groupId" tooltip="Group" class="ng-scope ng-binding">
-                <span class="glyphicon glyphicon-th"></span>
-                management
-              </span>
-            </td><!-- end ngIf: !authorization.inUpdate -->
-            <!-- ngIf: !!authorization.inUpdate -->
-
-            <!-- ngIf: !authorization.inUpdate --><td class="permissions ng-scope ng-binding" ng-if="!authorization.inUpdate">
-              ACCESS
-            </td><!-- end ngIf: !authorization.inUpdate -->
-            <!-- ngIf: !!authorization.inUpdate -->
-
-            <!-- ngIf: !authorization.inUpdate --><td class="resource-id ng-scope ng-binding" ng-if="!authorization.inUpdate">
-              tasklist
-            </td><!-- end ngIf: !authorization.inUpdate -->
-            <!-- ngIf: !!authorization.inUpdate -->
-
-            <!-- ngIf: !authorization.inUpdate --><td class="action ng-scope" ng-if="!authorization.inUpdate">
-              <a ng-click="updateAuthorization(authorization)">
-                Edit
-              </a>
-              <a ng-click="deleteAuthorization(authorization)">
-                Delete
-              </a>
-            </td><!-- end ngIf: !authorization.inUpdate -->
-            <!-- ngIf: !!authorization.inUpdate -->
-          </tr><!-- end ngIf: loadingState === 'LOADED' --><!-- end ngRepeat: authorization in authorizations | orderBy:getIdentityId:false --><!-- ngIf: loadingState === 'LOADED' --><tr ng-if="loadingState === 'LOADED'" ng-repeat="authorization in authorizations | orderBy:getIdentityId:false" class="ng-scope">
-            <!-- ngIf: !authorization.inUpdate || !!authorization.id --><td class="authorization-type ng-scope ng-binding" ng-if="!authorization.inUpdate || !!authorization.id">
-              ALLOW
-            </td><!-- end ngIf: !authorization.inUpdate || !!authorization.id -->
-            <!-- ngIf: !!authorization.inUpdate && !authorization.id -->
-
-            <!-- ngIf: !authorization.inUpdate --><td class="user group ng-scope" ng-if="!authorization.inUpdate">
-              <span ng-show="!!authorization.userId" tooltip="User" class="ng-scope ng-binding ng-hide">
-                <span class="glyphicon glyphicon-user"></span>
-
-              </span>
-
-              <span ng-show="!!authorization.groupId" tooltip="Group" class="ng-scope ng-binding">
-                <span class="glyphicon glyphicon-th"></span>
-                sales
-              </span>
-            </td><!-- end ngIf: !authorization.inUpdate -->
-            <!-- ngIf: !!authorization.inUpdate -->
-
-            <!-- ngIf: !authorization.inUpdate --><td class="permissions ng-scope ng-binding" ng-if="!authorization.inUpdate">
-              ACCESS
-            </td><!-- end ngIf: !authorization.inUpdate -->
-            <!-- ngIf: !!authorization.inUpdate -->
-
-            <!-- ngIf: !authorization.inUpdate --><td class="resource-id ng-scope ng-binding" ng-if="!authorization.inUpdate">
-              tasklist
-            </td><!-- end ngIf: !authorization.inUpdate -->
-            <!-- ngIf: !!authorization.inUpdate -->
-
-            <!-- ngIf: !authorization.inUpdate --><td class="action ng-scope" ng-if="!authorization.inUpdate">
-              <a ng-click="updateAuthorization(authorization)">
-                Edit
-              </a>
-              <a ng-click="deleteAuthorization(authorization)">
-                Delete
-              </a>
-            </td><!-- end ngIf: !authorization.inUpdate -->
-            <!-- ngIf: !!authorization.inUpdate -->
-          </tr><!-- end ngIf: loadingState === 'LOADED' --><!-- end ngRepeat: authorization in authorizations | orderBy:getIdentityId:false -->
-          <tr>
-            <td colspan="5">
-              <a ng-click="addNewAuthorization()">
-                Create New
-                <span class="glyphicon glyphicon-plus-sign"></span>
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- ngIf: pages.total > pages.size -->
-
-    </form>
-  </section>
+      <div class="col-md-3">
+        <div class="well sidebar-nav">
+          <ul class="nav nav-list">
+            <li class="nav-header">Resources</li>
+            <li class=" active">
+              <a href="#/authorization/?resource=0">Application</a>
+            </li><li>
+            <a href="#/authorization/?resource=4">Authorization</a>
+          </li><li>
+          <a href="#/authorization/?resource=9">Deployment</a>
+        </li><li>
+        <a href="#/authorization/?resource=5">Filter</a>
+      </li><li>
+      <a href="#/authorization/?resource=2">Group</a>
+    </li><li>
+    <a href="#/authorization/?resource=3">Group Membership</a>
+  </li><li>
+  <a href="#/authorization/?resource=6">Process Definition</a>
+</li><li>
+<a href="#/authorization/?resource=8">Process Instance</a>
+</li><li>
+<a href="#/authorization/?resource=7">Task</a>
+</li><li>
+<a href="#/authorization/?resource=1">User</a>
+</li>
+</ul>
 </div>
-<!-- / CE - camunda-admin-ui/client/scripts/pages/authorizations.html -->
 </div>
-      </div>
-    </div>
-
-    <!-- footer -->
-    <footer cam-widget-footer="" version="v7.3.0" class="ng-isolate-scope"><div class="container-fluid">
-  <div class="row">
-    <div class="col-xs-12">
-      Powered by <a href="http://camunda.org">camunda BPM</a> /
-      <span class="version ng-binding">v7.3.0</span>
-    </div>
-  </div>
+<form class="col-md-9 form-horizontal  ng-pristine ng-valid" name="createAuthForm">
+<legend>Application Authorizations</legend>
+<table class="cam-table">
+<thead>
+<tr>
+<th class="authorization-type">Type</th>
+<th class="user group">User / Group</th>
+<th class="permissions">Permissions</th>
+<th class="resource-id">Resource Id</th>
+<th class="action">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="authorization-type  ">
+ALLOW
+</td>
+<td class="user group ">
+<span  class="  ng-hide">
+<span class="glyphicon glyphicon-user"></span>
+</span>
+<span  class=" ">
+<span class="glyphicon glyphicon-th"></span>
+accounting
+</span>
+</td>
+<td class="permissions  ">
+ACCESS
+</td>
+<td class="resource-id  ">
+tasklist
+</td>
+<td class="action ">
+<a>
+Edit
+</a>
+<a>
+Delete
+</a>
+</td>
+</tr><tr>
+<td class="authorization-type  ">
+ALLOW
+</td>
+<td class="user group ">
+<span  class="  ng-hide">
+<span class="glyphicon glyphicon-user"></span>
+</span>
+<span  class=" ">
+<span class="glyphicon glyphicon-th"></span>
+camunda-admin
+</span>
+</td>
+<td class="permissions  ">
+ALL
+</td>
+<td class="resource-id  ">
+*
+</td>
+<td class="action ">
+<a>
+Edit
+</a>
+<a>
+Delete
+</a>
+</td>
+</tr><tr>
+<td class="authorization-type  ">
+ALLOW
+</td>
+<td class="user group ">
+<span  class="  ng-hide">
+<span class="glyphicon glyphicon-user"></span>
+</span>
+<span  class=" ">
+<span class="glyphicon glyphicon-th"></span>
+management
+</span>
+</td>
+<td class="permissions  ">
+ACCESS
+</td>
+<td class="resource-id  ">
+tasklist
+</td>
+<td class="action ">
+<a>
+Edit
+</a>
+<a>
+Delete
+</a>
+</td>
+</tr><tr>
+<td class="authorization-type  ">
+ALLOW
+</td>
+<td class="user group ">
+<span  class="  ng-hide">
+<span class="glyphicon glyphicon-user"></span>
+</span>
+<span  class=" ">
+<span class="glyphicon glyphicon-th"></span>
+sales
+</span>
+</td>
+<td class="permissions  ">
+ACCESS
+</td>
+<td class="resource-id  ">
+tasklist
+</td>
+<td class="action ">
+<a>
+Edit
+</a>
+<a>
+Delete
+</a>
+</td>
+</tr>
+<tr>
+<td colspan="5">
+<a>
+Create New
+<span class="glyphicon glyphicon-plus-sign"></span>
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</form>
+</section>
+</div>
+</div>
+</div>
+</div>
+<footer  version="v7.3.0" class="ng-isolate-scope"><div class="container-fluid">
+<div class="row">
+<div class="col-xs-12">
+Powered by <a href="http://camunda.org">camunda BPM</a> /
+<span class="version ">v7.3.0</span>
+</div>
+</div>
 </div>
 </footer>
 
-    <script type="application/javascript">
-      window.PLUGIN_DEPENDENCIES = [] || [];
-      window.PLUGIN_PACKAGES = [] || [];
-    </script>
-
-    <script type="application/javascript" src="camunda/admin/scripts/deps.js" data-main="camunda/admin/scripts/camunda-admin-ui"></script>
 
 
-    <!--[if lte IE 9]>
-    <script type="text/javascript"
-            src="camunda/admin/scripts/placeholders.utils.js"></script>
-    <script type="text/javascript"
-            src="camunda/admin/scripts/placeholders.main.js"></script>
-    <script type="text/javascript"
-            src="camunda/admin/scripts/placeholders.jquery.js"></script>
-    <![endif]-->
 
 
+
+
+
+
+<script type="text/javascript" src="styles-editor.js"></script>
+
+<script type="text/javascript">
+  'use strict';
+  /* global StylesEditor: false */
+
+  var editor = window.stylesEditor = new StylesEditor({
+    globals: {
+    },
+
+    variables: StylesEditor.objToStates({
+      'body-bg':        '#fff',
+      'brand-primary':  '#52b415'
+    })
+  });
+
+  document.body.appendChild(editor.el);
+  setTimeout(function () {
+    editor.open = true;
+
+    editor.inputEl.value = [
+      '// guess what will change ;)',
+      '@import "gh-pages";'
+    ].join('\n');
+
+    editor.update();
+  }, 500);
+</script>
 </body></html>
