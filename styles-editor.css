@@ -9,6 +9,7 @@
   width: 350px;
   bottom: 0;
   padding: 15px;
+  z-index: 9999;
   color: #333333;
   border-right: 1px solid #777777;
   -webkit-transform: translate(-350px, 0);

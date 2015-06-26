@@ -1,0 +1,324 @@
+<html lang="en" data-ng-app="cam.admin"><head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>camunda Admin</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="camunda Admin">
+  <meta name="author" content="camunda services GmbH">
+  <link href="camunda/admin/styles.css" rel="stylesheet">
+
+  <link type="text/css"
+        rel="stylesheet"
+        href="styles-editor.css" />
+
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="camunda/admin/assets/images/camunda.60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="camunda/admin/assets/images/camunda.72.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="camunda/admin/assets/images/camunda.114.png">
+</head>
+<body>
+  <div  authentication="authentication" current-app="admin" brand-name="Camunda Admin" class="ng-isolate-scope"><div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand " href="#/" title="Camunda Admin">
+      Camunda Admin
+    </a>
+  </div>
+  <div ng-transclude="">
+    <ul  class="nav navbar-nav ">
+      <li class="dropdown">
+        <a href="#/users">Users</a>
+      </li>
+      <li class="dropdown">
+        <a href="#/groups">Groups</a>
+      </li>
+      <li class="dropdown  active" show-if-authorized="" auth-permission="ALL" auth-resource-name="authorization">
+        <a href="#/authorization?resource=0">Authorizations</a>
+      </li>
+      <li class="dropdown">
+        <a href="#/system?section=system-settings-general">System</a>
+      </li>
+    </ul>
+  </div>
+  <ul class="cam-nav nav navbar-nav">
+    <li class="dropdown engine-select ng-hide" engine-select="">
+      <a href="" class="dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="glyphicon glyphicon-info-sign glyphicon glyphicon-info-sign  "  ></span>
+        default
+      </a>
+      <ul class="dropdown-menu dropdown-menu-right">
+        <li>
+          <a href="camunda/admin/default/../default/">
+            default
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="account dropdown ">
+      <a href="" class="dropdown-toggle " aria-haspopup="true" aria-expanded="false">
+        <span class="glyphicon glyphicon-user "></span>
+        demo
+      </a>
+      <ul class="dropdown-menu dropdown-menu-right">
+        <li class="profile">
+          <a href="../../admin/default/#/users/demo?tab=profile">
+            My Profile
+          </a>
+        </li>
+        <li class="divider"></li>
+        <li class="logout">
+          <a href="">
+            Sign out
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="app-switch dropdown">
+      <a href="" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+        <span class="glyphicon glyphicon-home"></span>
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-right">
+        <li class=" cockpit">
+          <a href="../../cockpit/default/">
+            Cockpit
+          </a>
+        </li><li class=" tasklist">
+        <a href="../../tasklist/default/">
+          Tasklist
+        </a>
+      </li>
+    </ul>
+  </li>
+</ul>
+</div>
+<div class="ctn-main">
+<div class="ctn-wrapper">
+  <div notifications-panel="" class="notifications-panel ng-isolate-scope"><div class="notifications">  </div></div>
+  <div class="container-fluid ">
+    <section class="authorizations row">
+      <div class="page-header">
+        <h1>
+        Authorizations
+        <a  >
+          <span class="glyphicon glyphicon-plus-sign"></span>
+        </a>
+        </h1>
+      </div>
+      <div class="col-md-3">
+        <div class="well sidebar-nav">
+          <ul class="nav nav-list">
+            <li class="nav-header">Resources</li>
+            <li class=" active">
+              <a href="#/authorization/?resource=0">Application</a>
+            </li><li>
+            <a href="#/authorization/?resource=4">Authorization</a>
+          </li><li>
+          <a href="#/authorization/?resource=9">Deployment</a>
+        </li><li>
+        <a href="#/authorization/?resource=5">Filter</a>
+      </li><li>
+      <a href="#/authorization/?resource=2">Group</a>
+    </li><li>
+    <a href="#/authorization/?resource=3">Group Membership</a>
+  </li><li>
+  <a href="#/authorization/?resource=6">Process Definition</a>
+</li><li>
+<a href="#/authorization/?resource=8">Process Instance</a>
+</li><li>
+<a href="#/authorization/?resource=7">Task</a>
+</li><li>
+<a href="#/authorization/?resource=1">User</a>
+</li>
+</ul>
+</div>
+</div>
+<form class="col-md-9 form-horizontal  ng-pristine ng-valid" name="createAuthForm">
+<legend>Application Authorizations</legend>
+<table class="cam-table">
+<thead>
+<tr>
+<th class="authorization-type">Type</th>
+<th class="user group">User / Group</th>
+<th class="permissions">Permissions</th>
+<th class="resource-id">Resource Id</th>
+<th class="action">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="authorization-type  ">
+ALLOW
+</td>
+<td class="user group ">
+<span  class="  ng-hide">
+<span class="glyphicon glyphicon-user"></span>
+</span>
+<span  class=" ">
+<span class="glyphicon glyphicon-th"></span>
+accounting
+</span>
+</td>
+<td class="permissions  ">
+ACCESS
+</td>
+<td class="resource-id  ">
+tasklist
+</td>
+<td class="action ">
+<a>
+Edit
+</a>
+<a>
+Delete
+</a>
+</td>
+</tr><tr>
+<td class="authorization-type  ">
+ALLOW
+</td>
+<td class="user group ">
+<span  class="  ng-hide">
+<span class="glyphicon glyphicon-user"></span>
+</span>
+<span  class=" ">
+<span class="glyphicon glyphicon-th"></span>
+camunda-admin
+</span>
+</td>
+<td class="permissions  ">
+ALL
+</td>
+<td class="resource-id  ">
+*
+</td>
+<td class="action ">
+<a>
+Edit
+</a>
+<a>
+Delete
+</a>
+</td>
+</tr><tr>
+<td class="authorization-type  ">
+ALLOW
+</td>
+<td class="user group ">
+<span  class="  ng-hide">
+<span class="glyphicon glyphicon-user"></span>
+</span>
+<span  class=" ">
+<span class="glyphicon glyphicon-th"></span>
+management
+</span>
+</td>
+<td class="permissions  ">
+ACCESS
+</td>
+<td class="resource-id  ">
+tasklist
+</td>
+<td class="action ">
+<a>
+Edit
+</a>
+<a>
+Delete
+</a>
+</td>
+</tr><tr>
+<td class="authorization-type  ">
+ALLOW
+</td>
+<td class="user group ">
+<span  class="  ng-hide">
+<span class="glyphicon glyphicon-user"></span>
+</span>
+<span  class=" ">
+<span class="glyphicon glyphicon-th"></span>
+sales
+</span>
+</td>
+<td class="permissions  ">
+ACCESS
+</td>
+<td class="resource-id  ">
+tasklist
+</td>
+<td class="action ">
+<a>
+Edit
+</a>
+<a>
+Delete
+</a>
+</td>
+</tr>
+<tr>
+<td colspan="5">
+<a>
+Create New
+<span class="glyphicon glyphicon-plus-sign"></span>
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</form>
+</section>
+</div>
+</div>
+</div>
+</div>
+<footer  version="v7.3.0" class="ng-isolate-scope"><div class="container-fluid">
+<div class="row">
+<div class="col-xs-12">
+Powered by <a href="http://camunda.org">camunda BPM</a> /
+<span class="version ">v7.3.0</span>
+</div>
+</div>
+</div>
+</footer>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" src="styles-editor.js"></script>
+
+<script type="text/javascript">
+  'use strict';
+  /* global StylesEditor: false */
+
+  var editor = window.stylesEditor = new StylesEditor({
+    globals: {
+    },
+
+    variables: StylesEditor.objToStates({
+      'body-bg':        '#fff',
+      'brand-primary':  '#52b415'
+    })
+  });
+
+  document.body.appendChild(editor.el);
+  setTimeout(function () {
+    editor.open = true;
+
+    editor.inputEl.value = [
+      '// guess what will change ;)',
+      '@import "gh-pages";'
+    ].join('\n');
+
+    editor.update();
+  }, 500);
+</script>
+</body></html>
