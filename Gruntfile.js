@@ -21,28 +21,10 @@ module.exports = function(grunt) {
       }
     },
 
-    browserify: {
-      // dependencies: {
-      //   options: {
-      //     browserifyOptions: {
-      //       standalone: 'deps',
-      //       list: true,
-      //       debug: true
-      //     }
-      //   },
-      //   files: {
-      //     'dist/dependencies.js': 'scripts/dependencies.js'
-      //   }
-      // },
 
+    browserify: {
       scripts: {
         options: {
-          // ignore: [
-          //   './dependencies'
-          // ],
-          // exclude: [
-          //   './dependencies'
-          // ],
           browserifyOptions: {
             standalone: 'StylesEditor',
             list: true,
@@ -50,7 +32,6 @@ module.exports = function(grunt) {
           }
         },
         files: {
-          // 'dist/styles-editor.js': 'scripts/styles-editor.js'
           '.tmp/styles-editor.js': 'scripts/styles-editor.js'
         }
       }
@@ -68,6 +49,7 @@ module.exports = function(grunt) {
       }
     },
 
+
     copy: {
       examples: {
         files: [
@@ -79,16 +61,6 @@ module.exports = function(grunt) {
           }
         ]
       },
-      // less: {
-      //   files: [
-      //     {
-      //       expand: true,
-      //       cwd: 'node_modules/grunt-contrib-less/node_modules/less/dist/',
-      //       src: 'less.js',
-      //       dest: 'dist/'
-      //     }
-      //   ]
-      // },
       styles: {
         files: [
           {
@@ -111,6 +83,7 @@ module.exports = function(grunt) {
       }
     },
 
+
     connect: {
       dev: {
         options: {
@@ -119,12 +92,12 @@ module.exports = function(grunt) {
           base: [
             'dist',
             'styles',
-            // 'node_modules/grunt-contrib-less/node_modules/less/dist',
             'node_modules/bootstrap/less'
           ]
         }
       }
     },
+
 
     watch: {
       less: {
@@ -140,7 +113,6 @@ module.exports = function(grunt) {
       scripts: {
         files: [
           'scripts/**/*.js',
-          // '!scripts/dependencies.js'
         ],
         tasks: [
           'browserify:scripts'
@@ -155,15 +127,6 @@ module.exports = function(grunt) {
           'concat'
         ]
       },
-
-      // dependencies: {
-      //   files: [
-      //     'scripts/dependencies.js'
-      //   ],
-      //   tasks: [
-      //     'browserify:dependencies'
-      //   ]
-      // },
 
       examples: {
         files: [
@@ -185,11 +148,13 @@ module.exports = function(grunt) {
     }
   });
 
+
   grunt.registerTask('build', [
     'copy',
     'browserify',
     'less'
   ]);
+
 
   grunt.registerTask('default', [
     'build',
