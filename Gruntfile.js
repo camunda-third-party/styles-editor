@@ -8,7 +8,7 @@ module.exports = function(grunt) {
     less: {
       options: {
         paths: [
-          // 'node_modules/bootstrap/less'
+          'node_modules/bootstrap/less',
           'node_modules'
         ]
       },
