@@ -152,6 +152,7 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [
     'copy',
     'browserify',
+    'concat',
     'less'
   ]);
 
