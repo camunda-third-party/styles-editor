@@ -1,44 +1,11 @@
 'use strict';
-/* global deps: false, require: false, module: false, less: false */
-
-// var State = deps('ampersand-state');
-// var Collection = deps('ampersand-collection');
-// var View = deps('ampersand-view');
+/* global require: false, module: false, less: false */
 
 require('./classList');
 var State = require('ampersand-state');
 var Collection = require('ampersand-collection');
 var View = require('ampersand-view');
 
-/*
-var ImportState = State.extend({
-  props: {
-    name: {
-      type: 'string',
-      required: true
-    },
-    directive: 'string'
-  }
-});
-
-var ImportsCollection = Collection.extend({
-  mainIndex: 'name',
-  model: ImportState,
-  toLess: function () {
-    var lines = this.map(function (imp) {
-      var directive = '';
-      if (imp.directive && imp.directive.trim()) {
-        directive = '(' + imp.directive.trim() + ') ';
-      }
-      return '@import ' +
-              directive +
-              '"' + imp.name + '";';
-    });
-
-    return lines.join('\n');
-  }
-});
-*/
 
 var VariableState = State.extend({
   props: {
@@ -268,9 +235,10 @@ var Editor = View.extend({
   events: {
     'click .toggle-open': '_handleOpenClick',
     'click .tabs li':     '_handleTabClick',
-    // 'click .output':      '_handleOutputClick',
-    // 'focus .output':      '_handleOutputClick',
-    'change .input':      '_handleInputChange'
+    'change .input':      '_handleInputChange',
+
+    'dragover':     '_handleDragover',
+    'drop':         '_handleDrop'
   },
 
   _handleOpenClick: function () {
@@ -285,9 +253,32 @@ var Editor = View.extend({
     this.update();
   },
 
-  // _handleOutputClick: function () {
-  //   this.outputEl.select();
-  // },
+
+  _handleDragover: function (evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    evt.dataTransfer.dropEffect = 'copy';
+  },
+  _handleDrop: function (evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    var self = this;
+
+    function readFileData(progressEvt) {
+      self.variables.add({
+        name: 'file-' + self.variables.length,
+        value: '"'+ progressEvt.target.result +'"'
+      });
+    }
+
+    var reader;
+    var files = evt.dataTransfer.files;
+    for (var i = 0; i < files.length; i++) {
+      reader = new FileReader();
+      reader.onload = readFileData.bind(this);
+      reader.readAsDataURL(files[i]);
+    }
+  },
 
   remove: function () {
     document.body.removeChild(this.styleEl);
@@ -298,7 +289,6 @@ var Editor = View.extend({
     var self = this;
 
     var src = self.inputEl.value;
-    // var src = self.imports.toLess();
 
     function success(output) {
       self.compiling = null;
@@ -321,7 +311,6 @@ var Editor = View.extend({
 
     self.compiling = setTimeout(function () {
       less.render(src, {
-        // rootpath:   self.rootpath,
         globalVars: self.globals,
         modifyVars: self.variables.toObj()
       }).then(success, error);
