@@ -127,7 +127,6 @@
     }
   }
 
-
   input,
   textarea {
     // border: 1px solid @gray-light;
@@ -159,38 +158,55 @@
   }
 
 
-  &.compiling {
+  &:before,
+  &:after {
+    display: none;
+    position: absolute;
+  }
+
+  &:before {
+    z-index: 299;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    content: '';
+    background-color: fade(@gray, 50%);
+  }
+
+  &:after {
+    z-index: 300;
+    color: @gray-lighter;
+    text-align: center;
+    top: 50%;
+    height: 40px;
+    line-height: 40px;
+    font-size: 32px;
+    margin-top: -20px;
+    width: 100%;
+    left: 0;
+  }
+
+
+  &.compiling,
+  &.drag-over {
     &:before,
     &:after {
       display: block;
-      position: absolute;
-    }
-
-    &:before {
-      z-index: 99;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      content: '';
-      background-color: fade(@gray, 50%);
-      z-index: 100;
-    }
-
-    &:after {
-      z-index: 100;
-      content: '...';
-      top: 50%;
-      left: 50%;
-      width: 40px;
-      height: 40px;
-      text-align:center;
-      line-height: 40px;
-      font-size: 32px;
-      margin: -20px 0 0 -20px;
-      z-index: 101;
     }
   }
+
+  &.compiling:after {
+    content: '…';
+  }
+
+
+  &.drag-over:after {
+    content: 'Drop the files';
+  }
+
+
+
 
   .tabs-wrapper {
     position: relative;
@@ -262,9 +278,17 @@
       label {
         display: block;
         font-weight: bold;
+        &:before,
+        &:after {
+          display: inline-block;
+          font-weight: lighter;
+          color: @gray-light;
+        }
+        &:before {
+          content: '@';
+        }
         &:after {
           content: ':';
-          display: inline-block;
         }
       }
     }
@@ -280,9 +304,23 @@
       }
     }
 
-    li > div {
-      display: table;
-      width: 100%;
+    li {
+       > div {
+        display: table;
+        width: 100%;
+      }
+      > span {
+        display: block;
+        font-family: monospace;
+        font-size: 90%;
+        margin-top: 0.3em;
+        &:before {
+          content: 'From: ';
+          display: inline-block;
+          margin-right: 0.3em;
+          color: @gray-light;
+        }
+      }
     }
 
     input {
@@ -298,6 +336,27 @@
     .changed a {
       display: table-cell;
     }
+  }
+
+  .errors {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-height: 0;
+    font-family: monospace;
+    background-color: @btn-danger-bg;
+    color: @btn-danger-color;
+    border-top: 1px solid @btn-danger-border;
+    .transition(max-height 0.218s ease-in-out);
+    > div {
+      padding: 15px;
+      min-height: 70px;
+    }
+  }
+
+  &.error .errors {
+    max-height: 400px;
   }
 
   .actions {
